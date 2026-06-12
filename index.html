@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant El Fanen</title>
+
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="style.css">
+
+    <meta name="theme-color" content="#b8860b">
+</head>
+
+<body>
+
+    <!-- Logo -->
+    <header class="header">
+        <img src="go.png" alt="Restaurant El Fanen" class="logo">
+
+        <h1>مطعم الفنان</h1>
+
+        <p>أهلاً بكم في تطبيق مطعم الفنان</p>
+    </header>
+
+    <!-- Main Buttons -->
+    <main class="main-menu">
+
+        <button class="card-btn" onclick="showSection('menu')">
+            🍽️ قائمة اليوم
+        </button>
+
+        <button class="card-btn" onclick="window.location.href='wheel.html'">
+            🎡 عجلة الحظ
+        </button>
+
+        <button class="card-btn" onclick="showSection('contact')">
+            📞 اتصل بنا
+        </button>
+
+    </main>
+
+    <!-- Menu Section -->
+    <section id="menu" class="section hidden">
+
+        <h2>🍽️ قائمة اليوم</h2>
+
+        <div class="menu-item">
+            <span>🍕 بيتزا 4 فصول</span>
+            <strong>18 د</strong>
+        </div>
+
+        <div class="menu-item">
+            <span>🥘 لازانيا</span>
+            <strong>10 د</strong>
+        </div>
+
+        <div class="menu-item">
+            <span>🍲 لوبيا</span>
+            <strong>5.5 د</strong>
+        </div>
+
+        <div class="menu-item">
+            <span>🍝 مقرونة بالقمرون</span>
+            <strong>12 د</strong>
+        </div>
+
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section hidden">
+
+        <h2>📞 اتصل بنا</h2>
+
+        <a href="tel:+21627091965" class="action-btn">
+            📞 27 091 965
+        </a>
+
+        <a href="https://wa.me/21627091965" target="_blank" class="action-btn whatsapp">
+            💬 اطلب عبر واتساب
+        </a>
+
+        <div class="address">
+            📍 حزق بجانب مخبر التحاليل و ميتاقلاس
+        </div>
+
+    </section>
+
+    <footer>
+        <p>Restaurant El Fanen © 2026</p>
+    </footer>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
