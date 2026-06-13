@@ -20,11 +20,7 @@ body {
     min-height: 100vh;
     text-align: center;
 }
-    font-family: "Cairo", sans-serif;
-    background: linear-gradient(160deg, #1a0a00 0%, #2d1200 60%, #1a0a00 100%);
-    color: white;
-    min-height: 100vh;
-    text-align: center;
+ 
 }
 
 /* ===== HEADER ===== */
