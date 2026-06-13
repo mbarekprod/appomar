@@ -8,13 +8,14 @@
 
 /* ===== GENERAL ===== */
 body {
-    
     font-family: "Cairo", sans-serif;
-    background: linear-gradient(160deg, #1a0a00 0%, #2d1200 60%, #1a0a00 100%);
-    background-image: url("images/aa.png");
+    background:
+        linear-gradient(rgba(26, 10, 0, 0.7), rgba(26, 10, 0, 0.7)),
+        url("aa.png");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+    background-attachment: fixed;
     color: white;
     min-height: 100vh;
     text-align: center;
