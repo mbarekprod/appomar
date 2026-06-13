@@ -36,9 +36,18 @@ body {
     padding: 5px;
     background: linear-gradient(135deg, #f5c842, #e0a800, #f5c842);
     box-shadow: 0 0 30px rgba(245, 200, 66, 0.4);
-    .logo-ring {
-    animation: float 3s ease-in-out infinite;
+ 
 }
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-8px);
+    }
+}
+
+بعد الـ Save و Push، اللوجو باش يبدأ يطلع ويهبط بشوية بطريقة أنيقة. ✨
 
 @keyframes float {
     0%, 100% {
