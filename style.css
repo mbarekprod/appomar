@@ -10,7 +10,7 @@
 body {
     font-family: "Cairo", sans-serif;
     background:
-        linear-gradient(rgba(26, 10, 0, 0.7), rgba(26, 10, 0, 0.7)),
+        linear-gradient(rgba(26, 10, 0, 0.6), rgba(26, 10, 0, 0.6)),
         url("aa.png");
     background-size: cover;
     background-position: center;
