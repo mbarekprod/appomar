@@ -20,7 +20,7 @@
 <body>
 
     <h1>👨‍🍳 لوحة تحكم الشيف الفنان</h1>
-    <p>تحديث المنيو، الحرفاء VIP، ومراقبة نتائج العجلات منفصلة!</p>
+    <p>تحديث المنيو الفوري وإطلاق الإشعارات!</p>
 
     <div class="box">
         <h2>🍽️ تحديث قائمة اليوم</h2>
@@ -41,7 +41,7 @@
         <input type="text" id="food3" placeholder="مثال: 🍲 لوبيا">
         <input type="text" id="price3" placeholder="السوم مثلاً: 5.5 د">
         
-        <button onclick="saveMenu()">🚀 بوم! تحديث المنيو في التطبيق</button>
+        <button onclick="saveMenu()">🚀 بوم! تحديث المنيو وإرسال إشعار</button>
     </div>
 
     <div class="box">
@@ -52,75 +52,61 @@
 
     <div class="box">
         <h2>📊 نتائج العجلات الملعوبة</h2>
-
         <div style="margin-top: 15px; background: rgba(212, 175, 55, 0.05); padding: 10px; border-radius: 10px; border: 1px dashed gold;">
             <h3>👑 نتائج عجلة الـ VIP (بالاسم)</h3>
             <table>
-                <thead>
-                    <tr>
-                        <th>اسم الحريف VIP</th>
-                        <th>الجائزة التي ربحها</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td id="vip-client-name" style="font-weight: bold;">--</td>
-                        <td id="vip-client-prize" style="color: gold; font-weight: bold;">--</td>
-                    </tr>
-                </tbody>
+                <thead><tr><th>اسم الحريف VIP</th><th>الجائزة التي ربحها</th></tr></thead>
+                <tbody><tr><td id="vip-client-name" style="font-weight: bold;">--</td><td id="vip-client-prize" style="color: gold; font-weight: bold;">--</td></tr></tbody>
             </table>
         </div>
 
         <div style="margin-top: 20px; background: rgba(255, 152, 0, 0.05); padding: 10px; border-radius: 10px; border: 1px dashed #ff9800;">
             <h3>🎡 نتائج العجلة العادية (من غير اسم)</h3>
             <table>
-                <thead>
-                    <tr>
-                        <th>رقم السحبة</th>
-                        <th>النتيجة / الجائزة</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td style="color: #ccc;">آخر سحبة</td>
-                        <td id="normal-client-prize" style="color: #9ccc65; font-weight: bold;">--</td>
-                    </tr>
-                </tbody>
+                <thead><tr><th>رقم السحبة</th><th>النتيجة / الجائزة</th></tr></thead>
+                <tbody><tr><td style="color: #ccc;">آخر سحبة</td><td id="normal-client-prize" style="color: #9ccc65; font-weight: bold;">--</td></tr></tbody>
             </table>
         </div>
-
-        <button onclick="clearWheelResults()" style="background: #d32f2f; font-size: 14px; padding: 8px 15px; margin-top: 20px; width: auto;">🗑️ فسخ النتائج وتصفير الجداول</button>
+        <button onclick="clearWheelResults()" style="background: #d32f2f; font-size: 14px; padding: 8px 15px; margin-top: 20px; width: auto;">🗑️ فسخ النتائج</button>
     </div>
 
     <a href="index.html" class="back-btn">⬅️ العودة للتطبيق الرئيسي</a>
 
     <script>
-    // 1. حفظ المنيو
+    // 1. حفظ المنيو وإطلاق الإشعار فوراً
     function saveMenu() {
+        const f1 = document.getElementById('food1').value || '🍕 بيتزا 4 فصول';
+        const p1 = document.getElementById('price1').value || '18 د';
+        
         const menuData = [
-            { name: document.getElementById('food1').value || '🍕 بيتزا 4 فصول', price: document.getElementById('price1').value || '18 د' },
+            { name: f1, price: p1 },
             { name: document.getElementById('food2').value || '🥘 لازانيا', price: document.getElementById('price2').value || '10 د' },
             { name: document.getElementById('food3').value || '🍲 لوبيا', price: document.getElementById('price3').value || '5.5 د' }
         ];
+        
         localStorage.setItem('fananMenu', JSON.stringify(menuData));
-        alert('🟢 تم تحديث منيو اليوم بنجاح يا شيف!');
+        
+        // 🔥 الكود السحري اللي يخلّي المتصفح يطلق الإشعار في نفس اللحظة!
+        if ('Notification' in window && Notification.permission === 'granted') {
+            new Notification('👨‍🍳 منيو اليوم تفحفح من عند الفنان!', {
+                body: `الجديد يا رابح: تم تحديث القائمة! اخلط على الـ ${f1} بـ ${p1} فقط! 🍽️🔥`,
+                icon: 'go.png'
+            });
+        }
+        
+        alert('🟢 بوم! تم تحديث المنيو وإرسال الإشعار بنجاح يا شيف!');
     }
 
-    // 2. تعيين الحريف VIP
     function setVIPClient() {
         const vipName = document.getElementById('adminVIPInput').value;
         if(vipName) {
             localStorage.setItem('currentVIPClient', vipName);
             alert('👑 تم تعيين الحريف ' + vipName + ' كـ VIP بنجاح!');
             loadResults(); 
-        } else {
-            alert('❌ اكتب اسم الحريف أولاً!');
-        }
+        } else { alert('❌ اكتب اسم الحريف أولاً!'); }
     }
 
-    // 3. قراءة وتوزيع النتائج على الجداول المنفصلة
     function loadResults() {
-        // داتا المنيو
         const savedMenu = localStorage.getItem('fananMenu');
         if(savedMenu) {
             const data = JSON.parse(savedMenu);
@@ -128,28 +114,23 @@
             if(data[1]) { document.getElementById('food2').value = data[1].name; document.getElementById('price2').value = data[1].price; }
             if(data[2]) { document.getElementById('food3').value = data[2].name; document.getElementById('price3').value = data[2].price; }
         }
-
-        // داتا الـ VIP
         const savedVIP = localStorage.getItem('currentVIPClient') || '--';
         const vipPrize = localStorage.getItem('lastVIPPrize') || '--';
         document.getElementById('adminVIPInput').value = savedVIP === '--' ? '' : savedVIP;
         document.getElementById('vip-client-name').innerText = savedVIP;
         document.getElementById('vip-client-prize').innerText = vipPrize;
 
-        // داتا العجلة العادية
         const normalPrize = localStorage.getItem('lastNormalPrize') || '--';
         document.getElementById('normal-client-prize').innerText = normalPrize;
     }
 
-    // 4. تصفير العدادات
     function clearWheelResults() {
-        if(confirm('هل أنت متأكد من تصفير نتائج العجلات؟')) {
+        if(confirm('هل أنت متأكد؟')) {
             localStorage.removeItem('lastNormalPrize');
             localStorage.removeItem('lastVIPPrize');
             loadResults();
         }
     }
-
     window.onload = loadResults;
     </script>
 </body>
