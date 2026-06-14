@@ -2,65 +2,174 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>مطعم الفنان</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
-    <style>
-        body { background: #0a0a0a; color: #fff; font-family: 'Cairo'; padding: 20px; text-align: center; }
-        .box { border: 2px solid #f5c842; padding: 20px; border-radius: 20px; margin-bottom: 20px; background: #1a1a1a; }
-        input { width: 80%; padding: 10px; margin: 5px; border-radius: 10px; text-align: center; }
-        button { background: gold; border: none; padding: 10px 20px; border-radius: 15px; font-weight: bold; cursor: pointer; }
-        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-        th, td { border: 1px solid #444; padding: 8px; }
-    </style>
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <meta name="theme-color" content="#f5c842">
 </head>
 <body>
 
-    <div class="box">
-        <h2>🍽️ منيو اليوم</h2>
-        <div id="menu-list">جاري تحميل المنيو...</div>
+    <header class="header">
+        <div class="logo-ring">
+            <img src="go.png" alt="مطعم الفنان" class="logo">
+        </div>
+        <h1 class="brand-name">مطعم الفنان</h1>
+        <p class="tagline">✨ أكلة مزيانة وجو أحلى</p>
+    </header>
+
+    <main class="main-menu">
+        <button class="card-btn" onclick="showSection('menu')">
+            <span class="btn-icon">🍽️</span>
+            <span>قائمة اليوم</span>
+        </button>
+        
+        <button class="card-btn" onclick="window.location.href='wheel.html'">
+            <span class="btn-icon">🎡</span>
+            <span>عجلة الحظ</span>
+        </button>
+        
+        <button class="card-btn" onclick="showSection('contact')">
+            <span class="btn-icon">📞</span>
+            <span>اتصل بنا</span>
+        </button>
+
+        <button class="card-btn" onclick="showSection('restaurant-menu')">
+            <span class="btn-icon">📖</span>
+            <span>قائمة المطعم</span>
+        </button>
+        
+        <div id="installContainer" style="display: none; text-align: center; margin: 25px auto; background: rgba(0,0,0,0.3); padding: 15px; border-radius: 15px; max-width: 350px; border: 1px dashed #f5c842;">
+            <img src="go.png" alt="Logo" style="width: 70px; height: 70px; border-radius: 50%; border: 2px solid #f5c842; margin-bottom: 10px;">
+            <p style="color: #c8a96e; font-size: 14px; margin-bottom: 10px; font-weight: bold;">ثبّت التطبيق لتصلك إشعارات منيو اليوم! 🍽️</p>
+            <button id="installAppBtn" style="background: linear-gradient(135deg, #ff9800, #e65100); color: white; border: none; padding: 12px 25px; border-radius: 25px; font-family: 'Cairo', sans-serif; font-size: 15px; font-weight: bold; cursor: pointer; border: 2px solid #f5c842; width: 100%;">
+                📥 تنزيل تطبيق مطعم الفنان
+            </button>
+        </div>
+    </main>
+
+    <section id="menu" class="section hidden">
+        <h2>🍽️ قائمة اليوم</h2>
+        <div id="dynamic-menu-list">
+            </div>
+    </section>
+
+    <section id="wheel-management" class="section" style="margin-top: 20px; padding: 15px; background: rgba(255, 215, 0, 0.05); border-radius: 15px; border: 1px solid gold;">
+        <h2>👑 قسيمة عجلة الحظ VIP</h2>
+        <div style="margin: 15px 0;">
+            <input type="text" id="clientVIP" placeholder="اكتب اسم الحريف الـ VIP هنا..." style="width: 85%; padding: 10px; border-radius: 10px; border: 1px solid gold; font-family: 'Cairo'; text-align: center; font-size: 15px; color: #000;">
+        </div>
+
+        <h3>📊 جدول نتائج العجلة الأخير:</h3>
+        <div style="overflow-x: auto; background: rgba(0,0,0,0.2); border-radius: 10px; padding: 10px;">
+            <table style="width: 100%; border-collapse: collapse; text-align: center; font-family: 'Cairo'; color: white;">
+                <thead>
+                    <tr style="border-bottom: 2px solid gold; color: gold;">
+                        <th style="padding: 8px;">الحريف</th>
+                        <th style="padding: 8px;">الجائزة</th>
+                    </tr>
+                </thead>
+                <tbody id="wheel-results-body">
+                    <tr>
+                        <td style="padding: 8px; color: #ccc;">لا توجد نتائج بعد</td>
+                        <td style="padding: 8px; color: #ccc;">--</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section id="contact" class="section hidden">
+        <h2>📞 اتصل بنا</h2>
+        <a href="tel:+21627091965" class="action-btn">📞 27 091 965</a>
+        <a href="https://wa.me/21627091965" target="_blank" class="action-btn whatsapp">💬 اطلب عبر واتساب</a>
+        <div class="address">📍 حزق بجانب مخبر التحاليل و ميتاقلاس</div>
+    </section>
+
+    <section id="restaurant-menu" class="section hidden">
+        <h2>📖 قائمة المطعم الكاملة</h2>
+        <div class="menu-item"><span>🍕 بيتزا مارغريتا</span><strong>15 د</strong></div>
+        <div class="menu-item"><span>🍕 بيتزا 4 فصول</span><strong>18 د</strong></div>
+        <div class="menu-item"><span>🥪 ساندويتش إسكالوب</span><strong>8 د</strong></div>
+        <div class="menu-item"><span>🍟 فريت</span><strong>3 د</strong></div>
+        <div class="menu-item"><span>🥤 مشروبات غازية</span><strong>2.5 د</strong></div>
+    </section>
+
+    <div style="text-align: center; margin-bottom: 30px;">
+        <a href="admin.html" style="display:inline-block; margin-top:20px; padding:12px 25px; background:gold; color:#000; font-weight:bold; border-radius:20px; text-decoration:none;">
+            🔐 دخول الشيف
+        </a>
     </div>
 
-    <div class="box">
-        <h2>👑 قسيمة عجلة الحظ</h2>
-        <input type="text" id="cName" placeholder="اسمك الكريم">
-        <input type="number" id="cAmount" placeholder="مبلغ الفاتورة (د)">
-        <button onclick="submitBill()">🚀 أرسل الفاتورة للتحقق</button>
-        <p id="status"></p>
-    </div>
+    <footer>
+        <p>مطعم الفنان &copy; 2026</p>
+    </footer>
 
-    <div class="box">
-        <h2>📊 آخر النتائج</h2>
-        <table>
-            <tr><th>الحريف</th><th>الجائزة</th></tr>
-            <tr><td id="res-name">--</td><td id="res-prize">--</td></tr>
-        </table>
-    </div>
+    <script src="script.js"></script>
 
     <script>
-        // تحميل المنيو والنتائج
-        window.onload = () => {
-            const menu = JSON.parse(localStorage.getItem('fananMenu') || '[]');
-            document.getElementById('menu-list').innerHTML = menu.map(i => `<p>${i.name} - ${i.price}</p>`).join('');
-            
-            document.getElementById('res-name').innerText = localStorage.getItem('lastNormalClient') || '--';
-            document.getElementById('res-prize').innerText = localStorage.getItem('lastNormalPrize') || '--';
-        };
-
-        // نظام الـ VIP
-        function submitBill() {
-            const name = document.getElementById('cName').value;
-            const amount = document.getElementById('cAmount').value;
-            localStorage.setItem('pendingClient', JSON.stringify({name, amount}));
-            localStorage.setItem('vipTriggered', 'false');
-            document.getElementById('status').innerText = "⏳ انتظر موافقة الشيف...";
-            
-            let check = setInterval(() => {
-                if(localStorage.getItem('vipTriggered') === 'true') {
-                    clearInterval(check);
-                    window.location.href = "wheel.html";
+    // تسجيل السيرفيس وركر والإشعارات
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('./sw.js')
+            .then(reg => {
+                if ('Notification' in window) {
+                    Notification.requestPermission().then(permission => {
+                        if (permission === 'granted') {
+                            reg.showNotification('مطعم الفنان 🍽️', {
+                                body: 'مرحباً بيك! الإشعارات شغالّة والمنيو جاهز! 🔥',
+                                icon: 'go.png'
+                            });
+                        }
+                    });
                 }
-            }, 2000);
+            }).catch(err => console.log(err));
+        });
+    }
+
+    // بوتون التنزيل
+    let deferredPrompt;
+    const installContainer = document.getElementById('installContainer');
+    const installBtn = document.getElementById('installAppBtn');
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        if(installContainer) installContainer.style.display = 'block'; 
+    });
+
+    if(installBtn) {
+        installBtn.addEventListener('click', async () => {
+            if (!deferredPrompt) return;
+            deferredPrompt.prompt();
+            deferredPrompt = null;
+            if(installContainer) installContainer.style.display = 'none';
+        });
+    }
+
+    // سيستم المنيو التلقائي
+    function loadChefMenu() {
+        const savedMenu = localStorage.getItem('fananMenu');
+        const menuContainer = document.getElementById('dynamic-menu-list');
+        
+        if(savedMenu && menuContainer) {
+            const data = JSON.parse(savedMenu);
+            menuContainer.innerHTML = '';
+            data.forEach(item => {
+                menuContainer.innerHTML += `<div class="menu-item"><span>${item.name}</span><strong>${item.price}</strong></div>`;
+            });
+        } else if (menuContainer) {
+            menuContainer.innerHTML = `
+                <div class="menu-item"><span>🍕 بيتزا 4 فصول</span><strong>18 د</strong></div>
+                <div class="menu-item"><span>🥘 لازانيا</span><strong>10 د</strong></div>
+                <div class="menu-item"><span>🍲 لوبيا</span><strong>5.5 د</strong></div>
+            `;
         }
+    }
+    window.addEventListener('DOMContentLoaded', loadChefMenu);
     </script>
+
 </body>
 </html>
