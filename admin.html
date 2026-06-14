@@ -31,13 +31,16 @@
     <div class="box">
         <h3>📊 نتائج العجلات</h3>
         <table>
-            <tr><th>النوع</th><th>النتيجة</th></tr>
-            <tr><td>VIP 👑</td><td id="vip-res">--</td></tr>
-            <tr><td>عادي 🎡</td><td id="norm-res">--</td></tr>
+            <thead>
+                <tr><th>النوع</th><th>النتيجة</th></tr>
+            </thead>
+            <tbody id="wheel-results-body">
+                <tr><td colspan="2">انتظار النتائج...</td></tr>
+            </tbody>
         </table>
         <button onclick="clearResults()" style="background:red;">🗑️ فسخ النتائج</button>
     </div>
-    <a href="index.html" style="color:gold;">⬅️ رجوع</a>
+    <a href="index.html" style="color:gold;">⬅️ رجوع للموقع</a>
 </div>
 
 <script>
@@ -48,51 +51,45 @@
             document.getElementById('content').style.display = 'block';
             loadData();
         } else {
-            alert("خطأ!");
+            alert("خطأ في كلمة السر!");
             window.location.href = "index.html";
         }
     }
     
-    // 2. الحفظ
+    // 2. حفظ المنيو
     function saveMenu() {
         const data = [
             { name: document.getElementById('food1').value, price: document.getElementById('price1').value },
             { name: document.getElementById('food2').value, price: document.getElementById('price2').value }
         ];
         localStorage.setItem('fananMenu', JSON.stringify(data));
-        alert('✅ تم!');
+        alert('✅ تم تحديث المنيو!');
     }
 
-    // 3. عرض النتائج
+    // 3. عرض النتائج من العجلة
     function loadData() {
-        document.getElementById('vip-res').innerText = localStorage.getItem('lastVIPPrize') || '--';
-        document.getElementById('norm-res').innerText = localStorage.getItem('lastNormalPrize') || '--';
-    }
-
-    function clearResults() {
-        localStorage.removeItem('lastVIPPrize');
-        localStorage.removeItem('lastNormalPrize');
-        loadData();
-    }
-
-    checkPass();
-    <script>
-    function loadWheelResults() {
+        // قراءة النتيجة من العجلة (تأكد أن صفحة العجلة تحفظ في 'lastResult')
         const result = JSON.parse(localStorage.getItem('lastResult'));
         const tbody = document.getElementById('wheel-results-body');
         
-        if (result && tbody) {
-            tbody.innerHTML = `
-                <tr>
-                    <td style="padding: 8px;">${result.name}</td>
-                    <td style="padding: 8px; color: gold;">${result.prize}</td>
-                </tr>
-            `;
+        if (result) {
+            tbody.innerHTML = `<tr><td>العجلة 🎡</td><td style="color: gold;">${result.prize}</td></tr>`;
+        } else {
+            tbody.innerHTML = `<tr><td colspan="2">لم يتم تدوير العجلة بعد</td></tr>`;
         }
     }
-    // تحديث النتائج كل 3 ثواني أوتوماتيكياً
-    setInterval(loadWheelResults, 3000);
+
+    function clearResults() {
+        localStorage.removeItem('lastResult');
+        loadData();
+    }
+
+    // تشغيل القفيلة عند فتح الصفحة
+    checkPass();
+    
+    // تحديث النتائج كل 3 ثواني
+    setInterval(loadData, 3000);
 </script>
-</script>
+
 </body>
-</html>
+</html>4
