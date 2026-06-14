@@ -2,18 +2,19 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>Casino Royal - Restaurant Edition</title>
+    <title>Casino Royale Wheel</title>
     <style>
         body { 
-            /* خلفية مطعم فخمة (ذهبي وأحمر) */
-            background: linear-gradient(135deg, #1a0a00 0%, #4a0000 50%, #1a0a00 100%);
-            color: #ffca28; text-align: center; font-family: 'Cairo', sans-serif;
-            display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh;
+            background: linear-gradient(135deg, #1a0a00 0%, #4a0000 50%, #1a0a00 100%); 
+            color: #ffca28; text-align: center; font-family: 'Cairo', sans-serif; 
+            display: flex; flex-direction: column; align-items: center; justify-content: center; 
+            min-height: 100vh; margin: 0; 
         }
         .wheel-container { position: relative; margin-top: 20px; }
         .pointer { position: absolute; top: -30px; left: 50%; transform: translateX(-50%); font-size: 50px; color: #ffca28; text-shadow: 0 0 15px #000; z-index: 10; }
         #wheel { border: 12px solid #5a3d00; border-radius: 50%; box-shadow: 0 0 50px rgba(255,202,40,0.5); transition: transform 5s cubic-bezier(0.17, 0.67, 0.12, 0.99); }
-        #spinBtn { background: #b71c1c; border: 3px solid #ffca28; color: #fff; padding: 15px 40px; font-size: 22px; border-radius: 50px; cursor: pointer; box-shadow: 0 5px 15px #000; }
+        #spinBtn { background: #b71c1c; border: 3px solid #ffca28; color: #fff; padding: 15px 40px; font-size: 22px; border-radius: 50px; cursor: pointer; box-shadow: 0 5px 15px #000; margin-top: 20px; }
+        #result-text { margin-top: 20px; font-size: 30px; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -24,11 +25,14 @@
         <canvas id="wheel" width="350" height="350"></canvas>
     </div>
     <button id="spinBtn">دَوّر واربح!</button>
-    <div id="result-text" style="margin-top:20px; font-size:30px; font-weight:bold;">انتظر الحظ!</div>
+    <div id="result-text">انتظر الحظ!</div>
 
     <script>
         const canvas = document.getElementById("wheel");
         const ctx = canvas.getContext("2d");
+        const resultDiv = document.getElementById("result-text");
+        let rotation = 0;
+        
         const prizes = [
             { text: "تخفيض 25%", color: "#c8930a" }, { text: "ارجع غدوة", color: "#5a5a5a" },
             { text: "إضافة فريت", color: "#c97400" }, { text: "دور مرة أخرى", color: "#2e7d32" },
@@ -53,18 +57,17 @@
         }
         drawWheel();
 
-        let currentRotation = 0;
         document.getElementById("spinBtn").onclick = () => {
-            const extraRot = Math.floor(Math.random() * 3600) + 1800;
-            currentRotation += extraRot;
-            canvas.style.transform = `rotate(${currentRotation}deg)`;
+            resultDiv.innerText = "⏳ جاري التدوير...";
+            const randomAngle = Math.floor(Math.random() * 3600) + 1800;
+            rotation += randomAngle;
+            canvas.style.transform = `rotate(${rotation}deg)`;
             
             setTimeout(() => {
-                // الحساب الرياضي الدقيق (إصلاح الغلطة)
-                const normalizedRotation = currentRotation % 360;
-                // السهم فوق (في الـ 0 أو 360 درجة)، لذا نحسب الزاوية عكس عقارب الساعة
-                const index = Math.floor(((360 - normalizedRotation) % 360) / (360 / prizes.length));
-                document.getElementById("result-text").innerText = "🎉 مبروك ربحت: " + prizes[index].text;
+                const finalDegree = rotation % 360;
+                const degreesPerSlice = 360 / prizes.length;
+                const index = Math.floor(((360 - finalDegree + 90) % 360) / degreesPerSlice) % prizes.length;
+                resultDiv.innerText = "🎉 مبروك! ربحت: " + prizes[index].text;
             }, 5000);
         };
     </script>
