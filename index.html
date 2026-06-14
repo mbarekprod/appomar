@@ -41,9 +41,13 @@
             <span>قائمة المطعم</span>
         </button>
         
-        <button id="installAppBtn" style="display: none; background: linear-gradient(135deg, #ff9800, #e65100); color: white; border: none; padding: 14px 30px; border-radius: 25px; font-family: 'Cairo', sans-serif; font-size: 16px; font-weight: bold; margin: 20px auto; cursor: pointer; box-shadow: 0 5px 15px rgba(230,81,0,0.4); border: 2px solid #f5c842;">
-            📥 تثبيت تطبيق مطعم الفنان على هاتفك
-        </button>
+        <div id="installContainer" style="display: none; text-align: center; margin: 25px auto; background: rgba(0,0,0,0.3); padding: 15px; border-radius: 15px; max-width: 350px; border: 1px dashed #f5c842;">
+            <img src="go.png" alt="Logo" style="width: 70px; height: 70px; border-radius: 50%; border: 2px solid #f5c842; box-shadow: 0 0 10px rgba(245,200,66,0.3); margin-bottom: 10px;">
+            <p style="color: #c8a96e; font-size: 14px; margin-bottom: 10px; font-weight: bold;">ثبّت التطبيق لتصلك إشعارات منيو اليوم! 🍽️</p>
+            <button id="installAppBtn" style="background: linear-gradient(135deg, #ff9800, #e65100); color: white; border: none; padding: 12px 25px; border-radius: 25px; font-family: 'Cairo', sans-serif; font-size: 15px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 12px rgba(230,81,0,0.3); border: 2px solid #f5c842; width: 100%;">
+                📥 تنزيل تطبيق مطعم الفنان
+            </button>
+        </div>
     </main>
 
     <section id="menu" class="section hidden">
@@ -125,13 +129,14 @@
     }
 
     let deferredPrompt;
+    const installContainer = document.getElementById('installContainer');
     const installBtn = document.getElementById('installAppBtn');
 
     window.addEventListener('beforeinstallprompt', (e) => {
         console.log('🎯 بوم! المتصفح وافق واعترف بالموقع كتطبيق!');
         e.preventDefault();
         deferredPrompt = e;
-        if(installBtn) installBtn.style.display = 'block';
+        if(installContainer) installContainer.style.display = 'block'; // إظهار الصندوق باللوغو كامل
     });
 
     if(installBtn) {
@@ -141,13 +146,13 @@
             const { outcome } = await deferredPrompt.userChoice;
             console.log(`👤 خيار الحريف: ${outcome}`);
             deferredPrompt = null;
-            installBtn.style.display = 'none';
+            if(installContainer) installContainer.style.display = 'none';
         });
     }
 
     window.addEventListener('appinstalled', () => {
         console.log('🎉 تم التثبيت بنجاح!');
-        if(installBtn) installBtn.style.display = 'none';
+        if(installContainer) installContainer.style.display = 'none';
     });
     </script>
 
