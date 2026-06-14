@@ -76,6 +76,23 @@
     }
 
     checkPass();
+    <script>
+    function loadWheelResults() {
+        const result = JSON.parse(localStorage.getItem('lastResult'));
+        const tbody = document.getElementById('wheel-results-body');
+        
+        if (result && tbody) {
+            tbody.innerHTML = `
+                <tr>
+                    <td style="padding: 8px;">${result.name}</td>
+                    <td style="padding: 8px; color: gold;">${result.prize}</td>
+                </tr>
+            `;
+        }
+    }
+    // تحديث النتائج كل 3 ثواني أوتوماتيكياً
+    setInterval(loadWheelResults, 3000);
+</script>
 </script>
 </body>
 </html>
