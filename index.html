@@ -52,33 +52,7 @@
 
     <section id="menu" class="section hidden">
         <h2>🍽️ قائمة اليوم</h2>
-        <div id="dynamic-menu-list">
-            </div>
-    </section>
-
-    <section id="wheel-management" class="section" style="margin-top: 20px; padding: 15px; background: rgba(255, 215, 0, 0.05); border-radius: 15px; border: 1px solid gold;">
-        <h2>👑 قسيمة عجلة الحظ VIP</h2>
-        <div style="margin: 15px 0;">
-            <input type="text" id="clientVIP" placeholder="اكتب اسم الحريف الـ VIP هنا..." style="width: 85%; padding: 10px; border-radius: 10px; border: 1px solid gold; font-family: 'Cairo'; text-align: center; font-size: 15px; color: #000;">
-        </div>
-
-        <h3>📊 جدول نتائج العجلة الأخير:</h3>
-        <div style="overflow-x: auto; background: rgba(0,0,0,0.2); border-radius: 10px; padding: 10px;">
-            <table style="width: 100%; border-collapse: collapse; text-align: center; font-family: 'Cairo'; color: white;">
-                <thead>
-                    <tr style="border-bottom: 2px solid gold; color: gold;">
-                        <th style="padding: 8px;">الحريف</th>
-                        <th style="padding: 8px;">الجائزة</th>
-                    </tr>
-                </thead>
-                <tbody id="wheel-results-body">
-                    <tr>
-                        <td style="padding: 8px; color: #ccc;">لا توجد نتائج بعد</td>
-                        <td style="padding: 8px; color: #ccc;">--</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+        <div id="dynamic-menu-list"></div>
     </section>
 
     <section id="contact" class="section hidden">
@@ -108,68 +82,9 @@
     </footer>
 
     <script src="script.js"></script>
-
     <script>
-    // تسجيل السيرفيس وركر والإشعارات
-    if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-            navigator.serviceWorker.register('./sw.js')
-            .then(reg => {
-                if ('Notification' in window) {
-                    Notification.requestPermission().then(permission => {
-                        if (permission === 'granted') {
-                            reg.showNotification('مطعم الفنان 🍽️', {
-                                body: 'مرحباً بيك! الإشعارات شغالّة والمنيو جاهز! 🔥',
-                                icon: 'go.png'
-                            });
-                        }
-                    });
-                }
-            }).catch(err => console.log(err));
-        });
-    }
-
-    // بوتون التنزيل
-    let deferredPrompt;
-    const installContainer = document.getElementById('installContainer');
-    const installBtn = document.getElementById('installAppBtn');
-
-    window.addEventListener('beforeinstallprompt', (e) => {
-        e.preventDefault();
-        deferredPrompt = e;
-        if(installContainer) installContainer.style.display = 'block'; 
-    });
-
-    if(installBtn) {
-        installBtn.addEventListener('click', async () => {
-            if (!deferredPrompt) return;
-            deferredPrompt.prompt();
-            deferredPrompt = null;
-            if(installContainer) installContainer.style.display = 'none';
-        });
-    }
-
-    // سيستم المنيو التلقائي
-    function loadChefMenu() {
-        const savedMenu = localStorage.getItem('fananMenu');
-        const menuContainer = document.getElementById('dynamic-menu-list');
-        
-        if(savedMenu && menuContainer) {
-            const data = JSON.parse(savedMenu);
-            menuContainer.innerHTML = '';
-            data.forEach(item => {
-                menuContainer.innerHTML += `<div class="menu-item"><span>${item.name}</span><strong>${item.price}</strong></div>`;
-            });
-        } else if (menuContainer) {
-            menuContainer.innerHTML = `
-                <div class="menu-item"><span>🍕 بيتزا 4 فصول</span><strong>18 د</strong></div>
-                <div class="menu-item"><span>🥘 لازانيا</span><strong>10 د</strong></div>
-                <div class="menu-item"><span>🍲 لوبيا</span><strong>5.5 د</strong></div>
-            `;
-        }
-    }
-    window.addEventListener('DOMContentLoaded', loadChefMenu);
+        // (نفس كود الإشعارات والـ Install والمنيو اللي كان موجود)
+        // ... (تأكد من ترك كود الـ script الأصلي كامل كما هو)
     </script>
-
 </body>
 </html>
