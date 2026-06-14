@@ -2,76 +2,61 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>عجلة الحظ - الفنان</title>
+    <title>Casino Royale Wheel</title>
     <style>
-        body { background: #1a0a00; color: white; text-align: center; font-family: 'Cairo', sans-serif; padding-top: 20px; }
-        canvas { border: 6px solid #f5c842; border-radius: 50%; box-shadow: 0 0 30px rgba(245,200,66,0.3); }
-        #spinBtn { background: linear-gradient(135deg, #f5c842, #d89b00); border: none; padding: 15px 40px; border-radius: 30px; font-size: 20px; font-weight: bold; cursor: pointer; margin-top: 20px; }
+        body { 
+            background: radial-gradient(circle, #2d0000 0%, #000 100%); 
+            color: #fff; text-align: center; font-family: 'Cairo'; 
+        }
+        /* تأثير الـ 3D للعجلة */
+        .wheel-container { 
+            position: relative; margin: 50px auto; 
+            filter: drop-shadow(0 0 20px #f5c842);
+        }
+        #wheel { 
+            border: 15px solid #333; border-radius: 50%;
+            box-shadow: inset 0 0 50px rgba(0,0,0,0.8), 0 0 30px #f5c842;
+            transition: transform 5s cubic-bezier(0.17, 0.67, 0.12, 0.99);
+        }
+        /* زر الكازينو */
+        #spinBtn {
+            background: linear-gradient(45deg, #b71c1c, #ff5722);
+            border: 3px solid #ffca28; color: white; padding: 20px 60px;
+            font-size: 24px; border-radius: 50px; cursor: pointer;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5); text-transform: uppercase;
+        }
     </style>
 </head>
 <body>
 
-    <h1>🎡 عجلة الحظ السحرية</h1>
-    <canvas id="wheel" width="320" height="320"></canvas>
-    <br>
-    <button id="spinBtn">🎰 دور العجلة</button>
-    <div id="result" style="margin-top:20px; font-size:22px; color:#f5c842;"></div>
+    <h1>🎰 CASINO ROYAL WHEEL</h1>
+    <div class="wheel-container">
+        <canvas id="wheel" width="400" height="400"></canvas>
+    </div>
+    <button id="spinBtn">SPIN TO WIN!</button>
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
-        import { getFirestore, addDoc, collection } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
-
-        const firebaseConfig = {
-            apiKey: "AIzaSyClwbk9bCyY5YZO5jBMbjo4IWCqGfYcDCw",
-            authDomain: "base-resto-3d1e8.firebaseapp.com",
-            projectId: "base-resto-3d1e8",
-            storageBucket: "base-resto-3d1e8.firebasestorage.app",
-            messagingSenderId: "797391462536",
-            appId: "1:797391462536:web:631a9149d7e2b33d137f3d"
-        };
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-
-        // -- الإعدادات الأولية --
+    <script>
         const canvas = document.getElementById("wheel");
         const ctx = canvas.getContext("2d");
-        window.isVIP = false; // افتراضياً
-        const clientName = "حريف"; 
 
-        // دالة الرسم الأساسية (لإظهار شكل العجلة)
-        window.drawCurrentWheel = function() {
-            ctx.clearRect(0, 0, 320, 320);
-            ctx.fillStyle = "#2d1200";
-            ctx.beginPath(); ctx.arc(160, 160, 150, 0, Math.PI * 2); ctx.fill();
-            ctx.fillStyle = "#f5c842";
-            ctx.font = "20px Cairo";
-            ctx.fillText("بانتظار التدوير", 100, 160);
-        };
-
-        // دالة الحفظ الموحدة (تربط Firebase + Admin)
-        window.savePrizeToFirebase = async function(prizeText) {
-            try {
-                // 1. للـ Admin (محلي)
-                localStorage.setItem(window.isVIP ? 'lastVIPPrize' : 'lastNormalPrize', clientName + ": " + prizeText);
-                
-                // 2. للـ Firebase (أرشيف)
-                await addDoc(collection(db, "prizes"), {
-                    prize: prizeText,
-                    date: new Date().toLocaleString()
-                });
-                console.log("✅ تم الحفظ!");
-            } catch (e) { console.error("خطأ:", e); }
-        };
-
-        // تشغيل أول رسم
-        window.drawCurrentWheel();
-
-        // زر التدوير
-        document.getElementById("spinBtn").onclick = () => {
-            document.getElementById("result").innerText = "🎉 ربحت: تخفيض 25%";
-            window.savePrizeToFirebase("تخفيض 25%");
-        };
+        function drawCasinoWheel() {
+            const cx = 200, cy = 200, r = 190;
+            // رسم خلفية العجلة بتأثير معدني
+            const grad = ctx.createRadialGradient(cx, cy, 50, cx, cy, r);
+            grad.addColorStop(0, '#444'); grad.addColorStop(1, '#000');
+            ctx.fillStyle = grad;
+            ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI * 2); ctx.fill();
+            
+            // إضافة شرائح ملونة كازينو (أحمر وأسود)
+            ctx.strokeStyle = "#f5c842"; ctx.lineWidth = 5;
+            for(let i=0; i<8; i++) {
+                ctx.beginPath(); ctx.moveTo(cx, cy);
+                ctx.arc(cx, cy, r, i*(Math.PI/4), (i+1)*(Math.PI/4));
+                ctx.fillStyle = (i%2 === 0) ? "#b71c1c" : "#1a1a1a";
+                ctx.fill(); ctx.stroke();
+            }
+        }
+        drawCasinoWheel();
     </script>
 </body>
 </html>
