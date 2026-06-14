@@ -7,64 +7,141 @@
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Cairo', sans-serif; background: #1a0a00; color: white; padding: 20px; text-align: center; }
-        .box { background: rgba(255,255,255,0.05); padding: 20px; border-radius: 15px; border: 1px solid #f5c842; max-width: 400px; margin: 20px auto; }
+        .box { background: rgba(255,255,255,0.05); padding: 20px; border-radius: 15px; border: 1px solid #f5c842; max-width: 420px; margin: 20px auto; }
         input { width: 90%; padding: 10px; margin: 10px 0; border-radius: 10px; border: 1px solid #ccc; font-family: 'Cairo'; text-align: center; font-size: 16px; color: #000; }
         button { background: linear-gradient(135deg, #ff9800, #e65100); color: white; border: none; padding: 12px 30px; border-radius: 25px; font-weight: bold; cursor: pointer; width: 100%; margin-top: 15px; font-family: 'Cairo'; font-size: 16px; }
         .back-btn { display: inline-block; margin-top: 20px; color: gold; text-decoration: none; font-size: 15px; font-weight: bold; }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; font-family: 'Cairo'; color: white; }
+        th, td { padding: 10px; border-bottom: 1px solid rgba(255,215,0,0.2); }
+        th { color: gold; }
     </style>
 </head>
 <body>
 
     <h1>👨‍🍳 لوحة تحكم الشيف الفنان</h1>
-    <p>اكتب منيو اليوم هنا وبدّلو تيك تاك!</p>
+    <p>تحديث المنيو، الحرفاء VIP، ومراقبة نتائج العجلات الزوز!</p>
 
     <div class="box">
-        <h3>🍽️ الأكلة الأولى:</h3>
+        <h2>🍽️ تحديث قائمة اليوم</h2>
+        
+        <label>الأكلة الأولى:</label>
         <input type="text" id="food1" placeholder="مثال: 🍕 بيتزا 4 فصول">
         <input type="text" id="price1" placeholder="السوم مثلاً: 18 د">
-    </div>
-
-    <div class="box">
-        <h3>🍽️ الأكلة الثانية:</h3>
+        
+        <hr style="border: 0; border-top: 1px dashed rgba(255,255,255,0.1); margin: 15px 0;">
+        
+        <label>الأكلة الثانية:</label>
         <input type="text" id="food2" placeholder="مثال: 🥘 لازانيا">
         <input type="text" id="price2" placeholder="السوم مثلاً: 10 د">
+        
+        <hr style="border: 0; border-top: 1px dashed rgba(255,255,255,0.1); margin: 15px 0;">
+        
+        <label>الأكلة الثالثة:</label>
+        <input type="text" id="food3" placeholder="مثال: 🍲 لوبيا">
+        <input type="text" id="price3" placeholder="السوم مثلاً: 5.5 د">
+        
+        <button onclick="saveMenu()">🚀 بوم! تحديث المنيو في التطبيق</button>
     </div>
 
     <div class="box">
-        <h3>🍽️ الأكلة الثالثة:</h3>
-        <input type="text" id="food3" placeholder="مثال: 🍲 لوبيا">
-        <input type="text" id="price3" placeholder="السوم مثلاً: 5.5 د">
+        <h2>👑 إدارة إعدادات العجلة والـ VIP</h2>
+        <input type="text" id="adminVIPInput" placeholder="اسم الحريف VIP النشط حالياً...">
+        <button onclick="setVIPClient()" style="background: linear-gradient(135deg, #009688, #004d40);">🎯 تعيين كحريف VIP نشط</button>
     </div>
 
-    <div style="max-width: 440px; margin: auto; padding: 0 20px;">
-        <button onclick="saveMenu()">🚀 بوم! تحديث المنيو في التطبيق</button>
+    <div class="box">
+        <h2>📊 نتائج العجلات الزوز شنوة خرّجوا:</h2>
+        <div style="overflow-x: auto;">
+            <table>
+                <thead>
+                    <tr>
+                        <th>نوع العجلة</th>
+                        <th>اسم الحريف</th>
+                        <th>النتيجة / الجائزة</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="color: #ff9800; font-weight: bold;">العجلة العادية 🎡</td>
+                        <td id="normal-client-name">--</td>
+                        <td id="normal-client-prize" style="color: #9ccc65; font-weight: bold;">--</td>
+                    </tr>
+                    <tr>
+                        <td style="color: gold; font-weight: bold;">عجلة الـ VIP 👑</td>
+                        <td id="vip-client-name">--</td>
+                        <td id="vip-client-prize" style="color: gold; font-weight: bold;">--</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <button onclick="clearWheelResults()" style="background: #d32f2f; font-size: 14px; padding: 8px 15px; margin-top: 15px; width: auto;">🗑️ فسخ النتائج والبدء من جديد</button>
     </div>
 
     <a href="index.html" class="back-btn">⬅️ العودة للتطبيق الرئيسي</a>
 
     <script>
-    // السيستم اللي يحفظ المنيو ويبعثه لصفحة الـ زبائن
+    // 1. حفظ المنيو
     function saveMenu() {
         const menuData = [
             { name: document.getElementById('food1').value || '🍕 بيتزا 4 فصول', price: document.getElementById('price1').value || '18 د' },
             { name: document.getElementById('food2').value || '🥘 لازانيا', price: document.getElementById('price2').value || '10 د' },
             { name: document.getElementById('food3').value || '🍲 لوبيا', price: document.getElementById('price3').value || '5.5 د' }
         ];
-        
         localStorage.setItem('fananMenu', JSON.stringify(menuData));
-        alert('🟢 تم تحديث منيو اليوم بنجاح يا شيف! الحرفاء توة يشوفو في الجديد.');
+        alert('🟢 تم تحديث منيو اليوم بنجاح يا شيف!');
     }
 
-    // أول ما يتحل الموقع، يعبّي الخانات بالمنيو القديم تلقائياً
-    window.onload = function() {
-        const saved = localStorage.getItem('fananMenu');
-        if(saved) {
-            const data = JSON.parse(saved);
+    // 2. تعيين الحريف VIP
+    function setVIPClient() {
+        const vipName = document.getElementById('adminVIPInput').value;
+        if(vipName) {
+            localStorage.setItem('currentVIPClient', vipName);
+            alert('👑 تم تعيين الحريف ' + vipName + ' كـ VIP بنجاح!');
+            loadResults(); // تحديث الجدول فوراً
+        } else {
+            alert('❌ اكتب اسم الحريف أولاً!');
+        }
+    }
+
+    // 3. قراءة النتائج الملعوبة من العجلات الزوز
+    function loadResults() {
+        // قراءة داتا المنيو القديم
+        const savedMenu = localStorage.getItem('fananMenu');
+        if(savedMenu) {
+            const data = JSON.parse(savedMenu);
             if(data[0]) { document.getElementById('food1').value = data[0].name; document.getElementById('price1').value = data[0].price; }
             if(data[1]) { document.getElementById('food2').value = data[1].name; document.getElementById('price2').value = data[1].price; }
             if(data[2]) { document.getElementById('food3').value = data[2].name; document.getElementById('price3').value = data[2].price; }
         }
+
+        // قراءة اسم الحريف VIP الحالي
+        const savedVIP = localStorage.getItem('currentVIPClient');
+        if(savedVIP) {
+            document.getElementById('adminVIPInput').value = savedVIP;
+            document.getElementById('vip-client-name').innerText = savedVIP;
+        }
+
+        // قراءة جوائز العجلات من الذاكرة (لو تم تدويرهم في العجلة)
+        const normalPrize = localStorage.getItem('lastNormalPrize') || '--';
+        const normalName = localStorage.getItem('lastNormalClient') || 'حريف عادي';
+        const vipPrize = localStorage.getItem('lastVIPPrize') || '--';
+
+        document.getElementById('normal-client-name').innerText = normalName;
+        document.getElementById('normal-client-prize').innerText = normalPrize;
+        document.getElementById('vip-client-prize').innerText = vipPrize;
     }
+
+    // 4. فسخ النتائج لتصفير العداد
+    function clearWheelResults() {
+        if(confirm('هل أنت متأكد من تصفير نتائج العجلات؟')) {
+            localStorage.removeItem('lastNormalPrize');
+            localStorage.removeItem('lastNormalClient');
+            localStorage.removeItem('lastVIPPrize');
+            loadResults();
+        }
+    }
+
+    window.onload = loadResults;
     </script>
 </body>
 </html>
