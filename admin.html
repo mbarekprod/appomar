@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <title>لوحة الشيف - مطعم الفنان</title>
+  <title>لوحة الشيف المتقدمة - مطعم الفنان</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
   <style>
@@ -25,18 +25,21 @@
     
     .section-box { 
         background: rgba(0,0,0,0.4); padding: 25px; border-radius: 15px; 
-        border: 1px solid #c8a96e; max-width: 650px; margin: 25px auto; 
+        border: 1px solid #c8a96e; max-width: 700px; margin: 25px auto; 
         box-shadow: 0 4px 15px rgba(0,0,0,0.3);
     }
     
-    /* ستايل خانة البحث والتفعيل الجديدة */
     .vip-search-box input { width: 60%; margin-bottom: 0; }
     .vip-search-box button { background: linear-gradient(135deg, #4caf50, #2e7d32); color: white; padding: 12px 25px; }
     
     table { width: 100%; border-collapse: collapse; margin-top: 15px; background: rgba(0,0,0,0.2); border-radius: 8px; overflow: hidden; }
     th, td { border: 1px solid #443322; padding: 12px; text-align: center; }
     th { background: #f5c842; color: #1a0a00; font-weight: 900; }
-    td strong { color: #fff; }
+    
+    .vip-row { background: rgba(245, 200, 66, 0.15); border-right: 5px solid #f5c842; }
+    .normal-row { background: rgba(255, 255, 255, 0.02); }
+    .prize-badge { background: #4caf50; padding: 4px 10px; border-radius: 5px; color: white; font-weight: bold; }
+    .vip-prize-badge { background: #d4af37; padding: 4px 10px; border-radius: 5px; color: #1a0a00; font-weight: 900; box-shadow: 0 0 8px #f5c842; }
   </style>
 </head>
 <body>
@@ -53,24 +56,39 @@
   
   <div class="section-box" style="border-color: #4caf50; box-shadow: 0 0 15px rgba(76, 175, 80, 0.2);">
     <h3>👑 ترقية حريف إلى عجلة VIP:</h3>
-    <p style="color: #c8a96e; font-size: 14px; margin-bottom: 15px;">اكتب اسم الحريف هنا (الذي قضى بـ 30 دج أو أكثر) لتفعيل العجلة الذهبية في هاتفه فوراً:</p>
+    <p style="color: #c8a96e; font-size: 14px; margin-bottom: 15px;">اكتب اسم الحريف (الذي قضى بـ 30 دج أو أكثر) لتفعيل العجلة الذهبية في هاتفه:</p>
     <div class="vip-search-box">
       <input type="text" id="targetClientName" placeholder="اكتب اسم الحريف بالظبط...">
       <button onclick="triggerVIPByName()">تفعيل VIP 🚀</button>
     </div>
   </div>
 
-  <div class="section-box">
-    <h3>📊 سجل نتائج ألعاب الزبائن (لايف):</h3>
+  <div class="section-box" style="border-color: #f5c842; box-shadow: 0 0 15px rgba(245, 200, 66, 0.15);">
+    <h3 style="color: #f5c842;">🏆 هدايا وجوائز عجلة الـ VIP الفاخرة:</h3>
     <table>
       <thead>
         <tr>
-          <th>الجائزة ونوع العجلة</th>
+          <th>الجائزة الكبيرة الكسبانة</th>
+          <th>اسم حريف الـ VIP والوقت</th>
+        </tr>
+      </thead>
+      <tbody id="vipPrizesData">
+        <tr><td colspan="2">في انتظار أول سحب VIP... 👑</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section-box">
+    <h3>📊 سجل نتائج ألعاب العجلة العادية:</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>الجائزة المحصلة</th>
           <th>تفاصيل الزبون والوقت</th>
         </tr>
       </thead>
-      <tbody id="prizesData">
-        <tr><td colspan="2">في انتظار سحب الجوائز...</td></tr>
+      <tbody id="normalPrizesData">
+        <tr><td colspan="2">في انتظار سحب الجوائز العادية...</td></tr>
       </tbody>
     </table>
   </div>
@@ -101,7 +119,7 @@ window.login = function () {
   } else { alert("❌ كلمة السر غالطة!"); }
 };
 
-// الدالة السحرية: يكتب الاسم، الكود يلوج عليه في الفايربيز ويقلب تليفونه VIP
+// تفعيل الـ VIP للحريف بالاسم
 window.triggerVIPByName = async function() {
     const nameInput = document.getElementById("targetClientName").value.trim();
     if(!nameInput) { alert("الرجاء كتابة اسم الحريف أولاً!"); return; }
@@ -110,40 +128,57 @@ window.triggerVIPByName = async function() {
     const docRef = doc(db, "active_sessions", docId);
     
     try {
-        // التثبت إذا الحريف مسجل في السيستم توة
         const snap = await getDoc(docRef);
         if(snap.exists()) {
             await updateDoc(docRef, { status: "VIP" });
-            alert("🚀 تم بنجاح! تليفون الحريف [" + nameInput + "] تحول الآن لعجلة VIP الذهبية!");
-            document.getElementById("targetClientName").value = ""; // تفريغ الخانة
+            alert("🚀 تم بنجاح! هاتف الحريف [" + nameInput + "] تحول الآن لعجلة VIP الذهبية!");
+            document.getElementById("targetClientName").value = ""; 
         } else {
-          alert("❌ لم نجد حريف بهذا الاسم [" + nameInput + "] فاتح العجلة حالياً! ثبّت من الحروف.");
+          alert("❌ لم نجد حريف بهذا الاسم [" + nameInput + "] أرسل طلباً! تأكد من الحروف.");
         }
-    } catch(e) { 
-        console.error(e); 
-        alert("حدث خطأ أثناء التفعيل!");
-    }
+    } catch(e) { alert("حدث خطأ أثناء التفعيل!"); }
 }
 
 function startLiveSync() {
-  // مراقبة سجل نتائج الجوائز (العادية والـ VIP تنزل هنا لايف)
+  // مراقبة سجل نتائج الجوائز وتوزيعها حسب نوع العجلة
   onSnapshot(collection(db, "prizes"), (snapshot) => {
-    const tbody = document.getElementById("prizesData");
-    tbody.innerHTML = "";
+    const vipTbody = document.getElementById("vipPrizesData");
+    const normalTbody = document.getElementById("normalPrizesData");
+    
+    vipTbody.innerHTML = "";
+    normalTbody.innerHTML = "";
+    
+    let hasVip = false;
+    let hasNormal = false;
     
     snapshot.forEach((docSnap) => {
       const d = docSnap.data();
-      // تمييز لون سطر الـ VIP عن العادي لشكل احترافي
-      const isVIPPrize = d.prize.includes("🏆");
+      const isVIPPrize = d.prize.includes("🏆 VIP:");
       
-      tbody.innerHTML += `
-        <tr style="${isVIPPrize ? 'background: rgba(245,200,66,0.1); border-left: 4px solid #f5c842;' : ''}">
-          <td><strong style="${isVIPPrize ? 'color: #f5c842;' : 'color: #fff;'}">${d.prize}</strong></td>
-          <td style="color: #c8a96e; font-size: 14px;">${d.date}</td>
-        </tr>
-      `;
+      if (isVIPPrize) {
+          hasVip = true;
+          // إزالة كلمة البادئة لعرض الجائزة فقط نظيفة
+          const cleanPrize = d.prize.replace("🏆 VIP: ", "");
+          vipTbody.innerHTML += `
+            <tr class="vip-row">
+              <td><span class="vip-prize-badge">👑 ${cleanPrize}</span></td>
+              <td style="color: #fff; font-weight: bold;">${d.date}</td>
+            </tr>
+          `;
+      } else {
+          hasNormal = true;
+          const cleanPrize = d.prize.replace("🎰 عادية: ", "");
+          normalTbody.innerHTML += `
+            <tr class="normal-row">
+              <td><span class="prize-badge">${cleanPrize}</span></td>
+              <td style="color: #c8a96e; font-size: 14px;">${d.date}</td>
+            </tr>
+          `;
+      }
     });
-    if(snapshot.empty) tbody.innerHTML = "<tr><td colspan='2'>لا توجد جوائز مسجلة بعد في السجل.</td></tr>";
+    
+    if(!hasVip) vipTbody.innerHTML = "<tr><td colspan='2'>لا توجد جوائز VIP مسجلة بعد اليوم. 👑</td></tr>";
+    if(!hasNormal) normalTbody.innerHTML = "<tr><td colspan='2'>لا توجد جوائز عادية مسجلة بعد.</td></tr>";
   });
 }
 </script>
