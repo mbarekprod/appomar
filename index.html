@@ -52,22 +52,8 @@
 
     <section id="menu" class="section hidden">
         <h2>🍽️ قائمة اليوم</h2>
-        <div class="menu-item">
-            <span>🍕 بيتزا 4 فصول</span>
-            <strong>18 د</strong>
-        </div>
-        <div class="menu-item">
-            <span>🥘 لازانيا</span>
-            <strong>10 د</strong>
-        </div>
-        <div class="menu-item">
-            <span>🍲 لوبيا</span>
-            <strong>5.5 د</strong>
-        </div>
-        <div class="menu-item">
-            <span>🍝 مقرونة بالقمرون</span>
-            <strong>12 د</strong>
-        </div>
+        <div id="dynamic-menu-list">
+            </div>
     </section>
 
     <section id="contact" class="section hidden">
@@ -84,7 +70,7 @@
     </section>
 
     <section id="restaurant-menu" class="section hidden">
-        <h2>📖 قائمة المطعم</h2>
+        <h2>📖 قائمة المطعم الكاملة</h2>
         <div class="menu-item">
             <span>🍕 بيتزا مارغريتا</span>
             <strong>15 د</strong>
@@ -108,7 +94,7 @@
     </section>
 
     <div style="text-align: center;">
-        <a href="admin.html" style="display:inline-block; margin-top:20px; padding:12px 25px; background:gold; color:#000; font-weight:bold; border-radius:20px; text-decoration:none;">
+        <a href="admin.html" style="display:inline-block; margin-top:20px; padding:12px 25px; background:gold; color:#000; font-weight:bold; border-radius:20px; text-decoration:none; box-shadow: 0 4px 10px rgba(212,175,55,0.3);">
             🔐 دخول الشيف
         </a>
     </div>
@@ -120,6 +106,7 @@
     <script src="script.js"></script>
 
     <script>
+    // 1. تسجيل السيرفيس وركر لإدارة التطبيق والإشعارات
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
             navigator.serviceWorker.register('./sw.js')
@@ -128,15 +115,16 @@
         });
     }
 
+    // 2. إدارة صندوق تنزيل التطبيق (PWA)
     let deferredPrompt;
     const installContainer = document.getElementById('installContainer');
     const installBtn = document.getElementById('installAppBtn');
 
     window.addEventListener('beforeinstallprompt', (e) => {
-        console.log('🎯 بوم! المتصفح وافق واعترف بالموقع كتطبيق!');
+        console.log('🎯 المتصفح اعترف بالموقع كتطبيق وجاهز للتنزيل!');
         e.preventDefault();
         deferredPrompt = e;
-        if(installContainer) installContainer.style.display = 'block'; // إظهار الصندوق باللوغو كامل
+        if(installContainer) installContainer.style.display = 'block'; 
     });
 
     if(installBtn) {
@@ -151,33 +139,61 @@
     }
 
     window.addEventListener('appinstalled', () => {
-        console.log('🎉 تم التثبيت بنجاح!');
+        console.log('🎉 تم التثبيت بنجاح على الجهاز!');
         if(installContainer) installContainer.style.display = 'none';
     });
-        // طلب الإذن من الحريف لتشغيل الإشعارات أوتوماتيكياً
-window.addEventListener('load', () => {
-    if ('Notification' in window) {
-        Notification.requestPermission().then(permission => {
-            if (permission === 'granted') {
-                console.log('🔔 الحريف وافق على الإشعارات!');
-                // هاني برمجتلك إشعار ترحيبي يطجّ فوراً كيف يوافق!
-                showWelcomeNotification();
-            }
-        });
-    }
-});
 
-function showWelcomeNotification() {
-    if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.ready.then(registration => {
-            registration.showNotification('مطعم الفنان 🍽️', {
-                body: 'مرحباً بيك في تطبيقنا! توّة أي عشاء جديد يخرج وإلا ديسكاونت يوصلك تيك تاك! 🔥',
-                icon: 'go.png', // اللوغو متاعك
-                vibrate: [200, 100, 200] // التليفون يفيبري
+    // 3. طلب إذن الإشعارات وتشغيل الإشعار الترحيبي الأول
+    window.addEventListener('load', () => {
+        if ('Notification' in window) {
+            Notification.requestPermission().then(permission => {
+                if (permission === 'granted') {
+                    console.log('🔔 وافق الحريف على الإشعارات!');
+                    showWelcomeNotification();
+                }
             });
-        });
+        }
+    });
+
+    function showWelcomeNotification() {
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.ready.then(registration => {
+                registration.showNotification('مطعم الفنان 🍽️', {
+                    body: 'مرحباً بيك في تطبيقنا! توة منيو اليوم يوصلك تيك تاك في تليفونك! 🔥',
+                    icon: 'go.png',
+                    vibrate: [200, 100, 200]
+                });
+            });
+        }
     }
-}
+
+    // 4. نظام قراءة المنيو الديناميكي المحفوظ من لوحة الشيف
+    function loadChefMenu() {
+        const savedMenu = localStorage.getItem('fananMenu');
+        const menuContainer = document.getElementById('dynamic-menu-list');
+        
+        if(savedMenu && menuContainer) {
+            const data = JSON.parse(savedMenu);
+            menuContainer.innerHTML = ''; // تنظيف المنيو القديم
+            data.forEach(item => {
+                menuContainer.innerHTML += `
+                    <div class="menu-item">
+                        <span>${item.name}</span>
+                        <strong>${item.price}</strong>
+                    </div>
+                `;
+            });
+        } else if (menuContainer) {
+            // منيو افتراضي يظهر أول مرة فقط لو الشيف لسه ما غيرش حاجة
+            menuContainer.innerHTML = `
+                <div class="menu-item"><span>🍕 بيتزا 4 فصول</span><strong>18 د</strong></div>
+                <div class="menu-item"><span>🥘 لازانيا</span><strong>10 د</strong></div>
+                <div class="menu-item"><span>🍲 لوبيا</span><strong>5.5 د</strong></div>
+            `;
+        }
+    }
+    // تشغيل القائمة تلقائياً بمجرد فتح الصفحة
+    window.addEventListener('DOMContentLoaded', loadChefMenu);
     </script>
 
 </body>
