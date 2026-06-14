@@ -2,24 +2,41 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <title>لوحة الشيف المباشرة - الفنان</title>
+  <title>لوحة الشيف - مطعم الفنان</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
   <style>
-    body { font-family: "Cairo", sans-serif; background: linear-gradient(160deg, #1a0a00 0%, #2d1200 60%, #1a0a00 100%); color: white; text-align: center; padding: 25px; min-height: 100vh; }
+    body { 
+        font-family: "Cairo", sans-serif; 
+        background: linear-gradient(160deg, #1a0a00 0%, #2d1200 60%, #1a0a00 100%); 
+        color: white; text-align: center; padding: 25px 15px; min-height: 100vh; 
+    }
     h2, h3 { color: #f5c842; font-weight: 900; margin-bottom: 15px; }
-    input, button { padding: 12px; margin: 10px 5px; border-radius: 8px; border: none; font-family: "Cairo", sans-serif; text-align: center; }
-    input { background: #331a00; color: white; border: 1px solid #f5c842; }
+    
+    /* صندوق تسجيل الدخول */
+    #loginBox {
+        background: rgba(0,0,0,0.5); padding: 30px; border-radius: 15px;
+        max-width: 400px; margin: 50px auto; border: 1px solid #f5c842;
+        box-shadow: 0 0 15px rgba(245, 200, 66, 0.2);
+    }
+    input, button { padding: 12px; margin: 10px 5px; border-radius: 8px; border: none; font-family: "Cairo", sans-serif; text-align: center; font-size: 16px; }
+    input { background: #331a00; color: white; border: 1px solid #c8a96e; width: 80%; }
     button { background: linear-gradient(135deg, #f5c842, #d89b00); color: #1a0a00; font-weight: bold; cursor: pointer; }
     
-    .section-box { background: rgba(0,0,0,0.4); padding: 20px; border-radius: 12px; border: 1px solid #443322; max-width: 700px; margin: 20px auto; }
-    table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+    .section-box { 
+        background: rgba(0,0,0,0.4); padding: 25px; border-radius: 15px; 
+        border: 1px solid #c8a96e; max-width: 650px; margin: 25px auto; 
+        box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    }
+    
+    /* ستايل خانة البحث والتفعيل الجديدة */
+    .vip-search-box input { width: 60%; margin-bottom: 0; }
+    .vip-search-box button { background: linear-gradient(135deg, #4caf50, #2e7d32); color: white; padding: 12px 25px; }
+    
+    table { width: 100%; border-collapse: collapse; margin-top: 15px; background: rgba(0,0,0,0.2); border-radius: 8px; overflow: hidden; }
     th, td { border: 1px solid #443322; padding: 12px; text-align: center; }
     th { background: #f5c842; color: #1a0a00; font-weight: 900; }
-    
-    .vip-btn { background: #4caf50; color: white; padding: 6px 15px; border-radius: 5px; font-size: 14px; border: none; cursor: pointer; font-family: "Cairo"; font-weight: bold;}
-    .status-badge { background: #ff9800; color: black; padding: 3px 8px; border-radius: 4px; font-size: 13px; font-weight: bold; }
-    .status-vip { background: #4caf50; color: white; }
+    td strong { color: #fff; }
   </style>
 </head>
 <body>
@@ -27,39 +44,34 @@
 <h2>🔐 لوحة تحكم الشيف السرية</h2>
 
 <div id="loginBox">
-  <input type="password" id="pass" placeholder="أدخل كلمة سر الشيف">
-  <button onclick="login()">دخول للوحة</button>
+  <h3>الرجاء إدخال كلمة السر للدخول للوحة:</h3>
+  <input type="password" id="pass" placeholder="كلمة سر الشيف">
+  <button onclick="login()">دخول 🔓</button>
 </div>
 
 <div id="panel" style="display:none;">
   
-  <div class="section-box" style="border-color: #4caf50;">
-    <h3>👑 طلبات تفعيل عجلة VIP حسب الاسم:</h3>
-    <table>
-      <thead>
-        <tr>
-          <th>اسم الحريف</th>
-          <th>وقت الدخول</th>
-          <th>الحالة الحالية</th>
-          <th>التحكم</th>
-        </tr>
-      </thead>
-      <tbody id="activeTablesData">
-        <tr><td colspan="4">في انتظار دخول أي حريف...</td></tr>
-      </tbody>
-    </table>
+  <div class="section-box" style="border-color: #4caf50; box-shadow: 0 0 15px rgba(76, 175, 80, 0.2);">
+    <h3>👑 ترقية حريف إلى عجلة VIP:</h3>
+    <p style="color: #c8a96e; font-size: 14px; margin-bottom: 15px;">اكتب اسم الحريف هنا (الذي قضى بـ 30 دج أو أكثر) لتفعيل العجلة الذهبية في هاتفه فوراً:</p>
+    <div class="vip-search-box">
+      <input type="text" id="targetClientName" placeholder="اكتب اسم الحريف بالظبط...">
+      <button onclick="triggerVIPByName()">تفعيل VIP 🚀</button>
+    </div>
   </div>
 
   <div class="section-box">
-    <h3>🎡 سجل الجوائز الممنوحة للزبائن:</h3>
+    <h3>📊 سجل نتائج ألعاب الزبائن (لايف):</h3>
     <table>
       <thead>
         <tr>
-          <th>الجائزة والنوع</th>
-          <th>تفاصيل الحريف والوقت</th>
+          <th>الجائزة ونوع العجلة</th>
+          <th>تفاصيل الزبون والوقت</th>
         </tr>
       </thead>
-      <tbody id="prizesData"></tbody>
+      <tbody id="prizesData">
+        <tr><td colspan="2">في انتظار سحب الجوائز...</td></tr>
+      </tbody>
     </table>
   </div>
 
@@ -67,7 +79,7 @@
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
-import { getFirestore, collection, onSnapshot, doc, updateDoc } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
+import { getFirestore, collection, onSnapshot, doc, updateDoc, getDoc } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
 
 const firebaseConfig = {
     apiKey: "AIzaSyClwbk9bCyY5YZO5jBMbjo4IWCqGfYcDCw",
@@ -89,47 +101,49 @@ window.login = function () {
   } else { alert("❌ كلمة السر غالطة!"); }
 };
 
-// دالة تفعيل الـ VIP للحريف بكبسة زر
-window.activateVIPTable = async function(clientDocId) {
+// الدالة السحرية: يكتب الاسم، الكود يلوج عليه في الفايربيز ويقلب تليفونه VIP
+window.triggerVIPByName = async function() {
+    const nameInput = document.getElementById("targetClientName").value.trim();
+    if(!nameInput) { alert("الرجاء كتابة اسم الحريف أولاً!"); return; }
+    
+    const docId = "client_" + encodeURIComponent(nameInput);
+    const docRef = doc(db, "active_sessions", docId);
+    
     try {
-        await updateDoc(doc(db, "active_sessions", clientDocId), { status: "VIP" });
-        console.log("🚀 تم إرسال إشارة الـ VIP للحريف!");
-    } catch(e) { console.error(e); }
+        // التثبت إذا الحريف مسجل في السيستم توة
+        const snap = await getDoc(docRef);
+        if(snap.exists()) {
+            await updateDoc(docRef, { status: "VIP" });
+            alert("🚀 تم بنجاح! تليفون الحريف [" + nameInput + "] تحول الآن لعجلة VIP الذهبية!");
+            document.getElementById("targetClientName").value = ""; // تفريغ الخانة
+        } else {
+          alert("❌ لم نجد حريف بهذا الاسم [" + nameInput + "] فاتح العجلة حالياً! ثبّت من الحروف.");
+        }
+    } catch(e) { 
+        console.error(e); 
+        alert("حدث خطأ أثناء التفعيل!");
+    }
 }
 
 function startLiveSync() {
-  // 1. مراقبة الحرفاء المتصلين لايف بالاسم
-  onSnapshot(collection(db, "active_sessions"), (snapshot) => {
-    const tbody = document.getElementById("activeTablesData");
+  // مراقبة سجل نتائج الجوائز (العادية والـ VIP تنزل هنا لايف)
+  onSnapshot(collection(db, "prizes"), (snapshot) => {
+    const tbody = document.getElementById("prizesData");
     tbody.innerHTML = "";
     
     snapshot.forEach((docSnap) => {
       const d = docSnap.data();
-      const isVIP = d.status === "VIP";
+      // تمييز لون سطر الـ VIP عن العادي لشكل احترافي
+      const isVIPPrize = d.prize.includes("🏆");
       
       tbody.innerHTML += `
-        <tr>
-          <td><strong style="color: #f5c842; font-size: 16px;">👤 ${d.name}</strong></td>
-          <td style="color: #c8a96e;">${d.time || '---'}</td>
-          <td><span class="status-badge ${isVIP ? 'status-vip':''}">${isVIP ? 'مفعّلة VIP 👑':'ينتظر ⏳'}</span></td>
-          <td>
-            ${isVIP ? '✔️ تم التفعيل' : `<button class="vip-btn" onclick="activateVIPTable('${docSnap.id}')">👑 تفعيل الـ VIP</button>`}
-          </td>
+        <tr style="${isVIPPrize ? 'background: rgba(245,200,66,0.1); border-left: 4px solid #f5c842;' : ''}">
+          <td><strong style="${isVIPPrize ? 'color: #f5c842;' : 'color: #fff;'}">${d.prize}</strong></td>
+          <td style="color: #c8a96e; font-size: 14px;">${d.date}</td>
         </tr>
       `;
     });
-    if(snapshot.empty) tbody.innerHTML = "<tr><td colspan='4'>لا يوجد زبائن نشطين حالياً.</td></tr>";
-  });
-
-  // 2. مراقبة سجل الجوائز والنتائج
-  onSnapshot(collection(db, "prizes"), (snapshot) => {
-    const tbody = document.getElementById("prizesData");
-    tbody.innerHTML = "";
-    snapshot.forEach((docSnap) => {
-      const d = docSnap.data();
-      tbody.innerHTML += `<tr><td><strong>${d.prize}</strong></td><td style="color: #c8a96e;">${d.date}</td></tr>`;
-    });
-    if(snapshot.empty) tbody.innerHTML = "<tr><td colspan='2'>لا توجد جوائز مسجلة بعد.</td></tr>";
+    if(snapshot.empty) tbody.innerHTML = "<tr><td colspan='2'>لا توجد جوائز مسجلة بعد في السجل.</td></tr>";
   });
 }
 </script>
