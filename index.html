@@ -25,23 +25,25 @@
             <span class="btn-icon">🍽️</span>
             <span>قائمة اليوم</span>
         </button>
+        
         <button class="card-btn" onclick="window.location.href='wheel.html'">
             <span class="btn-icon">🎡</span>
             <span>عجلة الحظ</span>
         </button>
+        
         <button class="card-btn" onclick="showSection('contact')">
             <span class="btn-icon">📞</span>
             <span>اتصل بنا</span>
-<button class="card-btn" onclick="showSection('restaurant-menu')">
-    <span class="btn-icon">📖</span>
-    <span>قائمة المطعم</span>
-</button>
-            <button id="installAppBtn" style="display: none; background: linear-gradient(135deg, #ff9800, #e65100); color: white; border: none; padding: 12px 25px; border-radius: 25px; font-family: 'Cairo', sans-serif; font-size: 15px; font-weight: bold; margin: 15px auto; cursor: pointer; box-shadow: 0 4px 12px rgba(230,81,0,0.3);">
-  📥 تنزيل تطبيق مطعم الفنان
-</button>
-</button>
-        </body>
+        </button>
 
+        <button class="card-btn" onclick="showSection('restaurant-menu')">
+            <span class="btn-icon">📖</span>
+            <span>قائمة المطعم</span>
+        </button>
+        
+        <button id="installAppBtn" style="display: none; background: linear-gradient(135deg, #ff9800, #e65100); color: white; border: none; padding: 14px 30px; border-radius: 25px; font-family: 'Cairo', sans-serif; font-size: 16px; font-weight: bold; margin: 20px auto; cursor: pointer; box-shadow: 0 5px 15px rgba(230,81,0,0.4); border: 2px solid #f5c842;">
+            📥 تثبيت تطبيق مطعم الفنان على هاتفك
+        </button>
     </main>
 
     <section id="menu" class="section hidden">
@@ -76,52 +78,78 @@
             📍 حزق بجانب مخبر التحاليل و ميتاقلاس
         </div>
     </section>
+
     <section id="restaurant-menu" class="section hidden">
-    <h2>📖 قائمة المطعم</h2>
+        <h2>📖 قائمة المطعم</h2>
+        <div class="menu-item">
+            <span>🍕 بيتزا مارغريتا</span>
+            <strong>15 د</strong>
+        </div>
+        <div class="menu-item">
+            <span>🍕 بيتزا 4 فصول</span>
+            <strong>18 د</strong>
+        </div>
+        <div class="menu-item">
+            <span>🥪 ساندويتش إسكالوب</span>
+            <strong>8 د</strong>
+        </div>
+        <div class="menu-item">
+            <span>🍟 فريت</span>
+            <strong>3 د</strong>
+        </div>
+        <div class="menu-item">
+            <span>🥤 مشروبات غازية</span>
+            <strong>2.5 د</strong>
+        </div>
+    </section>
 
-    <div class="menu-item">
-        <span>🍕 بيتزا مارغريتا</span>
-        <strong>15 د</strong>
+    <div style="text-align: center;">
+        <a href="admin.html" style="display:inline-block; margin-top:20px; padding:12px 25px; background:gold; color:#000; font-weight:bold; border-radius:20px; text-decoration:none;">
+            🔐 دخول الشيف
+        </a>
     </div>
-
-    <div class="menu-item">
-        <span>🍕 بيتزا 4 فصول</span>
-        <strong>18 د</strong>
-    </div>
-
-    <div class="menu-item">
-        <span>🥪 ساندويتش إسكالوب</span>
-        <strong>8 د</strong>
-    </div>
-
-    <div class="menu-item">
-        <span>🍟 فريت</span>
-        <strong>3 د</strong>
-    </div>
-
-    <div class="menu-item">
-        <span>🥤 مشروبات غازية</span>
-        <strong>2.5 د</strong>
-    </div>
-</section>
 
     <footer>
         <p>مطعم الفنان &copy; 2026</p>
     </footer>
 
     <script src="script.js"></script>
-    <a href="admin.html" style="
-  display:inline-block;
-  margin-top:20px;
-  padding:12px 25px;
-  background:gold;
-  color:#000;
-  font-weight:bold;
-  border-radius:20px;
-  text-decoration:none;
-">
-🔐 دخول الشيف
-</a>
+
+    <script>
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('./sw.js')
+            .then(reg => console.log('🟢 Service Worker مريغل ونشط!'))
+            .catch(err => console.error('🔴 خطأ في تسجيل السيرفيس وركر:', err));
+        });
+    }
+
+    let deferredPrompt;
+    const installBtn = document.getElementById('installAppBtn');
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+        console.log('🎯 بوم! المتصفح وافق واعترف بالموقع كتطبيق!');
+        e.preventDefault();
+        deferredPrompt = e;
+        if(installBtn) installBtn.style.display = 'block';
+    });
+
+    if(installBtn) {
+        installBtn.addEventListener('click', async () => {
+            if (!deferredPrompt) return;
+            deferredPrompt.prompt();
+            const { outcome } = await deferredPrompt.userChoice;
+            console.log(`👤 خيار الحريف: ${outcome}`);
+            deferredPrompt = null;
+            installBtn.style.display = 'none';
+        });
+    }
+
+    window.addEventListener('appinstalled', () => {
+        console.log('🎉 تم التثبيت بنجاح!');
+        if(installBtn) installBtn.style.display = 'none';
+    });
+    </script>
+
 </body>
- 
 </html>
