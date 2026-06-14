@@ -73,6 +73,15 @@
     <a href="index.html" class="back-btn">⬅️ العودة للتطبيق الرئيسي</a>
 
     <script>
+        // طلب كلمة سر قبل ما يدخل للشيف
+window.onload = function() {
+    let password = prompt("🔐 أدخل كلمة سر الشيف:");
+    if (password !== "1234") { // بدّل 1234 بالباس اللي تحب عليه
+        alert("❌ كلمة سر غالطة!");
+        window.location.href = "index.html";
+    }
+    loadResults(); // وبعدين يشرجي الخدمة
+};
     // 1. حفظ المنيو وإطلاق الإشعار فوراً
     function saveMenu() {
         const f1 = document.getElementById('food1').value || '🍕 بيتزا 4 فصول';
