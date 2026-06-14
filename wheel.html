@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>عجلة الحظ VIP - الفنان</title>
+    <title>عجلة الحظ السحرية - الفنان</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
@@ -11,88 +11,100 @@
         body {
             font-family: "Cairo", sans-serif;
             background: linear-gradient(160deg, #1a0a00 0%, #2d1200 60%, #1a0a00 100%);
-            color: white;
-            text-align: center;
-            padding: 30px 20px;
-            min-height: 100vh;
+            color: white; text-align: center; padding: 25px 15px; min-height: 100vh;
         }
-        h1 { color: #f5c842; font-size: 28px; font-weight: 900; margin-bottom: 6px; }
+        h1 { color: #f5c842; font-size: 28px; font-weight: 900; margin-bottom: 4px; }
         .subtitle { color: #c8a96e; font-size: 14px; margin-bottom: 20px; }
         
-        /* شاشة إدخال الاسم الفريدة */
-        #nameSetup {
-            background: rgba(0,0,0,0.5); padding: 30px; border-radius: 15px;
-            max-width: 400px; margin: 40px auto; border: 1px solid #f5c842;
-            box-shadow: 0 0 15px rgba(245, 200, 66, 0.2);
-        }
-        #nameSetup h3 { margin-bottom: 15px; font-size: 18px; color: #fff; }
-        #clientNameInput { 
-            font-family: "Cairo", sans-serif; padding: 12px; margin: 10px 0; 
-            border-radius: 8px; border: 1px solid #c8a96e; width: 100%; 
-            font-size: 16px; background: #2d1200; color: white; text-align: center; 
-        }
-        #startBtn { 
-            background: linear-gradient(135deg, #f5c842, #d89b00); color: #1a0a00; 
-            font-weight: bold; cursor: pointer; font-family: "Cairo", sans-serif; 
-            padding: 12px; border-radius: 8px; border: none; width: 100%; font-size: 16px;
-        }
-
-        /* واجهة اللعبة المخفية في الأول */
-        #mainGame { display: none; }
-        .wheel-container { position: relative; width: 300px; height: 300px; margin: 0 auto 10px; }
+        /* واجهة اللعبة والعجلة الكبيرة */
+        .wheel-container { position: relative; width: 320px; height: 320px; margin: 0 auto 15px; }
         .pointer {
-            position: absolute; top: -18px; left: 50%;
-            transform: translateX(-50%); font-size: 36px; z-index: 10;
-            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+            position: absolute; top: -20px; left: 50%;
+            transform: translateX(-50%); font-size: 40px; z-index: 10;
+            filter: drop-shadow(0 2px 5px rgba(0,0,0,0.5));
         }
         #wheel {
             width: 100%; height: 100%; border-radius: 50%;
             border: 6px solid #f5c842;
-            box-shadow: 0 0 25px rgba(245, 200, 66, 0.35);
+            box-shadow: 0 0 30px rgba(245, 200, 66, 0.4);
             display: block;
+        }
+        
+        /* الأزرار والـ Inputs */
+        button {
+            font-family: "Cairo", sans-serif; cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s; border: none;
         }
         #spinBtn {
             background: linear-gradient(135deg, #f5c842, #d89b00);
-            color: #1a0a00; border: none; padding: 16px 40px;
-            border-radius: 30px; font-size: 20px; font-weight: 700;
-            font-family: "Cairo", sans-serif; cursor: pointer; margin-top: 24px;
+            color: #1a0a00; padding: 16px 45px; border-radius: 30px;
+            font-size: 20px; font-weight: 700; margin-top: 15px;
             box-shadow: 0 6px 18px rgba(0,0,0,0.3);
-            transition: transform 0.2s, box-shadow 0.2s;
         }
         #spinBtn:hover:not(:disabled) { transform: translateY(-3px); box-shadow: 0 10px 22px rgba(0,0,0,0.35); }
-        #spinBtn:disabled { opacity: 0.4; cursor: not-allowed; background: #5a5a5a; color: #fff; }
+        #spinBtn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        /* زر الترقية لـ VIP */
+        #vipTriggerBtn {
+            background: linear-gradient(135deg, #e65100, #ff9800);
+            color: white; padding: 12px 30px; border-radius: 25px;
+            font-size: 15px; font-weight: 700; margin-top: 20px; display: inline-block;
+            box-shadow: 0 4px 12px rgba(230, 81, 0, 0.3);
+        }
+        #vipTriggerBtn:hover { transform: scale(1.03); }
+
+        /* شاشة طلب الاسم المنبثقة للـ VIP */
+        #vipFormBox {
+            display: none; background: rgba(0,0,0,0.85); padding: 25px;
+            border-radius: 15px; max-width: 380px; margin: 20px auto;
+            border: 1px solid #ff9800; box-shadow: 0 0 20px rgba(255, 152, 0, 0.2);
+        }
+        #clientNameInput { 
+            font-family: "Cairo", sans-serif; padding: 12px; margin: 12px 0; 
+            border-radius: 8px; border: 1px solid #c8a96e; width: 100%; 
+            font-size: 16px; background: #2d1200; color: white; text-align: center; 
+        }
+        #submitVipBtn {
+            background: #4caf50; color: white; padding: 10px 20px;
+            border-radius: 8px; font-weight: bold; width: 100%; font-size: 16px;
+        }
         
-        #statusAlert { color: #ffeb3b; font-weight: bold; margin-bottom: 15px; font-size: 16px; min-height: 24px; }
+        #statusAlert { color: #ffeb3b; font-weight: bold; margin-top: 15px; font-size: 15px; min-height: 24px; }
         #result { margin-top: 22px; font-size: 22px; color: #f5c842; font-weight: 700; min-height: 34px; }
         .back-btn {
-            display: inline-block; margin-top: 28px; text-decoration: none;
+            display: inline-block; margin-top: 25px; text-decoration: none;
             background: rgba(255,255,255,0.1); border: 1.5px solid rgba(255,255,255,0.2);
-            color: white; padding: 12px 28px; border-radius: 25px;
-            font-family: "Cairo", sans-serif; font-size: 16px; transition: background 0.2s;
+            color: white; padding: 10px 24px; border-radius: 25px; font-size: 14px;
         }
-        .back-btn:hover { background: rgba(255,255,255,0.18); }
     </style>
 </head>
 <body>
 
-    <h1>🎡 عجلة الحظ الفاخرة</h1>
+    <h1>🎡 عجلة الحظ السحرية</h1>
     <p class="subtitle">مطعم الفنان يرحب بكم</p>
 
-    <div id="nameSetup">
-        <h3>مرحباً بك، الرجاء إدخال اسمك للبدء:</h3>
-        <input type="text" id="clientNameInput" placeholder="اكتب اسمك هنا...">
-        <button id="startBtn">تأكيد ودخول</button>
-    </div>
-
     <div id="mainGame">
-        <div id="statusAlert">⏳ في انتظار تفعيل عجلة VIP من الشيف...</div>
         <div class="wheel-container">
             <div class="pointer">▼</div>
-            <canvas id="wheel" width="300" height="300"></canvas>
+            <canvas id="wheel" width="320" height="320"></canvas>
         </div>
 
-        <button id="spinBtn" disabled>🎰 دور العجلة الـ VIP</button>
+        <button id="spinBtn">🎰 دور العجلة العادية</button>
         <div id="result"></div>
+        
+        <div>
+            <button id="vipTriggerBtn">👑 قضيت بأكثر من 30د؟ اضغط هنا للـ VIP</button>
+        </div>
+
+        <div id="vipFormBox">
+          <h3 style="color: #ff9800;">طلب تفعيل عجلة VIP الذهبية</h3>
+          <p style="font-size: 13px; color: #c8a96e;">اكتب اسمك وسيقوم الشيف بتفعيل العجلة الفاخرة لك فوراً:</p>
+          <input type="text" id="clientNameInput" placeholder="اكتب اسمك هنا...">
+          <button id="submitVipBtn">أرسل الطلب للشيف ⏳</button>
+        </div>
+
+        <div id="statusAlert"></div>
+        <br>
         <a href="index.html" class="back-btn">🏠 العودة للرئيسية</a>
     </div>
 
@@ -106,67 +118,95 @@
             projectId: "base-resto-3d1e8",
             storageBucket: "base-resto-3d1e8.firebasestorage.app",
             messagingSenderId: "797391462536",
-            appId: "1:797391462536:web:631a9149d7e2b33d137f3d",
-            measurementId: "G-3H35HSFQ7S"
+            appId: "1:797391462536:web:631a9149d7e2b33d137f3d"
         };
 
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        let clientName = "";
+        let clientName = "حريف عادي";
+        window.isVIP = false;
+        window.hasSpun = false;
 
-        // عند النقر على تأكيد الاسم
-        document.getElementById("startBtn").addEventListener("click", async () => {
+        // رسم العجلة العادية فوراً عند فتح الصفحة
+        window.drawCurrentWheel();
+
+        // عند النقر على زر الـ 30 دينار
+        document.getElementById("vipTriggerBtn").addEventListener("click", () => {
+            if(window.hasSpun) { alert("لقد قمت بتدوير العجلة العادية بالفعل!"); return; }
+            document.getElementById("vipFormBox").style.display = "block";
+            document.getElementById("vipTriggerBtn").style.display = "none";
+        });
+
+        // عند إرسال الاسم للشيف لتفعيل الـ VIP
+        document.getElementById("submitVipBtn").addEventListener("click", async () => {
             const input = document.getElementById("clientNameInput").value.trim();
-            if(!input) { alert("الرجاء كتابة اسمك!"); return; }
+            if(!input) { alert("الرجاء كتابة اسمك لإرساله!"); return; }
             clientName = input;
 
-            // إظهار العجلة وإخفاء شاشة الاسم
-            document.getElementById("nameSetup").style.display = "none";
-            document.getElementById("mainGame").style.display = "block";
+            document.getElementById("vipFormBox").innerHTML = "<p style='color:#ff9800;'>⏳ جاري إرسال طلبك للشيف... ابق في الصفحة.</p>";
+            document.getElementById("statusAlert").innerHTML = "⏳ في انتظار تأكيد الشيف لتفعيل العجلة الذهبية...";
 
             const docId = "client_" + encodeURIComponent(clientName);
 
-            // 1. إرسال اسم الحريف للفايربيز في وضع الانتظار (normal)
+            // 1. تسجيل الطلب عند الشيف
             await setDoc(doc(db, "active_sessions", docId), {
                 name: clientName,
                 status: "normal",
                 time: new Date().toLocaleTimeString("fr-FR", { hour: '2-digit', minute: '2-digit' })
             });
 
-            // 2. الاستماع اللحظي (onSnapshot): أول ما الكسير يضغط تفعيل، يتفتح الزرار فوراً!
+            // 2. الاستماع لايف: أول ما الشيف يؤكد، تتقلب العجلة ذهبية!
             onSnapshot(doc(db, "active_sessions", docId), (snapshot) => {
                 if(snapshot.exists()) {
                     const data = snapshot.data();
-                    if(data.status === "VIP") {
-                        document.getElementById("statusAlert").innerHTML = "👑 مبروك يا " + clientName + "! تم تفعيل عجلة VIP الذهبية لك!";
+                    if(data.status === "VIP" && !window.hasSpun) {
+                        document.getElementById("statusAlert").innerHTML = "👑 مبروك يا " + clientName + "! تم تفعيل عجلة VIP الفاخرة!";
                         document.getElementById("statusAlert").style.color = "#4caf50";
-                        document.getElementById("spinBtn").disabled = false; // افتح زر التدوير
-                        window.isVIPReady = true;
-                        window.switchToVIPWheels(); // تغيير الجوائز لـ VIP
+                        
+                        const spinBtn = document.getElementById("spinBtn");
+                        spinBtn.innerHTML = "👑 دور عجلة الـ VIP الذهبية";
+                        spinBtn.style.background = "linear-gradient(135deg, #ff9800, #ff5722)";
+                        spinBtn.style.color = "white";
+                        spinBtn.disabled = false;
+
+                        window.isVIP = true;
+                        window.drawCurrentWheel(); // قلب الجوائز للـ VIP بالوقت
                     }
                 }
             });
         });
 
-        // إرسال النتيجة الفائزة للـ شيف
+        // حفظ النتيجة الفائزة في الفايربيز
         window.savePrizeToFirebase = async function(prizeText) {
             try {
-                console.log("⏳ جاري إرسال جائزة الـ VIP...", prizeText);
+                const prefix = window.isVIP ? "🏆 VIP: " : "🎰 عادية: ";
                 await addDoc(collection(db, "prizes"), {
-                    prize: "🏆 VIP: " + prizeText,
-                    date: "👤 الحريف: " + clientName + " - " + new Date().toLocaleString("fr-FR")
+                    prize: prefix + prizeText,
+                    date: "👤 " + clientName + " - " + new Date().toLocaleString("fr-FR")
                 });
-                console.log("✅ تم حفظ النتيجة بنجاح!");
-            } catch (error) {
-                console.error("❌ خطأ فايربيز:", error);
-            }
+                console.log("✅ تم حفظ النتيجة!");
+            } catch (error) { console.error(error); }
         }
     </script>
 
     <script>
-        // جوائز الـ VIP الفاخرة (من غير ارجع غدوة)
-        let prizes = [
+        const normalPrizes = [
+            { text: "تخفيض 25%",     color: "#c8930a", weight: 4 },
+            { text: "ارجع غدوة",     color: "#5a5a5a", weight: 4 },
+            { text: "إضافة فريت",    color: "#c97400", weight: 4 },
+            { text: "دور مرة أخرى",  color: "#2e7d32", weight: 4 },
+            { text: "ارجع غدوة",     color: "#484848", weight: 4 },
+            { text: "إضافة فريت",    color: "#e65100", weight: 4 },
+            { text: "قازوزة مجانية", color: "#880e4f", weight: 4 },
+            { text: "ارجع غدوة",     color: "#404040", weight: 4 },
+            { text: "إضافة فريت",    color: "#bf360c", weight: 4 },
+            { text: "دابوزة ماء",    color: "#0d47a1", weight: 4 },
+            { text: "ارجع غدوة",     color: "#383838", weight: 4 },
+            { text: "تخفيض 50%",     color: "#6a1b9a", weight: 1 }
+        ];
+
+        const vipPrizes = [
             { text: "تخفيض 25%",     color: "#d4af37", weight: 4 }, 
             { text: "إضافة فريت عائلية", color: "#aa7c11", weight: 4 },
             { text: "مقلوب مجاني",    color: "#8a640f", weight: 4 },
@@ -176,8 +216,8 @@
         ];
 
         const icons = {
-            "تخفيض 25%":"🎁","إضافة فريت عائلية":"🍟","مقلوب مجاني":"🌯",
-            "قازوزة لتر ونصف":"🥤","بيتزا مجانية":"🍕","تخفيض 50%":"🎉"
+            "تخفيض 25%":"🎁","ارجع غدوة":"⏰","إضافة فريت":"🍟","إضافة فريت عائلية":"🍟",
+            "دور مرة أخرى":"🔄","قازوزة مجانية":"🥤","قازوزة لتر ونصف":"🥤","دابوزة ماء":"💧","بيتزا مجانية":"🍕","مقلوب مجاني":"🌯","تخفيض 50%":"🎉"
         };
 
         const canvas = document.getElementById("wheel");
@@ -185,106 +225,72 @@
         const spinBtn = document.getElementById("spinBtn");
         const resultDiv = document.getElementById("result");
         
-        let total, currentDeg = 0, spinning = false;
+        let currentDeg = 0, spinning = false;
 
-        window.switchToVIPWheels = function() {
-            total = prizes.reduce((s,p) => s + p.weight, 0);
-            let cum = 0;
-            prizes.forEach(p => {
-                p.startDeg = (cum / total) * 360;
-                cum += p.weight;
-                p.endDeg = (cum / total) * 360;
-                p.midDeg = (p.startDeg + p.endDeg) / 2;
-            });
-            drawWheel(0);
-        }
-
-        function drawWheel(rotDeg = 0) {
-            ctx.clearRect(0, 0, 300, 300);
-            const cx = 150, cy = 150, r = 148;
+        window.drawCurrentWheel = function(rotDeg = 0) {
+            ctx.clearRect(0, 0, 320, 320);
+            const cx = 160, cy = 160, r = 156;
             const rotRad = (rotDeg * Math.PI) / 180;
-            if(!total) return;
+            
+            const activePrizes = window.isVIP ? vipPrizes : normalPrizes;
+            const total = activePrizes.reduce((s,p) => s + p.weight, 0);
 
-            prizes.forEach(p => {
+            let cum = 0;
+            activePrizes.forEach(p => {
+                p.startDeg = (cum / total) * 360; cum += p.weight;
+                p.endDeg = (cum / total) * 360; p.midDeg = (p.startDeg + p.endDeg) / 2;
+
                 const startRad = rotRad + (p.startDeg * Math.PI) / 180;
                 const endRad   = rotRad + (p.endDeg   * Math.PI) / 180;
 
-                ctx.beginPath();
-                ctx.moveTo(cx, cy);
-                ctx.arc(cx, cy, r, startRad, endRad);
-                ctx.closePath();
-                ctx.fillStyle = p.color;
-                ctx.fill();
-                ctx.strokeStyle = "rgba(255,255,255,0.4)";
-                ctx.lineWidth = 2;
-                ctx.stroke();
+                ctx.beginPath(); ctx.moveTo(cx, cy); ctx.arc(cx, cy, r, startRad, endRad); ctx.closePath();
+                ctx.fillStyle = p.color; ctx.fill();
+                ctx.strokeStyle = "rgba(255,255,255,0.3)"; ctx.lineWidth = 1.5; ctx.stroke();
 
                 const midRad = rotRad + (p.midDeg * Math.PI) / 180;
-                ctx.save();
-                ctx.translate(cx, cy);
-                ctx.rotate(midRad);
-                ctx.textAlign = "right";
-                ctx.fillStyle = "#fff";
-                ctx.font = "bold 13px Cairo";
-                ctx.shadowColor = "rgba(0,0,0,0.8)";
-                ctx.shadowBlur = 4;
-                ctx.fillText((icons[p.text]||"") + " " + p.text, r - 10, 5);
-                ctx.restore();
+                ctx.save(); ctx.translate(cx, cy); ctx.rotate(midRad); ctx.textAlign = "right"; ctx.fillStyle = "#fff";
+                ctx.font = "bold 12px Cairo"; ctx.shadowColor = "rgba(0,0,0,0.7)"; ctx.shadowBlur = 3;
+                ctx.fillText((icons[p.text]||"") + " " + p.text, r - 10, 4); ctx.restore();
             });
 
-            ctx.beginPath();
-            ctx.arc(cx, cy, 18, 0, 2 * Math.PI);
-            ctx.fillStyle = "#1a0a00";
-            ctx.fill();
-            ctx.strokeStyle = "#f5c842";
-            ctx.lineWidth = 3;
-            ctx.stroke();
+            ctx.beginPath(); ctx.arc(cx, cy, 18, 0, 2 * Math.PI); ctx.fillStyle = "#1a0a00"; ctx.fill();
+            ctx.strokeStyle = "#f5c842"; ctx.lineWidth = 3; ctx.stroke();
         }
 
-        // تحضير العجلة المبدئية
-        window.switchToVIPWheels();
-
         spinBtn.addEventListener("click", () => {
-            if (spinning || !window.isVIPReady) return;
-            spinning = true;
-            spinBtn.disabled = true;
-            resultDiv.innerHTML = "";
+            if (spinning) return;
+            spinning = true; spinBtn.disabled = true; resultDiv.innerHTML = "";
+            
+            // إخفاء زر الـ VIP كلياً بمجرد تدوير أي عجلة
+            if(document.getElementById("vipTriggerBtn")) document.getElementById("vipTriggerBtn").style.display = "none";
 
-            const rand = Math.random() * total;
-            let acc = 0;
-            let winner = prizes[prizes.length - 1];
-            for (let p of prizes) {
-                acc += p.weight;
-                if (rand <= acc) { winner = p; break; }
-            }
+            const activePrizes = window.isVIP ? vipPrizes : normalPrizes;
+            const total = activePrizes.reduce((s,p) => s + p.weight, 0);
+
+            const rand = Math.random() * total; let acc = 0, winner = activePrizes[activePrizes.length - 1];
+            for (let p of activePrizes) { acc += p.weight; if (rand <= acc) { winner = p; break; } }
 
             const targetRot = (270 - winner.midDeg + 360) % 360;
-            const extraSpins = 360 * 10;
-            const endDeg = currentDeg - (currentDeg % 360) + extraSpins + targetRot;
-
-            const startDeg = currentDeg;
-            const duration = 5000;
-            const startTime = performance.now();
+            const endDeg = currentDeg - (currentDeg % 360) + (360 * 10) + targetRot;
+            const startDeg = currentDeg; const duration = 5000; const startTime = performance.now();
 
             function animate(now) {
                 const t = Math.min((now - startTime) / duration, 1);
                 const deg = startDeg + (endDeg - startDeg) * (1 - Math.pow(1 - t, 4));
-                drawWheel(deg);
-                if (t < 1) {
-                    requestAnimationFrame(animate);
-                } else {
-                    currentDeg = endDeg;
-                    spinning = false;
-                    
-                    const emojiResult = (icons[winner.text] || "");
-                    resultDiv.innerHTML = "🎁 مبروك الجائزة الـ VIP: " + emojiResult + " " + winner.text;
+                window.drawCurrentWheel(deg);
+                if (t < 1) { requestAnimationFrame(animate); } 
+                else {
+                    currentDeg = endDeg; spinning = false; window.hasSpun = true;
+                    if(!window.isVIP) spinBtn.disabled = false; // العادية تنجم تعاود تلعب، الـ VIP لـا
+
+                    const emoji = (icons[winner.text] || "");
+                    resultDiv.innerHTML = window.isVIP ? "🎁 مبروك الجائزة الـ VIP الفاخرة: " + emoji + " " + winner.text : "🎉 ربحت: " + emoji + " " + winner.text;
                     
                     if (typeof window.savePrizeToFirebase === "function") {
                         window.savePrizeToFirebase(winner.text);
                     }
                 }
             }
-
             requestAnimationFrame(animate);
         });
     </script>
