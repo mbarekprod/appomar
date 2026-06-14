@@ -2,61 +2,72 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>Casino Royale Wheel</title>
+    <title>Casino Royal Wheel</title>
     <style>
-        body { 
-            background: radial-gradient(circle, #2d0000 0%, #000 100%); 
-            color: #fff; text-align: center; font-family: 'Cairo'; 
-        }
-        /* تأثير الـ 3D للعجلة */
-        .wheel-container { 
-            position: relative; margin: 50px auto; 
-            filter: drop-shadow(0 0 20px #f5c842);
-        }
-        #wheel { 
-            border: 15px solid #333; border-radius: 50%;
-            box-shadow: inset 0 0 50px rgba(0,0,0,0.8), 0 0 30px #f5c842;
-            transition: transform 5s cubic-bezier(0.17, 0.67, 0.12, 0.99);
-        }
-        /* زر الكازينو */
-        #spinBtn {
-            background: linear-gradient(45deg, #b71c1c, #ff5722);
-            border: 3px solid #ffca28; color: white; padding: 20px 60px;
-            font-size: 24px; border-radius: 50px; cursor: pointer;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.5); text-transform: uppercase;
-        }
+        body { background: radial-gradient(circle, #2d0000 0%, #000 100%); color: #fff; text-align: center; font-family: 'Cairo'; }
+        .wheel-container { position: relative; margin: 20px auto; filter: drop-shadow(0 0 20px #f5c842); }
+        #wheel { border: 15px solid #333; border-radius: 50%; box-shadow: 0 0 30px #f5c842; transition: transform 5s cubic-bezier(0.17, 0.67, 0.12, 0.99); }
+        #spinBtn { background: linear-gradient(45deg, #b71c1c, #ff5722); border: 3px solid #ffca28; color: white; padding: 15px 40px; font-size: 20px; border-radius: 50px; cursor: pointer; }
     </style>
 </head>
 <body>
 
-    <h1>🎰 CASINO ROYAL WHEEL</h1>
+    <h1>CASINO ROYAL WHEEL 🎰</h1>
     <div class="wheel-container">
-        <canvas id="wheel" width="400" height="400"></canvas>
+        <canvas id="wheel" width="350" height="350"></canvas>
     </div>
-    <button id="spinBtn">SPIN TO WIN!</button>
+    <button id="spinBtn">!SPIN TO WIN</button>
 
     <script>
         const canvas = document.getElementById("wheel");
         const ctx = canvas.getContext("2d");
+        
+        // قائمة الجوائز الأصلية 12 حالة
+        const prizes = [
+            { text: "تخفيض 25%", color: "#c8930a" }, { text: "ارجع غدوة", color: "#5a5a5a" },
+            { text: "إضافة فريت", color: "#c97400" }, { text: "دور مرة أخرى", color: "#2e7d32" },
+            { text: "ارجع غدوة", color: "#484848" }, { text: "إضافة فريت", color: "#e65100" },
+            { text: "قازوزة مجانية", color: "#880e4f" }, { text: "ارجع غدوة", color: "#404040" },
+            { text: "إضافة فريت", color: "#bf360c" }, { text: "دابوزة ماء", color: "#0d47a1" },
+            { text: "ارجع غدوة", color: "#383838" }, { text: "تخفيض 50%", color: "#6a1b9a" }
+        ];
 
-        function drawCasinoWheel() {
-            const cx = 200, cy = 200, r = 190;
-            // رسم خلفية العجلة بتأثير معدني
-            const grad = ctx.createRadialGradient(cx, cy, 50, cx, cy, r);
-            grad.addColorStop(0, '#444'); grad.addColorStop(1, '#000');
-            ctx.fillStyle = grad;
-            ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI * 2); ctx.fill();
-            
-            // إضافة شرائح ملونة كازينو (أحمر وأسود)
-            ctx.strokeStyle = "#f5c842"; ctx.lineWidth = 5;
-            for(let i=0; i<8; i++) {
-                ctx.beginPath(); ctx.moveTo(cx, cy);
-                ctx.arc(cx, cy, r, i*(Math.PI/4), (i+1)*(Math.PI/4));
-                ctx.fillStyle = (i%2 === 0) ? "#b71c1c" : "#1a1a1a";
-                ctx.fill(); ctx.stroke();
-            }
+        function drawWheel() {
+            const cx = 175, cy = 175, r = 160;
+            const sliceAngle = (2 * Math.PI) / prizes.length;
+
+            prizes.forEach((p, i) => {
+                const startAngle = i * sliceAngle;
+                const endAngle = startAngle + sliceAngle;
+                
+                ctx.beginPath();
+                ctx.moveTo(cx, cy);
+                ctx.arc(cx, cy, r, startAngle, endAngle);
+                ctx.closePath();
+                ctx.fillStyle = p.color;
+                ctx.fill();
+                ctx.stroke();
+
+                // الكتابة
+                ctx.save();
+                ctx.translate(cx, cy);
+                ctx.rotate(startAngle + sliceAngle / 2);
+                ctx.textAlign = "right";
+                ctx.fillStyle = "#fff";
+                ctx.font = "bold 12px Cairo";
+                ctx.fillText(p.text, r - 20, 5);
+                ctx.restore();
+            });
         }
-        drawCasinoWheel();
+
+        drawWheel();
+
+        // منطق الدوران (للتجربة)
+        let rotation = 0;
+        document.getElementById("spinBtn").onclick = () => {
+            rotation += 2000 + Math.random() * 1000;
+            canvas.style.transform = `rotate(${rotation}deg)`;
+        };
     </script>
 </body>
 </html>
