@@ -178,15 +178,27 @@
         });
 
         // حفظ النتيجة الفائزة في الفايربيز
-        window.savePrizeToFirebase = async function(prizeText) {
-            try {
-                const prefix = window.isVIP ? "🏆 VIP: " : "🎰 عادية: ";
-                await addDoc(collection(db, "prizes"), {
-                    prize: prefix + prizeText,
-                    date: "👤 " + clientName + " - " + new Date().toLocaleString("fr-FR")
-                });
-                console.log("✅ تم حفظ النتيجة!");
-            } catch (error) { console.error(error); }
+window.savePrizeToFirebase = async function(prizeText) {
+    try {
+        const isVIP = window.isVIP; // باش نعرفو العجلة VIP ولا عادية
+        const clientDisplay = clientName + ": " + prizeText;
+
+        // 1. التخزين المحلي (لـ Admin)
+        localStorage.setItem(isVIP ? 'lastVIPPrize' : 'lastNormalPrize', clientDisplay);
+        
+        // 2. الحفظ في Firebase (للأرشيف)
+        const prefix = isVIP ? "🏆 VIP: " : "🎰 عادية: ";
+        await addDoc(collection(db, "prizes"), {
+            prize: prefix + prizeText,
+            date: "👤 " + clientName + " - " + new Date().toLocaleString("fr-FR")
+        });
+
+        console.log("✅ تم حفظ النتيجة محلياً وفي Firebase!");
+    } catch (error) { 
+        console.error("❌ خطأ في الحفظ:", error); 
+     }
+    
+
         }
     </script>
 
