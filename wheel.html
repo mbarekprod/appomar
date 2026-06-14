@@ -81,17 +81,16 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        // جعل الدالة متاحة للعجلة خارج الـ Module
         window.savePrizeToFirebase = async function(prizeText) {
             try {
-                console.log("⏳ جاري إرسال الجائزة لـ Firebase...", prizeText);
+                console.log("⏳ جاري الإرسال...", prizeText);
                 await addDoc(collection(db, "prizes"), {
                     prize: prizeText,
                     date: new Date().toLocaleString("fr-FR")
                 });
-                console.log("✅ تم الحفظ بنجاح في Firestore!");
+                console.log("✅ تم الحفظ بنجاح!");
             } catch (error) {
-                console.error("❌ فشل التسجيل في Firebase:", error);
+                console.error("❌ خطأ فايربيز:", error);
             }
         }
     </script>
@@ -219,7 +218,7 @@
                     const emojiResult = (icons[winner.text] || "");
                     resultDiv.innerHTML = "🎉 ربحت: " + emojiResult + " " + winner.text;
                     
-                    // هنا نرسل النتيجة لـ Firebase تلقائياً بعد توقف العجلة
+                    // استدعاء الدالة الخارجية بأمان
                     if (typeof window.savePrizeToFirebase === "function") {
                         window.savePrizeToFirebase(emojiResult + " " + winner.text);
                     }
