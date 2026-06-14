@@ -5,24 +5,30 @@
     <title>Casino Royal Wheel</title>
     <style>
         body { background: radial-gradient(circle, #2d0000 0%, #000 100%); color: #fff; text-align: center; font-family: 'Cairo'; }
-        .wheel-container { position: relative; margin: 20px auto; filter: drop-shadow(0 0 20px #f5c842); }
+        .wheel-container { position: relative; margin: 20px auto; width: 350px; height: 350px; }
+        /* السهم (الـ Flech) */
+        .pointer { position: absolute; top: -25px; left: 50%; transform: translateX(-50%); font-size: 40px; color: #ffca28; z-index: 10; text-shadow: 0 0 10px #000; }
         #wheel { border: 15px solid #333; border-radius: 50%; box-shadow: 0 0 30px #f5c842; transition: transform 5s cubic-bezier(0.17, 0.67, 0.12, 0.99); }
         #spinBtn { background: linear-gradient(45deg, #b71c1c, #ff5722); border: 3px solid #ffca28; color: white; padding: 15px 40px; font-size: 20px; border-radius: 50px; cursor: pointer; }
+        /* بلاصة النتيجة */
+        #result-text { margin-top: 20px; font-size: 28px; color: #ffca28; font-weight: bold; min-height: 40px; }
     </style>
 </head>
 <body>
 
     <h1>CASINO ROYAL WHEEL 🎰</h1>
     <div class="wheel-container">
+        <div class="pointer">▼</div>
         <canvas id="wheel" width="350" height="350"></canvas>
     </div>
     <button id="spinBtn">!SPIN TO WIN</button>
+    <div id="result-text">أنتظر التدوير...</div>
 
     <script>
         const canvas = document.getElementById("wheel");
         const ctx = canvas.getContext("2d");
+        const resultDiv = document.getElementById("result-text");
         
-        // قائمة الجوائز الأصلية 12 حالة
         const prizes = [
             { text: "تخفيض 25%", color: "#c8930a" }, { text: "ارجع غدوة", color: "#5a5a5a" },
             { text: "إضافة فريت", color: "#c97400" }, { text: "دور مرة أخرى", color: "#2e7d32" },
@@ -35,38 +41,30 @@
         function drawWheel() {
             const cx = 175, cy = 175, r = 160;
             const sliceAngle = (2 * Math.PI) / prizes.length;
-
             prizes.forEach((p, i) => {
                 const startAngle = i * sliceAngle;
-                const endAngle = startAngle + sliceAngle;
-                
-                ctx.beginPath();
-                ctx.moveTo(cx, cy);
-                ctx.arc(cx, cy, r, startAngle, endAngle);
-                ctx.closePath();
-                ctx.fillStyle = p.color;
-                ctx.fill();
-                ctx.stroke();
-
-                // الكتابة
-                ctx.save();
-                ctx.translate(cx, cy);
-                ctx.rotate(startAngle + sliceAngle / 2);
-                ctx.textAlign = "right";
-                ctx.fillStyle = "#fff";
-                ctx.font = "bold 12px Cairo";
-                ctx.fillText(p.text, r - 20, 5);
-                ctx.restore();
+                ctx.beginPath(); ctx.moveTo(cx, cy);
+                ctx.arc(cx, cy, r, startAngle, startAngle + sliceAngle);
+                ctx.fillStyle = p.color; ctx.fill(); ctx.stroke();
+                ctx.save(); ctx.translate(cx, cy); ctx.rotate(startAngle + sliceAngle / 2);
+                ctx.textAlign = "right"; ctx.fillStyle = "#fff"; ctx.font = "bold 12px Cairo";
+                ctx.fillText(p.text, r - 20, 5); ctx.restore();
             });
         }
-
         drawWheel();
 
-        // منطق الدوران (للتجربة)
         let rotation = 0;
         document.getElementById("spinBtn").onclick = () => {
-            rotation += 2000 + Math.random() * 1000;
+            resultDiv.innerText = "⏳ تدور...";
+            const randomAngle = Math.floor(Math.random() * 3600) + 1800;
+            rotation += randomAngle;
             canvas.style.transform = `rotate(${rotation}deg)`;
+
+            setTimeout(() => {
+                const finalDegree = rotation % 360;
+                const index = Math.floor((360 - finalDegree) / (360 / prizes.length)) % prizes.length;
+                resultDiv.innerText = "مبروك! ربحت: " + prizes[index].text;
+            }, 5000);
         };
     </script>
 </body>
