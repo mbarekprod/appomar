@@ -8,42 +8,42 @@
     <style>
         body { font-family: 'Cairo', sans-serif; background: #1a0a00; color: white; padding: 20px; text-align: center; }
         .box { background: rgba(255,255,255,0.05); padding: 20px; border-radius: 15px; border: 1px solid #f5c842; max-width: 400px; margin: 20px auto; }
-        input { width: 90%; padding: 10px; margin: 10px 0; border-radius: 10px; border: 1px solid #ccc; font-family: 'Cairo'; text-align: center; }
-        button { background: linear-gradient(135deg, #ff9800, #e65100); color: white; border: none; padding: 12px 30px; border-radius: 25px; font-weight: bold; cursor: pointer; width: 100%; margin-top: 15px; font-family: 'Cairo'; }
-        .back-btn { display: inline-block; margin-top: 20px; color: gold; text-decoration: none; font-size: 14px; }
+        input { width: 90%; padding: 10px; margin: 10px 0; border-radius: 10px; border: 1px solid #ccc; font-family: 'Cairo'; text-align: center; font-size: 16px; color: #000; }
+        button { background: linear-gradient(135deg, #ff9800, #e65100); color: white; border: none; padding: 12px 30px; border-radius: 25px; font-weight: bold; cursor: pointer; width: 100%; margin-top: 15px; font-family: 'Cairo'; font-size: 16px; }
+        .back-btn { display: inline-block; margin-top: 20px; color: gold; text-decoration: none; font-size: 15px; font-weight: bold; }
     </style>
 </head>
 <body>
 
     <h1>👨‍🍳 لوحة تحكم الشيف الفنان</h1>
-    <p>تحديث قائمة اليوم تيك تاك!</p>
+    <p>اكتب منيو اليوم هنا وبدّلو تيك تاك!</p>
 
     <div class="box">
         <h3>🍽️ الأكلة الأولى:</h3>
         <input type="text" id="food1" placeholder="مثال: 🍕 بيتزا 4 فصول">
-        <input type="text" id="price1" placeholder="السوم مثلاً: 18د">
+        <input type="text" id="price1" placeholder="السوم مثلاً: 18 د">
     </div>
 
     <div class="box">
         <h3>🍽️ الأكلة الثانية:</h3>
         <input type="text" id="food2" placeholder="مثال: 🥘 لازانيا">
-        <input type="text" id="price2" placeholder="السوم مثلاً: 10د">
+        <input type="text" id="price2" placeholder="السوم مثلاً: 10 د">
     </div>
 
     <div class="box">
         <h3>🍽️ الأكلة الثالثة:</h3>
         <input type="text" id="food3" placeholder="مثال: 🍲 لوبيا">
-        <input type="text" id="price3" placeholder="السوم مثلاً: 5.5د">
+        <input type="text" id="price3" placeholder="السوم مثلاً: 5.5 د">
     </div>
 
-    <div class="box" style="max-width: 400px; margin: auto;">
+    <div style="max-width: 440px; margin: auto; padding: 0 20px;">
         <button onclick="saveMenu()">🚀 بوم! تحديث المنيو في التطبيق</button>
     </div>
 
     <a href="index.html" class="back-btn">⬅️ العودة للتطبيق الرئيسي</a>
 
     <script>
-    // حفظ المنيو في الذاكرة المشتركة
+    // السيستم اللي يحفظ المنيو ويبعثه لصفحة الـ زبائن
     function saveMenu() {
         const menuData = [
             { name: document.getElementById('food1').value || '🍕 بيتزا 4 فصول', price: document.getElementById('price1').value || '18 د' },
@@ -52,10 +52,10 @@
         ];
         
         localStorage.setItem('fananMenu', JSON.stringify(menuData));
-        alert('🟢 تم تحديث منيو اليوم بنجاح يا شيف! الحرفاء توة يشوفو فيه الجديد.');
+        alert('🟢 تم تحديث منيو اليوم بنجاح يا شيف! الحرفاء توة يشوفو في الجديد.');
     }
 
-    // تعبئة الخانات تلقائياً بالقديم إذا موجود
+    // أول ما يتحل الموقع، يعبّي الخانات بالمنيو القديم تلقائياً
     window.onload = function() {
         const saved = localStorage.getItem('fananMenu');
         if(saved) {
