@@ -215,6 +215,232 @@ window.savePrize = async function(prize) {
                     spinning = false;
                     spinBtn.disabled = false;
                     resultDiv.innerHTML = "🎉 ربحت: " + (icons[winner.text]||"") + " " + winner.text;
+                    <!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>عجلة الحظ - الفنان</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: "Cairo", sans-serif;
+            background: linear-gradient(160deg, #1a0a00 0%, #2d1200 60%, #1a0a00 100%);
+            color: white;
+            text-align: center;
+            padding: 30px 20px;
+            min-height: 100vh;
+        }
+        h1 { color: #f5c842; font-size: 28px; font-weight: 900; margin-bottom: 6px; }
+        .subtitle { color: #c8a96e; font-size: 14px; margin-bottom: 30px; }
+        .wheel-container { position: relative; width: 300px; height: 300px; margin: 0 auto 10px; }
+        .pointer {
+            position: absolute; top: -18px; left: 50%;
+            transform: translateX(-50%); font-size: 36px; z-index: 10;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+        }
+        #wheel {
+            width: 100%; height: 100%; border-radius: 50%;
+            border: 6px solid #f5c842;
+            box-shadow: 0 0 25px rgba(245, 200, 66, 0.35);
+            display: block;
+        }
+        #spinBtn {
+            background: linear-gradient(135deg, #f5c842, #d89b00);
+            color: #1a0a00; border: none; padding: 16px 40px;
+            border-radius: 30px; font-size: 20px; font-weight: 700;
+            font-family: "Cairo", sans-serif; cursor: pointer; margin-top: 24px;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.3);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        #spinBtn:hover:not(:disabled) { transform: translateY(-3px); box-shadow: 0 10px 22px rgba(0,0,0,0.35); }
+        #spinBtn:disabled { opacity: 0.55; cursor: default; }
+        #result { margin-top: 22px; font-size: 22px; color: #f5c842; font-weight: 700; min-height: 34px; }
+        .back-btn {
+            display: inline-block; margin-top: 28px; text-decoration: none;
+            background: rgba(255,255,255,0.1); border: 1.5px solid rgba(255,255,255,0.2);
+            color: white; padding: 12px 28px; border-radius: 25px;
+            font-family: "Cairo", sans-serif; font-size: 16px; transition: background 0.2s;
+        }
+        .back-btn:hover { background: rgba(255,255,255,0.18); }
+    </style>
+</head>
+<body>
+
+    <h1>🎡 عجلة الحظ</h1>
+    <p class="subtitle">دور وشوف شنوا ربحت اليوم!</p>
+
+    <div class="wheel-container">
+        <div class="pointer">▼</div>
+        <canvas id="wheel" width="300" height="300"></canvas>
+    </div>
+
+    <button id="spinBtn">🎰 دور العجلة</button>
+    <div id="result"></div>
+    <a href="index.html" class="back-btn">🏠 العودة للرئيسية</a>
+    <script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
+import { getFirestore, addDoc, collection } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_AUTH_DOMAIN",
+  projectId: "YOUR_PROJECT_ID",
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+window.savePrize = async function(prize) {
+  try {
+    console.log("saving:", prize);
+
+    await addDoc(collection(db, "prizes"), {
+      prize: prize,
+      date: new Date().toLocaleString("fr-FR")
+    });
+
+    console.log("saved ok");
+  } catch (e) {
+    console.error("firebase error:", e);
+  }
+};
+</script>
+
+    <script>
+        const prizes = [
+            { text: "تخفيض 25%",     color: "#c8930a", weight: 4 },
+            { text: "ارجع غدوة",     color: "#5a5a5a", weight: 4 },
+            { text: "إضافة فريت",    color: "#c97400", weight: 4 },
+            { text: "دور مرة أخرى",  color: "#2e7d32", weight: 4 },
+            { text: "ارجع غدوة",     color: "#484848", weight: 4 },
+            { text: "إضافة فريت",    color: "#e65100", weight: 4 },
+            { text: "قازوزة مجانية", color: "#880e4f", weight: 4 },
+            { text: "ارجع غدوة",     color: "#404040", weight: 4 },
+            { text: "إضافة فريت",    color: "#bf360c", weight: 4 },
+            { text: "دابوزة ماء",    color: "#0d47a1", weight: 4 },
+            { text: "ارجع غدوة",     color: "#383838", weight: 4 },
+            { text: "تخفيض 50%",     color: "#6a1b9a", weight: 1 }
+        ];
+
+        const icons = {
+            "تخفيض 25%":"🎁","ارجع غدوة":"⏰","إضافة فريت":"🍟",
+            "دور مرة أخرى":"🔄","قازوزة مجانية":"🥤","دابوزة ماء":"💧","تخفيض 50%":"🎉"
+        };
+
+        const canvas = document.getElementById("wheel");
+        const ctx = canvas.getContext("2d");
+        const spinBtn = document.getElementById("spinBtn");
+        const resultDiv = document.getElementById("result");
+        const total = prizes.reduce((s,p) => s + p.weight, 0);
+
+        // نحسب زوايا كل خانة مرة وحدة
+        let cum = 0;
+        prizes.forEach(p => {
+            p.startDeg = (cum / total) * 360;
+            cum += p.weight;
+            p.endDeg = (cum / total) * 360;
+            p.midDeg = (p.startDeg + p.endDeg) / 2;
+        });
+
+        let currentDeg = 0;
+        let spinning = false;
+
+        function drawWheel(rotDeg = 0) {
+            ctx.clearRect(0, 0, 300, 300);
+            const cx = 150, cy = 150, r = 148;
+            const rotRad = (rotDeg * Math.PI) / 180;
+
+            prizes.forEach(p => {
+                const startRad = rotRad + (p.startDeg * Math.PI) / 180;
+                const endRad   = rotRad + (p.endDeg   * Math.PI) / 180;
+
+                ctx.beginPath();
+                ctx.moveTo(cx, cy);
+                ctx.arc(cx, cy, r, startRad, endRad);
+                ctx.closePath();
+                ctx.fillStyle = p.color;
+                ctx.fill();
+                ctx.strokeStyle = "rgba(255,255,255,0.3)";
+                ctx.lineWidth = 1.5;
+                ctx.stroke();
+
+                const midRad = rotRad + (p.midDeg * Math.PI) / 180;
+                ctx.save();
+                ctx.translate(cx, cy);
+                ctx.rotate(midRad);
+                ctx.textAlign = "right";
+                ctx.fillStyle = "#fff";
+                ctx.font = "bold 13px Cairo,Arial";
+                ctx.shadowColor = "rgba(0,0,0,0.7)";
+                ctx.shadowBlur = 3;
+                ctx.fillText((icons[p.text]||"") + " " + p.text, r - 8, 5);
+                ctx.restore();
+            });
+
+            ctx.beginPath();
+            ctx.arc(cx, cy, 16, 0, 2 * Math.PI);
+            ctx.fillStyle = "#1a0a00";
+            ctx.fill();
+            ctx.strokeStyle = "#f5c842";
+            ctx.lineWidth = 3;
+            ctx.stroke();
+        }
+
+        drawWheel(0);
+
+        function getWinner() {
+            const rand = Math.random() * total;
+            let acc = 0;
+            for (let p of prizes) {
+                acc += p.weight;
+                if (rand <= acc) return p;
+            }
+            return prizes[prizes.length - 1];
+        }
+
+        spinBtn.addEventListener("click", () => {
+            if (spinning) return;
+            spinning = true;
+            spinBtn.disabled = true;
+            resultDiv.innerHTML = "";
+
+            const winner = getWinner();
+
+            // المؤشر في الأعلى = 270°
+            // نحسب الدوران باش winner.midDeg يوقف تحت المؤشر
+            const targetRot = (270 - winner.midDeg + 360) % 360;
+            const extraSpins = 360 * 8;
+            const endDeg = currentDeg - (currentDeg % 360) + extraSpins + targetRot;
+
+            const startDeg = currentDeg;
+            const duration = 5000;
+            const startTime = performance.now();
+
+            function ease(t) { return 1 - Math.pow(1 - t, 4); }
+
+            function animate(now) {
+                const t = Math.min((now - startTime) / duration, 1);
+                const deg = startDeg + (endDeg - startDeg) * ease(t);
+                drawWheel(deg);
+                if (t < 1) {
+                    requestAnimationFrame(animate);
+                } else {
+                    currentDeg = endDeg;
+                    spinning = false;
+                    spinBtn.disabled = false;
+                    resultDiv.innerHTML = "🎉 ربحت: " + (icons[winner.text]||"") + " " + winner.text;
+                }
+            }
+
+            requestAnimationFrame(animate);
+        });
+    </script>
+
+</body>
+</html>
                 }
             }
 
