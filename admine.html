@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>لوحة الشيف</title>
+  <style>
+    body {
+      font-family: Arial;
+      background: #111;
+      color: white;
+      text-align: center;
+      padding: 30px;
+    }
+
+    input, button {
+      padding: 10px;
+      margin: 5px;
+      border-radius: 8px;
+      border: none;
+    }
+
+    button {
+      background: gold;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    table {
+      margin: 20px auto;
+      width: 80%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      border: 1px solid #444;
+      padding: 10px;
+    }
+
+    th {
+      background: #222;
+    }
+  </style>
+</head>
+<body>
+
+<h2>🔐 دخول الشيف</h2>
+
+<div id="loginBox">
+  <input type="password" id="pass" placeholder="أدخل كلمة السر">
+  <button onclick="login()">دخول</button>
+</div>
+
+<div id="panel" style="display:none;">
+  <h2>🎡 نتائج عجلة الحظ</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>الجائزة</th>
+        <th>التاريخ</th>
+      </tr>
+    </thead>
+    <tbody id="data"></tbody>
+  </table>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
+import { getFirestore, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyClwbk9bCyY5YZO5jBMbjo4IWCqGfYcDCw",
+  authDomain: "base-resto-3d1e8.firebaseapp.com",
+  projectId: "base-resto-3d1e8",
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+window.login = function () {
+  const pass = document.getElementById("pass").value;
+
+  if (pass === "1234") {
+    document.getElementById("loginBox").style.display = "none";
+    document.getElementById("panel").style.display = "block";
+    loadData();
+  } else {
+    alert("❌ كلمة السر غالطة");
+  }
+};
+
+function loadData() {
+  const tbody = document.getElementById("data");
+
+  onSnapshot(collection(db, "prizes"), (snapshot) => {
+    tbody.innerHTML = "";
+
+    snapshot.forEach((doc) => {
+      const d = doc.data();
+
+      tbody.innerHTML += `
+        <tr>
+          <td>${d.prize}</td>
+          <td>${d.date}</td>
+        </tr>
+      `;
+    });
+  });
+}
+</script>
+
+</body>
+</html>
