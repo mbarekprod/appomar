@@ -63,6 +63,34 @@
     <button id="spinBtn">🎰 دور العجلة</button>
     <div id="result"></div>
     <a href="index.html" class="back-btn">🏠 العودة للرئيسية</a>
+    <script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
+import { getFirestore, addDoc, collection } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_AUTH_DOMAIN",
+  projectId: "YOUR_PROJECT_ID",
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+window.savePrize = async function(prize) {
+  try {
+    console.log("saving:", prize);
+
+    await addDoc(collection(db, "prizes"), {
+      prize: prize,
+      date: new Date().toLocaleString("fr-FR")
+    });
+
+    console.log("saved ok");
+  } catch (e) {
+    console.error("firebase error:", e);
+  }
+};
+</script>
 
     <script>
         const prizes = [
