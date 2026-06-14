@@ -154,6 +154,30 @@
         console.log('🎉 تم التثبيت بنجاح!');
         if(installContainer) installContainer.style.display = 'none';
     });
+        // طلب الإذن من الحريف لتشغيل الإشعارات أوتوماتيكياً
+window.addEventListener('load', () => {
+    if ('Notification' in window) {
+        Notification.requestPermission().then(permission => {
+            if (permission === 'granted') {
+                console.log('🔔 الحريف وافق على الإشعارات!');
+                // هاني برمجتلك إشعار ترحيبي يطجّ فوراً كيف يوافق!
+                showWelcomeNotification();
+            }
+        });
+    }
+});
+
+function showWelcomeNotification() {
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.ready.then(registration => {
+            registration.showNotification('مطعم الفنان 🍽️', {
+                body: 'مرحباً بيك في تطبيقنا! توّة أي عشاء جديد يخرج وإلا ديسكاونت يوصلك تيك تاك! 🔥',
+                icon: 'go.png', // اللوغو متاعك
+                vibrate: [200, 100, 200] // التليفون يفيبري
+            });
+        });
+    }
+}
     </script>
 
 </body>
