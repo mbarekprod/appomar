@@ -70,6 +70,28 @@
                 resultDiv.innerText = "🎉 مبروك! ربحت: " + prizes[index].text;
             }, 5000);
         };
+        function canSpin() {
+    const start = localStorage.getItem('wheelStart') || "17:00";
+    const end = localStorage.getItem('wheelEnd') || "18:00";
+    
+    const now = new Date();
+    const currentTime = now.getHours() + ":" + String(now.getMinutes()).padStart(2, '0');
+
+    // مقارنة الوقت (بسيط)
+    if (currentTime >= start && currentTime <= end) {
+        return true;
+    }
+    return false;
+}
+
+// تعديل دالة spin
+function spin() {
+    if (!canSpin()) {
+        alert("❌ العجلة مقفولة حالياً! ارجع في وقت التخفيضات (من " + localStorage.getItem('wheelStart') + " لـ " + localStorage.getItem('wheelEnd') + ").");
+        return;
+    }
+    // ... باقي كود التدوير ...
+}
     </script>
 </body>
 </html>
