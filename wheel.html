@@ -84,8 +84,11 @@
                 const win = prizes[index].text;
                 resultDiv.innerText = "🎉 مبروك! ربحت: " + win;
                 
-                // حفظ النتيجة للـ Admin
-                localStorage.setItem('lastResult', JSON.stringify({prize: win}));
+                // --- التعديل هنا: حفظ النتائج في قائمة (Array) ---
+                const history = JSON.parse(localStorage.getItem('allResults') || "[]");
+                history.push({ prize: win, time: new Date().toLocaleTimeString() });
+                localStorage.setItem('allResults', JSON.stringify(history));
+                // ----------------------------------------------
             }, 5000);
         }
     </script>
