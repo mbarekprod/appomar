@@ -95,6 +95,14 @@
     checkPass();
     // تحديث الجدول كل 3 ثواني
     setInterval(loadData, 3000);
+    function saveMenu() {
+    const data = [
+        { name: document.getElementById('food1').value, price: document.getElementById('price1').value },
+        { name: document.getElementById('food2').value, price: document.getElementById('price2').value }
+    ];
+    localStorage.setItem('fananMenu', JSON.stringify(data));
+    alert('✅ تم تحديث المنيو يا فنان!');
+}
 </script>
 
 </body>
