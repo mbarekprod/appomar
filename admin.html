@@ -29,33 +29,26 @@
     </div>
 
     <div class="box">
-        <h3>📊 نتائج العجلات</h3>
+        <h3>⏰ ضبط توقيت العجلة</h3>
+        من: <input type="time" id="startTime">
+        إلى: <input type="time" id="endTime">
+        <button onclick="saveTime()">💾 حفظ التوقيت</button>
+    </div>
+
+    <div class="box">
+        <h3>📊 سجل نتائج العجلات</h3>
         <table>
             <thead>
-                <tr><th>النوع</th><th>النتيجة</th></tr>
+                <tr><th>الوقت</th><th>النتيجة</th></tr>
             </thead>
             <tbody id="wheel-results-body">
                 <tr><td colspan="2">انتظار النتائج...</td></tr>
             </tbody>
         </table>
-        <button onclick="clearResults()" style="background:red;">🗑️ فسخ النتائج</button>
+        <button onclick="clearResults()" style="background:red;">🗑️ فسخ الأرشيف</button>
     </div>
     <a href="index.html" style="color:gold;">⬅️ رجوع للموقع</a>
 </div>
-    <div class="box">
-    <h3>⏰ ضبط توقيت العجلة</h3>
-    من: <input type="time" id="startTime" value="17:00">
-    إلى: <input type="time" id="endTime" value="18:00">
-    <button onclick="saveTime()">💾 حفظ التوقيت</button>
-</div>
-
-<script>
-    function saveTime() {
-        localStorage.setItem('wheelStart', document.getElementById('startTime').value);
-        localStorage.setItem('wheelEnd', document.getElementById('endTime').value);
-        alert('✅ تم ضبط التوقيت!');
-    }
-</script>
 
 <script>
     // 1. القفيلة (الباسورد)
@@ -63,47 +56,46 @@
         let p = prompt("🔐 أدخل كلمة سر الشيف:");
         if (p === "1234") {
             document.getElementById('content').style.display = 'block';
+            // تحميل البيانات عند الدخول
             loadData();
+            document.getElementById('startTime').value = localStorage.getItem('wheelStart') || "17:00";
+            document.getElementById('endTime').value = localStorage.getItem('wheelEnd') || "18:00";
         } else {
             alert("خطأ في كلمة السر!");
             window.location.href = "index.html";
         }
     }
     
-    // 2. حفظ المنيو
-    function saveMenu() {
-        const data = [
-            { name: document.getElementById('food1').value, price: document.getElementById('price1').value },
-            { name: document.getElementById('food2').value, price: document.getElementById('price2').value }
-        ];
-        localStorage.setItem('fananMenu', JSON.stringify(data));
-        alert('✅ تم تحديث المنيو!');
+    // 2. حفظ التوقيت
+    function saveTime() {
+        localStorage.setItem('wheelStart', document.getElementById('startTime').value);
+        localStorage.setItem('wheelEnd', document.getElementById('endTime').value);
+        alert('✅ تم حفظ التوقيت!');
     }
 
-    // 3. عرض النتائج من العجلة
+    // 3. عرض الأرشيف كامل
     function loadData() {
-        // قراءة النتيجة من العجلة (تأكد أن صفحة العجلة تحفظ في 'lastResult')
-        const result = JSON.parse(localStorage.getItem('lastResult'));
+        const history = JSON.parse(localStorage.getItem('allResults') || "[]");
         const tbody = document.getElementById('wheel-results-body');
         
-        if (result) {
-            tbody.innerHTML = `<tr><td>العجلة 🎡</td><td style="color: gold;">${result.prize}</td></tr>`;
-        } else {
-            tbody.innerHTML = `<tr><td colspan="2">لم يتم تدوير العجلة بعد</td></tr>`;
+        if (history.length > 0) {
+            tbody.innerHTML = "";
+            history.reverse().forEach(res => {
+                tbody.innerHTML += `<tr><td>${res.time}</td><td style="color: gold;">${res.prize}</td></tr>`;
+            });
         }
     }
 
     function clearResults() {
-        localStorage.removeItem('lastResult');
+        localStorage.removeItem('allResults');
         loadData();
+        alert("🗑️ تم مسح السجل!");
     }
 
-    // تشغيل القفيلة عند فتح الصفحة
     checkPass();
-    
-    // تحديث النتائج كل 3 ثواني
+    // تحديث الجدول كل 3 ثواني
     setInterval(loadData, 3000);
 </script>
 
 </body>
-</html>4
+</html>
