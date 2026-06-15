@@ -84,7 +84,23 @@
     <script src="script.js"></script>
     <script>
         // (نفس كود الإشعارات والـ Install والمنيو اللي كان موجود)
-        // ... (تأكد من ترك كود الـ script الأصلي كامل كما هو)
+        //// دالة عرض المنيو عند الحريف
+function displayMenu() {
+    const menu = JSON.parse(localStorage.getItem('fananMenu'));
+    const menuContainer = document.getElementById('menu-container'); // لازم يكون عندك div بالـ id هذا
+    
+    if (menu) {
+        menuContainer.innerHTML = menu.map(item => `
+            <div class="menu-item">
+                <h3>${item.name}</h3>
+                <p>السعر: ${item.price} د.ت</p>
+            </div>
+        `).join('');
+    }
+}
+
+// عرض المنيو أول ما يفتح الموقع
+window.onload = displayMenu; ... (تأكد من ترك كود الـ script الأصلي كامل كما هو)
     </script>
 </body>
 </html>
