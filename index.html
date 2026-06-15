@@ -1,106 +1,30 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مطعم الفنان</title>
-    <link rel="manifest" href="manifest.json">
-    <link rel="stylesheet" href="style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
-    <meta name="theme-color" content="#f5c842">
-</head>
-<body>
-
-    <header class="header">
-        <div class="logo-ring">
-            <img src="go.png" alt="مطعم الفنان" class="logo">
-        </div>
-        <h1 class="brand-name">مطعم الفنان</h1>
-        <p class="tagline">✨ أكلة مزيانة وجو أحلى</p>
-    </header>
-
-    <main class="main-menu">
-        <button class="card-btn" onclick="showSection('menu')">
-            <span class="btn-icon">🍽️</span>
-            <span>قائمة اليوم</span>
-        </button>
+<script>
+    // الدالة المسؤولة على جلب المنيو من الذاكرة وعرضه للحريف
+    function displayMenu() {
+        const menu = JSON.parse(localStorage.getItem('fananMenu'));
+        // استعملنا الـ ID الموجود أصلاً في الـ HTML متاعك
+        const menuContainer = document.getElementById('dynamic-menu-list'); 
         
-        <button class="card-btn" onclick="window.location.href='wheel.html'">
-            <span class="btn-icon">🎡</span>
-            <span>عجلة الحظ</span>
-        </button>
-        
-        <button class="card-btn" onclick="showSection('contact')">
-            <span class="btn-icon">📞</span>
-            <span>اتصل بنا</span>
-        </button>
-
-        <button class="card-btn" onclick="showSection('restaurant-menu')">
-            <span class="btn-icon">📖</span>
-            <span>قائمة المطعم</span>
-        </button>
-        
-        <div id="installContainer" style="display: none; text-align: center; margin: 25px auto; background: rgba(0,0,0,0.3); padding: 15px; border-radius: 15px; max-width: 350px; border: 1px dashed #f5c842;">
-            <img src="go.png" alt="Logo" style="width: 70px; height: 70px; border-radius: 50%; border: 2px solid #f5c842; margin-bottom: 10px;">
-            <p style="color: #c8a96e; font-size: 14px; margin-bottom: 10px; font-weight: bold;">ثبّت التطبيق لتصلك إشعارات منيو اليوم! 🍽️</p>
-            <button id="installAppBtn" style="background: linear-gradient(135deg, #ff9800, #e65100); color: white; border: none; padding: 12px 25px; border-radius: 25px; font-family: 'Cairo', sans-serif; font-size: 15px; font-weight: bold; cursor: pointer; border: 2px solid #f5c842; width: 100%;">
-                📥 تنزيل تطبيق مطعم الفنان
-            </button>
-        </div>
-    </main>
-
-    <section id="menu" class="section hidden">
-        <h2>🍽️ قائمة اليوم</h2>
-        <div id="dynamic-menu-list"></div>
-    </section>
-
-    <section id="contact" class="section hidden">
-        <h2>📞 اتصل بنا</h2>
-        <a href="tel:+21627091965" class="action-btn">📞 27 091 965</a>
-        <a href="https://wa.me/21627091965" target="_blank" class="action-btn whatsapp">💬 اطلب عبر واتساب</a>
-        <div class="address">📍 حزق بجانب مخبر التحاليل و ميتاقلاس</div>
-    </section>
-
-    <section id="restaurant-menu" class="section hidden">
-        <h2>📖 قائمة المطعم الكاملة</h2>
-        <div class="menu-item"><span>🍕 بيتزا مارغريتا</span><strong>15 د</strong></div>
-        <div class="menu-item"><span>🍕 بيتزا 4 فصول</span><strong>18 د</strong></div>
-        <div class="menu-item"><span>🥪 ساندويتش إسكالوب</span><strong>8 د</strong></div>
-        <div class="menu-item"><span>🍟 فريت</span><strong>3 د</strong></div>
-        <div class="menu-item"><span>🥤 مشروبات غازية</span><strong>2.5 د</strong></div>
-    </section>
-
-    <div style="text-align: center; margin-bottom: 30px;">
-        <a href="admin.html" style="display:inline-block; margin-top:20px; padding:12px 25px; background:gold; color:#000; font-weight:bold; border-radius:20px; text-decoration:none;">
-            🔐 دخول الشيف
-        </a>
-    </div>
-
-    <footer>
-        <p>مطعم الفنان &copy; 2026</p>
-    </footer>
-
-    <script src="script.js"></script>
-    <script>
-        // (نفس كود الإشعارات والـ Install والمنيو اللي كان موجود)
-        //// دالة عرض المنيو عند الحريف
-function displayMenu() {
-    const menu = JSON.parse(localStorage.getItem('fananMenu'));
-    const menuContainer = document.getElementById('menu-container'); // لازم يكون عندك div بالـ id هذا
-    
-    if (menu) {
-        menuContainer.innerHTML = menu.map(item => `
-            <div class="menu-item">
-                <h3>${item.name}</h3>
-                <p>السعر: ${item.price} د.ت</p>
-            </div>
-        `).join('');
+        if (menu && menuContainer) {
+            // كود الـ HTML اللي باش يظهر للحريف
+            menuContainer.innerHTML = menu.map(item => `
+                <div class="menu-item" style="border-bottom: 1px solid #f5c842; padding: 10px; margin: 10px 0;">
+                    <h3 style="margin: 0;">${item.name}</h3>
+                    <p style="margin: 5px 0;">السعر: ${item.price} د.ت</p>
+                </div>
+            `).join('');
+        }
     }
-}
 
-// عرض المنيو أول ما يفتح الموقع
-window.onload = displayMenu; ... (تأكد من ترك كود الـ script الأصلي كامل كما هو)
-    </script>
-</body>
-</html>
+    // تشغيل الدالة كي يتحل الموقع
+    window.onload = () => {
+        displayMenu();
+        // أي كود آخر عندك (مثل الـ Install button) خليه يخدم عادي
+    };
+
+    // دالة فتح الأقسام (باش ما تتلخبطش مع كود المنيو)
+    function showSection(sectionId) {
+        document.querySelectorAll('.section').forEach(s => s.classList.add('hidden'));
+        document.getElementById(sectionId).classList.remove('hidden');
+    }
+</script>
