@@ -1,24 +1,54 @@
-{
-  "name": "Restaurant El Fanen",
-  "short_name": "El Fanen",
-  "description": "تطبيق مطعم الفنان - قائمة اليوم، عجلة الحظ، الاتصال والطلبات عبر واتساب.",
-  "start_url": "./index.html",
-  "display": "standalone",
-  "background_color": "#1a0a00",
-  "theme_color": "#f5c842",
-  "orientation": "portrait",
-  "lang": "ar",
-  "dir": "rtl",
-  "icons": [
-    {
-      "src": "go.png",
-      "sizes": "192x192",
-      "type": "image/png"
-    },
-    {
-      "src": "go.png",
-      "sizes": "512x512",
-      "type": "image/png"
+<script type="module">
+  import { doc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
+  import { getMessaging, getToken } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-messaging.js";
+  import { db } from "./firebase.js";
+
+  // 1. تحديث المنيو لحظة بلحظة
+  const menuRef = doc(db, "menu", "today");
+  onSnapshot(menuRef, (doc) => {
+    if (doc.exists()) {
+      const data = doc.data();
+      document.getElementById('dynamic-menu').innerHTML = `
+        <div class="menu-item"><span>🍕 ${data.food1 || '---'}</span><strong>${data.price1 || '---'} د</strong></div>
+        <div class="menu-item"><span>🥘 ${data.food2 || '---'}</span><strong>${data.price2 || '---'} د</strong></div>
+      `;
     }
-  ]
-}
+  });
+
+  // 2. تفعيل الإشعارات
+  const messaging = getMessaging();
+  const vapidKey = 'BLAh8sVDM-cX5y4GpVLwwfQiyTi94CwuH5AYIILf5xLD9qxPqZdJDLiOdo148bo9D96ao7PFPAopBcRuG2vWcuU';
+
+  Notification.requestPermission().then((permission) => {
+    if (permission === 'granted') {
+      getToken(messaging, { vapidKey: vapidKey }).then((token) => {
+        console.log("تم تسجيل الجهاز بنجاح!");
+      });
+    }
+  });
+
+  // 3. كود "تحميل التطبيق" الذكي
+  let deferredPrompt;
+  const installBtn = document.getElementById('install-btn');
+
+  window.addEventListener('beforeinstallprompt', (e) => {
+    // منع المتصفح من إظهار الـ Prompt الأوتوماتيكي
+    e.preventDefault();
+    deferredPrompt = e;
+    // إظهار الزر متاعنا
+    installBtn.style.display = 'block';
+  });
+
+  installBtn.addEventListener('click', () => {
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      deferredPrompt.userChoice.then((choiceResult) => {
+        if (choiceResult.outcome === 'accepted') {
+          console.log('User accepted the install');
+          installBtn.style.display = 'none'; // اختفاء الزر بعد التثبيت
+        }
+        deferredPrompt = null;
+      });
+    }
+  });
+</script>
