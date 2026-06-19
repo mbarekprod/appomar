@@ -21,6 +21,11 @@
     <button class="card-btn" onclick="showSection('menu')">🍽️ قائمة اليوم</button>
     <button class="card-btn" onclick="window.location.href='wheel.html'">🎡 عجلة الحظ والجوائز</button>
     <button class="card-btn" onclick="showSection('contact')">📞 اتصل بنا</button>
+    
+    <button id="install-btn" style="display:none; background: #28a745; color: white; padding: 15px; border-radius: 25px; border: none; width: 80%; margin: 15px auto; font-family: 'Cairo'; cursor: pointer;">
+        📱 تحميل التطبيق على هاتفك
+    </button>
+    
     <button class="card-btn admin-btn" onclick="window.location.href='admin.html'">👨‍🍳 لوحة الشيف</button>
 </main>
 
@@ -56,6 +61,26 @@
         console.log("تم تسجيل الجهاز بنجاح!");
       });
     }
+  });
+
+  // 3. كود تحميل التطبيق (PWA)
+  let deferredPrompt;
+  const installBtn = document.getElementById('install-btn');
+
+  window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      installBtn.style.display = 'block';
+  });
+
+  installBtn.addEventListener('click', () => {
+      deferredPrompt.prompt();
+      deferredPrompt.userChoice.then((choiceResult) => {
+          if (choiceResult.outcome === 'accepted') {
+              installBtn.style.display = 'none';
+          }
+          deferredPrompt = null;
+      });
   });
 </script>
 
