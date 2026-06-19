@@ -34,7 +34,7 @@
   import { getMessaging, getToken } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-messaging.js";
   import { db } from "./firebase.js";
 
-  // 1. كود المنيو (Real-time)
+  // 1. تحديث المنيو لحظة بلحظة
   const menuRef = doc(db, "menu", "today");
   onSnapshot(menuRef, (doc) => {
     if (doc.exists()) {
@@ -46,18 +46,17 @@
     }
   });
 
-  // 2. كود الإشعارات (Push Notifications)
-  // ملاحظة: الـ vapidKey لازم تجيبه من Firebase Console
-  const vapidKey = 'حط_هنا_الـ_VAPID_KEY_متاعك'; 
-  
-  if ('Notification' in window) {
-    Notification.requestPermission().then((permission) => {
-      if (permission === 'granted') {
-        console.log("تم السماح بالإشعارات!");
-        // هنا يتم تسجيل الجهاز في Firebase لإرسال الإشعارات له
-      }
-    });
-  }
+  // 2. تفعيل الإشعارات
+  const messaging = getMessaging();
+  const vapidKey = 'BLAh8sVDM-cX5y4GpVLwwfQiyTi94CwuH5AYIILf5xLD9qxPqZdJDLiOdo148bo9D96ao7PFPAopBcRuG2vWcuU';
+
+  Notification.requestPermission().then((permission) => {
+    if (permission === 'granted') {
+      getToken(messaging, { vapidKey: vapidKey }).then((token) => {
+        console.log("تم تسجيل الجهاز بنجاح!");
+      });
+    }
+  });
 </script>
 
 <script src="script.js"></script>
