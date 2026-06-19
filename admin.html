@@ -29,47 +29,67 @@
     </div>
 
     <div class="box">
-        <h3>⏰ ضبط توقيت العجلة</h3>
-        من: <input type="time" id="startTime">
-        إلى: <input type="time" id="endTime">
-        <button onclick="saveTime()">💾 حفظ التوقيت</button>
-    </div>
-
-    <div class="box">
-        <h3>📊 سجل نتائج العجلات</h3>
+        <h3>📊 سجل نتائج العجلات (مباشر)</h3>
         <table>
             <thead>
                 <tr><th>الوقت</th><th>النتيجة</th></tr>
             </thead>
             <tbody id="wheel-results-body">
-                <tr><td colspan="2">انتظار النتائج...</td></tr>
+                <tr><td colspan="2">جارِ تحميل البيانات...</td></tr>
             </tbody>
         </table>
-        <button onclick="clearResults()" style="background:red;">🗑️ فسخ الأرشيف</button>
     </div>
     <a href="index.html" style="color:gold;">⬅️ رجوع للموقع</a>
 </div>
 
-
-
 <script type="module">
-  import { doc, setDoc } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
-  import { db } from "./firebase.js"; 
+    import { doc, setDoc, collection, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
+    import { db } from "./firebase.js"; 
 
-  // هذي الدالة اللي باش تستعملها في الزر
-  window.saveMenu = async function() {
-    const food1 = document.getElementById("food1").value;
-    const food2 = document.getElementById("food2").value;
+    // 1. تحديث المنيو في Firestore
+    window.saveMenu = async function() {
+        try {
+            await setDoc(doc(db, "menu", "today"), {
+                food1: document.getElementById("food1").value,
+                price1: document.getElementById("price1").value,
+                food2: document.getElementById("food2").value,
+                price2: document.getElementById("price2").value
+            });
+            alert("✅ تم تحديث المنيو عند جميع الزبائن!");
+        } catch (e) {
+            alert("خطأ في التحديث: " + e.message);
+        }
+    };
 
-    await setDoc(doc(db, "menu", "today"), {
-      food1: food1,
-      food2: food2
-    });
+    // 2. جلب النتائج مباشرة من Firebase
+    function loadData() {
+        const q = query(collection(db, "prizes"), orderBy("time", "desc"));
+        
+        onSnapshot(q, (snapshot) => {
+            const tbody = document.getElementById('wheel-results-body');
+            tbody.innerHTML = ""; 
+            
+            if (snapshot.empty) {
+                tbody.innerHTML = '<tr><td colspan="2">لا توجد نتائج بعد</td></tr>';
+                return;
+            }
 
-    alert("✅ تم التحديث بنجاح!");
-  };
+            snapshot.forEach((doc) => {
+                const res = doc.data();
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${res.time}</td>
+                        <td style="color:gold; font-weight:bold;">${res.prize}</td>
+                    </tr>
+                `;
+            });
+        });
+    }
+
+    // تشغيل التحميل عند فتح الصفحة
+    loadData();
+    document.getElementById('content').style.display = 'block'; // تظهر الصفحة مباشرة في مرحلة التطوير
 </script>
-
 
 </body>
 </html>
