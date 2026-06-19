@@ -11,6 +11,6 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
 
-window.db = db;
+// هذي أهم حاجة: تأكد إن كلمة export موجودة هنا
+export const db = getFirestore(app);
