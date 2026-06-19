@@ -51,15 +51,17 @@
 </div>
 
 <script>
-    // 1. *function checkPass() {
+<script>
 
-    const BLOCK_TIME = 70 * 60 * 60 * 1000; // 70 heures
+function checkPass() {
+
+    const BLOCK_TIME = 70 * 60 * 60 * 1000;
     const MAX_TRIES = 3;
 
     let blockedUntil = localStorage.getItem('chefBlockedUntil');
 
     if (blockedUntil && Date.now() < parseInt(blockedUntil)) {
-        alert("⛔ تم حظر الدخول مؤقتاً. حاول لاحقاً.");
+        alert("⛔ تم حظر الدخول مؤقتاً.");
         window.location.href = "index.html";
         return;
     }
@@ -106,43 +108,100 @@
         window.location.href = "index.html";
     }
 }
-    // 2. حفظ التوقيت
-    function saveTime() {
-        localStorage.setItem('wheelStart', document.getElementById('startTime').value);
-        localStorage.setItem('wheelEnd', document.getElementById('endTime').value);
-        alert('✅ تم حفظ التوقيت!');
-    }
 
-    // 3. عرض الأرشيف كامل
-    function loadData() {
-        const history = JSON.parse(localStorage.getItem('allResults') || "[]");
-        const tbody = document.getElementById('wheel-results-body');
-        
-        if (history.length > 0) {
-            tbody.innerHTML = "";
-            history.reverse().forEach(res => {
-                tbody.innerHTML += `<tr><td>${res.time}</td><td style="color: gold;">${res.prize}</td></tr>`;
-            });
-        }
-    }
+// حفظ توقيت العجلة
+function saveTime() {
 
-    function clearResults() {
-        localStorage.removeItem('allResults');
-        loadData();
-        alert("🗑️ تم مسح السجل!");
-    }
+    localStorage.setItem(
+        'wheelStart',
+        document.getElementById('startTime').value
+    );
 
-    checkPass();
-    // تحديث الجدول كل 3 ثواني
-    setInterval(loadData, 3000);
-    function saveMenu() {
-    const data = [
-        { name: document.getElementById('food1').value, price: document.getElementById('price1').value },
-        { name: document.getElementById('food2').value, price: document.getElementById('price2').value }
-    ];
-    localStorage.setItem('fananMenu', JSON.stringify(data));
-    alert('✅ تم تحديث المنيو يا فنان!');
+    localStorage.setItem(
+        'wheelEnd',
+        document.getElementById('endTime').value
+    );
+
+    alert('✅ تم حفظ التوقيت!');
 }
+
+// عرض نتائج العجلة
+function loadData() {
+
+    const history =
+        JSON.parse(localStorage.getItem('allResults') || "[]");
+
+    const tbody =
+        document.getElementById('wheel-results-body');
+
+    if (history.length === 0) {
+
+        tbody.innerHTML =
+            '<tr><td colspan="2">لا توجد نتائج حالياً</td></tr>';
+
+        return;
+    }
+
+    tbody.innerHTML = "";
+
+    [...history].reverse().forEach(res => {
+
+        tbody.innerHTML += `
+            <tr>
+                <td>${res.time}</td>
+                <td style="color:gold;font-weight:bold;">
+                    ${res.prize}
+                </td>
+            </tr>
+        `;
+    });
+}
+
+// مسح الأرشيف
+function clearResults() {
+
+    if (!confirm("هل تريد فعلاً حذف جميع النتائج؟")) {
+        return;
+    }
+
+    localStorage.removeItem('allResults');
+
+    loadData();
+
+    alert("🗑️ تم مسح السجل!");
+}
+
+// حفظ المنيو
+function saveMenu() {
+
+    const data = [
+
+        {
+            name: document.getElementById('food1').value,
+            price: document.getElementById('price1').value
+        },
+
+        {
+            name: document.getElementById('food2').value,
+            price: document.getElementById('price2').value
+        }
+
+    ];
+
+    localStorage.setItem(
+        'fananMenu',
+        JSON.stringify(data)
+    );
+
+    alert('✅ تم تحديث المنيو!');
+}
+
+// تشغيل النظام
+checkPass();
+
+setInterval(loadData, 3000);
+
+</script>
 </script>
 
 </body>
