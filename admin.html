@@ -10,13 +10,14 @@
         .box { background: rgba(255,255,255,0.05); padding: 20px; border-radius: 15px; border: 1px solid #f5c842; max-width: 420px; margin: 20px auto; }
         input { width: 90%; padding: 10px; margin: 10px 0; border-radius: 10px; border: 1px solid #ccc; font-family: 'Cairo'; text-align: center; font-size: 16px; color: #000; }
         button { background: linear-gradient(135deg, #ff9800, #e65100); color: white; border: none; padding: 12px 30px; border-radius: 25px; font-weight: bold; cursor: pointer; width: 100%; margin-top: 15px; font-size: 16px; }
+        .notify-btn { background: linear-gradient(135deg, #2196f3, #0d47a1); }
         table { width: 100%; border-collapse: collapse; margin-top: 10px; color: white; }
         th, td { padding: 8px; border: 1px solid #444; text-align: center; }
     </style>
 </head>
 <body>
 
-<div id="content" style="display:none;">
+<div id="content">
     <h1>👨‍🍳 لوحة تحكم الشيف الفنان</h1>
     
     <div class="box">
@@ -26,6 +27,8 @@
         <input type="text" id="food2" placeholder="أكلة 2">
         <input type="text" id="price2" placeholder="السوم">
         <button onclick="saveMenu()">🚀 تحديث المنيو</button>
+        
+        <button class="notify-btn" onclick="openNotificationPanel()">📢 إرسال إشعار للزبائن</button>
     </div>
 
     <div class="box">
@@ -46,7 +49,7 @@
     import { doc, setDoc, collection, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
     import { db } from "./firebase.js"; 
 
-    // 1. تحديث المنيو في Firestore
+    // 1. تحديث المنيو
     window.saveMenu = async function() {
         try {
             await setDoc(doc(db, "menu", "today"), {
@@ -61,34 +64,29 @@
         }
     };
 
-    // 2. جلب النتائج مباشرة من Firebase
+    // 2. زر الإشعار (يفتح الـ Firebase Console)
+    window.openNotificationPanel = function() {
+        window.open('https://console.firebase.google.com/project/base-resto-3d1e8/notification', '_blank');
+    };
+
+    // 3. جلب النتائج
     function loadData() {
         const q = query(collection(db, "prizes"), orderBy("time", "desc"));
-        
         onSnapshot(q, (snapshot) => {
             const tbody = document.getElementById('wheel-results-body');
             tbody.innerHTML = ""; 
-            
             if (snapshot.empty) {
                 tbody.innerHTML = '<tr><td colspan="2">لا توجد نتائج بعد</td></tr>';
                 return;
             }
-
             snapshot.forEach((doc) => {
                 const res = doc.data();
-                tbody.innerHTML += `
-                    <tr>
-                        <td>${res.time}</td>
-                        <td style="color:gold; font-weight:bold;">${res.prize}</td>
-                    </tr>
-                `;
+                tbody.innerHTML += `<tr><td>${res.time}</td><td style="color:gold; font-weight:bold;">${res.prize}</td></tr>`;
             });
         });
     }
 
-    // تشغيل التحميل عند فتح الصفحة
     loadData();
-    document.getElementById('content').style.display = 'block'; // تظهر الصفحة مباشرة في مرحلة التطوير
 </script>
 
 </body>
