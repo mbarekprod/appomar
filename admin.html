@@ -51,21 +51,61 @@
 </div>
 
 <script>
-    // 1. القفيلة (الباسورد)
-    function checkPass() {
-        let p = prompt("🔐 أدخل كلمة سر الشيف:");
-        if (p === "1234") {
-            document.getElementById('content').style.display = 'block';
-            // تحميل البيانات عند الدخول
-            loadData();
-            document.getElementById('startTime').value = localStorage.getItem('wheelStart') || "17:00";
-            document.getElementById('endTime').value = localStorage.getItem('wheelEnd') || "18:00";
-        } else {
-            alert("خطأ في كلمة السر!");
-            window.location.href = "index.html";
-        }
+    // 1. *function checkPass() {
+
+    const BLOCK_TIME = 70 * 60 * 60 * 1000; // 70 heures
+    const MAX_TRIES = 3;
+
+    let blockedUntil = localStorage.getItem('chefBlockedUntil');
+
+    if (blockedUntil && Date.now() < parseInt(blockedUntil)) {
+        alert("⛔ تم حظر الدخول مؤقتاً. حاول لاحقاً.");
+        window.location.href = "index.html";
+        return;
     }
-    
+
+    let tries = parseInt(localStorage.getItem('chefTries') || "0");
+
+    let p = prompt("🔐 أدخل كلمة سر الشيف:");
+
+    if (p === "1234") {
+
+        localStorage.removeItem('chefTries');
+        localStorage.removeItem('chefBlockedUntil');
+
+        document.getElementById('content').style.display = 'block';
+
+        loadData();
+
+        document.getElementById('startTime').value =
+            localStorage.getItem('wheelStart') || "17:00";
+
+        document.getElementById('endTime').value =
+            localStorage.getItem('wheelEnd') || "18:00";
+
+    } else {
+
+        tries++;
+        localStorage.setItem('chefTries', tries);
+
+        if (tries >= MAX_TRIES) {
+
+            localStorage.setItem(
+                'chefBlockedUntil',
+                Date.now() + BLOCK_TIME
+            );
+
+            alert("🚫 تم حظر الدخول لمدة 70 ساعة.");
+
+        } else {
+
+            alert(`❌ كلمة سر خاطئة. بقي ${MAX_TRIES - tries} محاولة`);
+
+        }
+
+        window.location.href = "index.html";
+    }
+}
     // 2. حفظ التوقيت
     function saveTime() {
         localStorage.setItem('wheelStart', document.getElementById('startTime').value);
