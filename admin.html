@@ -50,158 +50,26 @@
     <a href="index.html" style="color:gold;">⬅️ رجوع للموقع</a>
 </div>
 
-<script>
 
-function checkPass() {
 
-    const BLOCK_TIME = 70 * 60 * 60 * 1000;
-    const MAX_TRIES = 3;
+<script type="module">
+  import { doc, setDoc } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
+  import { db } from "./firebase.js"; 
 
-    let blockedUntil = localStorage.getItem('chefBlockedUntil');
+  // هذي الدالة اللي باش تستعملها في الزر
+  window.saveMenu = async function() {
+    const food1 = document.getElementById("food1").value;
+    const food2 = document.getElementById("food2").value;
 
-    if (blockedUntil && Date.now() < parseInt(blockedUntil)) {
-        alert("⛔ تم حظر الدخول مؤقتاً.");
-        window.location.href = "index.html";
-        return;
-    }
-
-    let tries = parseInt(localStorage.getItem('chefTries') || "0");
-
-    let p = prompt("🔐 أدخل كلمة سر الشيف:");
-
-    if (p === "1234") {
-
-        localStorage.removeItem('chefTries');
-        localStorage.removeItem('chefBlockedUntil');
-
-        document.getElementById('content').style.display = 'block';
-
-        loadData();
-
-        document.getElementById('startTime').value =
-            localStorage.getItem('wheelStart') || "17:00";
-
-        document.getElementById('endTime').value =
-            localStorage.getItem('wheelEnd') || "18:00";
-
-    } else {
-
-        tries++;
-        localStorage.setItem('chefTries', tries);
-
-        if (tries >= MAX_TRIES) {
-
-            localStorage.setItem(
-                'chefBlockedUntil',
-                Date.now() + BLOCK_TIME
-            );
-
-            alert("🚫 تم حظر الدخول لمدة 70 ساعة.");
-
-        } else {
-
-            alert(`❌ كلمة سر خاطئة. بقي ${MAX_TRIES - tries} محاولة`);
-
-        }
-
-        window.location.href = "index.html";
-    }
-}
-
-// حفظ توقيت العجلة
-function saveTime() {
-
-    localStorage.setItem(
-        'wheelStart',
-        document.getElementById('startTime').value
-    );
-
-    localStorage.setItem(
-        'wheelEnd',
-        document.getElementById('endTime').value
-    );
-
-    alert('✅ تم حفظ التوقيت!');
-}
-
-// عرض نتائج العجلة
-function loadData() {
-
-    const history =
-        JSON.parse(localStorage.getItem('allResults') || "[]");
-
-    const tbody =
-        document.getElementById('wheel-results-body');
-
-    if (history.length === 0) {
-
-        tbody.innerHTML =
-            '<tr><td colspan="2">لا توجد نتائج حالياً</td></tr>';
-
-        return;
-    }
-
-    tbody.innerHTML = "";
-
-    [...history].reverse().forEach(res => {
-
-        tbody.innerHTML += `
-            <tr>
-                <td>${res.time}</td>
-                <td style="color:gold;font-weight:bold;">
-                    ${res.prize}
-                </td>
-            </tr>
-        `;
+    await setDoc(doc(db, "menu", "today"), {
+      food1: food1,
+      food2: food2
     });
-}
 
-// مسح الأرشيف
-function clearResults() {
-
-    if (!confirm("هل تريد فعلاً حذف جميع النتائج؟")) {
-        return;
-    }
-
-    localStorage.removeItem('allResults');
-
-    loadData();
-
-    alert("🗑️ تم مسح السجل!");
-}
-
-// حفظ المنيو
-function saveMenu() {
-
-    const data = [
-
-        {
-            name: document.getElementById('food1').value,
-            price: document.getElementById('price1').value
-        },
-
-        {
-            name: document.getElementById('food2').value,
-            price: document.getElementById('price2').value
-        }
-
-    ];
-
-    localStorage.setItem(
-        'fananMenu',
-        JSON.stringify(data)
-    );
-
-    alert('✅ تم تحديث المنيو!');
-}
-
-// تشغيل النظام
-checkPass();
-
-setInterval(loadData, 3000);
-
+    alert("✅ تم التحديث بنجاح!");
+  };
 </script>
-</script>
+
 
 </body>
 </html>
