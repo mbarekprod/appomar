@@ -1,146 +1,65 @@
 <!DOCTYPE html>
-
 <html lang="ar" dir="rtl">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>مطعم الفنان</title>
-
-```
-<link rel="manifest" href="manifest.json">
-<link rel="stylesheet" href="style.css">
-
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
-
-<meta name="theme-color" content="#b8860b">
-```
-
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    <meta name="theme-color" content="#b8860b">
 </head>
-
 <body>
 
-```
-<!-- HEADER -->
 <header class="header">
-
-    <div class="logo-ring">
-        <img src="go.png" alt="مطعم الفنان" class="logo">
-    </div>
-
+    <div class="logo-ring"><img src="go.png" alt="مطعم الفنان" class="logo"></div>
     <h1 class="brand-name">مطعم الفنان</h1>
-
-    <p class="tagline">
-        أشهى الأطباق والمأكولات التونسية
-    </p>
-
+    <p class="tagline">أشهى الأطباق والمأكولات التونسية</p>
 </header>
 
-<!-- MAIN BUTTONS -->
 <main class="main-menu">
-
-    <button class="card-btn" onclick="showSection('menu')">
-        🍽️ قائمة اليوم
-    </button>
-
-    <button class="card-btn" onclick="window.location.href='wheel.html'">
-        🎡 عجلة الحظ والجوائز
-    </button>
-
-    <button class="card-btn" onclick="showSection('contact')">
-        📞 اتصل بنا
-    </button>
-<button class="card-btn admin-btn" onclick="window.location.href='admin.html'">
-    👨‍🍳 لوحة الشيف
-</button>
+    <button class="card-btn" onclick="showSection('menu')">🍽️ قائمة اليوم</button>
+    <button class="card-btn" onclick="window.location.href='wheel.html'">🎡 عجلة الحظ والجوائز</button>
+    <button class="card-btn" onclick="showSection('contact')">📞 اتصل بنا</button>
+    <button class="card-btn admin-btn" onclick="window.location.href='admin.html'">👨‍🍳 لوحة الشيف</button>
 </main>
 
-<!-- MENU -->
 <section id="menu" class="section hidden">
-
     <h2>🍽️ قائمة اليوم</h2>
-
-    <div id="dynamic-menu">
-
-        <div class="menu-item">
-            <span>🍕 بيتزا 4 فصول</span>
-            <strong>18 د</strong>
-        </div>
-
-        <div class="menu-item">
-            <span>🥘 لازانيا</span>
-            <strong>10 د</strong>
-        </div>
-
-        <div class="menu-item">
-            <span>🍲 لوبيا</span>
-            <strong>5.5 د</strong>
-        </div>
-
-        <div class="menu-item">
-            <span>🍝 مقرونة بالقمرون</span>
-            <strong>12 د</strong>
-        </div>
-
-    </div>
-
+    <div id="dynamic-menu"></div>
 </section>
-
-<!-- CONTACT -->
-<section id="contact" class="section hidden">
-
-    <h2>📞 اتصل بنا</h2>
-
-    <a href="tel:+21627091965" class="action-btn">
-        📞 27 091 965
-    </a>
-
-    <a href="https://wa.me/21627091965" target="_blank" class="action-btn whatsapp">
-        💬 اطلب عبر واتساب
-    </a>
-
-    <div class="address">
-        📍 حزق - بجانب مخبر التحاليل و ميتاقلاس
-    </div>
-
-</section>
-
-<!-- FOOTER -->
-<footer>
-    <p>Restaurant El Fanen © 2026</p>
-</footer>
-
-
 
 <script type="module">
   import { doc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
+  import { getMessaging, getToken } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-messaging.js";
   import { db } from "./firebase.js";
 
+  // 1. كود المنيو (Real-time)
   const menuRef = doc(db, "menu", "today");
-
   onSnapshot(menuRef, (doc) => {
     if (doc.exists()) {
       const data = doc.data();
-      const menuContainer = document.getElementById('dynamic-menu');
-      
-      // التحديث يظهر مباشرة عند الزبون
-      menuContainer.innerHTML = `
-        <div class="menu-item">
-            <span>🍕 ${data.food1 || '---'}</span>
-            <strong>${data.price1 || '---'} د</strong>
-        </div>
-        <div class="menu-item">
-            <span>🥘 ${data.food2 || '---'}</span>
-            <strong>${data.price2 || '---'} د</strong>
-        </div>
+      document.getElementById('dynamic-menu').innerHTML = `
+        <div class="menu-item"><span>🍕 ${data.food1 || '---'}</span><strong>${data.price1 || '---'} د</strong></div>
+        <div class="menu-item"><span>🥘 ${data.food2 || '---'}</span><strong>${data.price2 || '---'} د</strong></div>
       `;
     }
   });
+
+  // 2. كود الإشعارات (Push Notifications)
+  // ملاحظة: الـ vapidKey لازم تجيبه من Firebase Console
+  const vapidKey = 'حط_هنا_الـ_VAPID_KEY_متاعك'; 
+  
+  if ('Notification' in window) {
+    Notification.requestPermission().then((permission) => {
+      if (permission === 'granted') {
+        console.log("تم السماح بالإشعارات!");
+        // هنا يتم تسجيل الجهاز في Firebase لإرسال الإشعارات له
+      }
+    });
+  }
 </script>
 
-```
-<script type="module" src="firebase.js"></script>
 <script src="script.js"></script>
 </body>
-
 </html>
