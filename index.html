@@ -110,44 +110,34 @@
     <p>Restaurant El Fanen © 2026</p>
 </footer>
 
-<script>
 
-    function showSection(sectionId) {
 
-        document.querySelectorAll('.section').forEach(section => {
-            section.classList.add('hidden');
-        });
+<script type="module">
+  import { doc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
+  import { db } from "./firebase.js";
 
-        document.getElementById(sectionId).classList.remove('hidden');
+  const menuRef = doc(db, "menu", "today");
+
+  onSnapshot(menuRef, (doc) => {
+    if (doc.exists()) {
+      const data = doc.data();
+      const menuContainer = document.getElementById('dynamic-menu');
+      
+      // التحديث يظهر مباشرة عند الزبون
+      menuContainer.innerHTML = `
+        <div class="menu-item">
+            <span>🍕 ${data.food1 || '---'}</span>
+            <strong>${data.price1 || '---'} د</strong>
+        </div>
+        <div class="menu-item">
+            <span>🥘 ${data.food2 || '---'}</span>
+            <strong>${data.price2 || '---'} د</strong>
+        </div>
+      `;
     }
-
-    // تحميل المنيو من لوحة الشيف
-    const menu = JSON.parse(localStorage.getItem('fananMenu'));
-
-    if (menu && menu.length > 0) {
-
-        let html = '';
-
-        menu.forEach(item => {
-
-            if (item.name && item.price) {
-
-                html += `
-                <div class="menu-item">
-                    <span>${item.name}</span>
-                    <strong>${item.price}</strong>
-                </div>
-                `;
-            }
-
-        });
-
-        if (html !== '') {
-            document.getElementById('dynamic-menu').innerHTML = html;
-        }
-    }
-
+  });
 </script>
+
 ```
 <script type="module" src="firebase.js"></script>
 <script src="script.js"></script>
