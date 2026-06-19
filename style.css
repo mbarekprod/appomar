@@ -264,3 +264,6 @@ footer{
         padding:20px;
     }
 }
+.admin-btn{
+    background: linear-gradient(135deg,#ff6b00,#ff9800);
+}
