@@ -1,96 +1,662 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
     <meta charset="UTF-8">
-    <title>Casino Royale Wheel</title>
+
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>🎡 عجلة مطعم الفنان</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap"
+        rel="stylesheet">
+
     <style>
-        body { 
-            background: linear-gradient(135deg, #1a0a00 0%, #4a0000 50%, #1a0a00 100%); 
-            color: #ffca28; text-align: center; font-family: 'Cairo', sans-serif; 
-            display: flex; flex-direction: column; align-items: center; justify-content: center; 
-            min-height: 100vh; margin: 0; 
+
+        body {
+
+            background:
+            linear-gradient(
+                135deg,
+                #1a0a00 0%,
+                #4a0000 50%,
+                #1a0a00 100%
+            );
+
+            color: #ffca28;
+
+            text-align: center;
+
+            font-family: 'Cairo', sans-serif;
+
+            display: flex;
+
+            flex-direction: column;
+
+            align-items: center;
+
+            justify-content: center;
+
+            min-height: 100vh;
+
+            margin: 0;
+
+            overflow-x: hidden;
         }
-        .wheel-container { position: relative; margin-top: 20px; }
-        .pointer { position: absolute; top: -30px; left: 50%; transform: translateX(-50%); font-size: 50px; color: #ffca28; text-shadow: 0 0 15px #000; z-index: 10; }
-        #wheel { border: 12px solid #5a3d00; border-radius: 50%; box-shadow: 0 0 50px rgba(255,202,40,0.5); transition: transform 5s cubic-bezier(0.17, 0.67, 0.12, 0.99); }
-        #spinBtn { background: #b71c1c; border: 3px solid #ffca28; color: #fff; padding: 15px 40px; font-size: 22px; border-radius: 50px; cursor: pointer; box-shadow: 0 5px 15px #000; margin-top: 20px; }
-        #result-text { margin-top: 20px; font-size: 30px; font-weight: bold; }
+
+
+        h1 {
+
+            animation: glow 2s infinite alternate;
+        }
+
+
+        @keyframes glow {
+
+            from {
+
+                text-shadow:
+                0 0 10px #ffca28;
+            }
+
+            to {
+
+                text-shadow:
+                0 0 25px #ff9800;
+            }
+        }
+
+
+        .wheel-container {
+
+            position: relative;
+
+            margin-top: 20px;
+
+            animation:
+            floatWheel 3s ease-in-out infinite;
+        }
+
+
+        @keyframes floatWheel {
+
+            0% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+
+        .pointer {
+
+            position: absolute;
+
+            top: -30px;
+
+            left: 50%;
+
+            transform: translateX(-50%);
+
+            font-size: 50px;
+
+            color: #ffca28;
+
+            text-shadow: 0 0 15px #000;
+
+            z-index: 10;
+        }
+
+
+        #wheel {
+
+            border: 12px solid #5a3d00;
+
+            border-radius: 50%;
+
+            box-shadow:
+            0 0 50px rgba(255,202,40,0.5);
+
+            transition:
+            transform 5s cubic-bezier(
+                0.17,
+                0.67,
+                0.12,
+                0.99
+            );
+        }
+
+
+        #spinBtn {
+
+            background: #b71c1c;
+
+            border: 3px solid #ffca28;
+
+            color: #fff;
+
+            padding: 15px 40px;
+
+            font-size: 22px;
+
+            border-radius: 50px;
+
+            cursor: pointer;
+
+            box-shadow: 0 5px 15px #000;
+
+            margin-top: 20px;
+
+            transition: 0.3s;
+        }
+
+
+        #spinBtn:hover {
+
+            transform: scale(1.08);
+
+            background: #ff9800;
+        }
+
+
+        #result-text {
+
+            margin-top: 20px;
+
+            font-size: 30px;
+
+            font-weight: bold;
+
+            min-height: 50px;
+        }
+
+
+        .back-btn {
+
+            margin-top: 25px;
+
+            color: gold;
+
+            text-decoration: none;
+
+            font-size: 20px;
+        }
+
     </style>
+
 </head>
+
 <body>
 
     <h1>🎡 عجلة مطعم الفنان 🎡</h1>
-    <div class="wheel-container">
-        <div class="pointer">▼</div>
-        <canvas id="wheel" width="350" height="350"></canvas>
-    </div>
-    <button id="spinBtn" onclick="startSpin()">دَوّر واربح!</button>
-    <div id="result-text">انتظر الحظ!</div>
 
-    <script>
-        const canvas = document.getElementById("wheel");
-        const ctx = canvas.getContext("2d");
-        const resultDiv = document.getElementById("result-text");
+    <div class="wheel-container">
+
+        <div class="pointer">▼</div>
+
+        <canvas id="wheel"
+            width="350"
+            height="350">
+        </canvas>
+
+    </div>
+
+
+    <button id="spinBtn"
+        onclick="startSpin()">
+
+        دَوّر واربح!
+
+    </button>
+
+
+    <div id="result-text">
+
+        انتظر الحظ!
+
+    </div>
+
+
+    <a href="index.html"
+        class="back-btn">
+
+        ⬅️ رجوع للرئيسية
+
+    </a>
+
+
+
+    <script type="module">
+
+        import {
+            doc,
+            getDoc,
+            collection,
+            addDoc
+
+        } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
+
+
+        import { db }
+        from "./firebase.js";
+
+
+
+        const canvas =
+        document.getElementById("wheel");
+
+
+        const ctx =
+        canvas.getContext("2d");
+
+
+        const resultDiv =
+        document.getElementById("result-text");
+
+
         let rotation = 0;
-        
+
+
+
         const prizes = [
-            { text: "تخفيض 25%", color: "#c8930a" }, { text: "ارجع غدوة", color: "#5a5a5a" },
-            { text: "إضافة فريت", color: "#c97400" }, { text: "دور مرة أخرى", color: "#2e7d32" },
-            { text: "ارجع غدوة", color: "#484848" }, { text: "إضافة فريت", color: "#e65100" },
-            { text: "قازوزة مجانية", color: "#880e4f" }, { text: "ارجع غدوة", color: "#404040" },
-            { text: "إضافة فريت", color: "#bf360c" }, { text: "دابوزة ماء", color: "#0d47a1" },
-            { text: "ارجع غدوة", color: "#383838" }, { text: "تخفيض 50%", color: "#6a1b9a" }
+
+            {
+                text: "تخفيض 25%",
+                color: "#c8930a"
+            },
+
+            {
+                text: "ارجع غدوة",
+                color: "#5a5a5a"
+            },
+
+            {
+                text: "إضافة فريت",
+                color: "#c97400"
+            },
+
+            {
+                text: "دور مرة أخرى",
+                color: "#2e7d32"
+            },
+
+            {
+                text: "ارجع غدوة",
+                color: "#484848"
+            },
+
+            {
+                text: "إضافة فريت",
+                color: "#e65100"
+            },
+
+            {
+                text: "قازوزة مجانية",
+                color: "#880e4f"
+            },
+
+            {
+                text: "ارجع غدوة",
+                color: "#404040"
+            },
+
+            {
+                text: "إضافة فريت",
+                color: "#bf360c"
+            },
+
+            {
+                text: "دابوزة ماء",
+                color: "#0d47a1"
+            },
+
+            {
+                text: "ارجع غدوة",
+                color: "#383838"
+            },
+
+            {
+                text: "تخفيض 50%",
+                color: "#6a1b9a"
+            }
         ];
 
+
+
+
+        // =========================
+        // رسم العجلة
+        // =========================
+
         function drawWheel() {
-            const sliceAngle = (2 * Math.PI) / prizes.length;
+
+            const sliceAngle =
+            (2 * Math.PI)
+            /
+            prizes.length;
+
+
+
             prizes.forEach((p, i) => {
+
                 ctx.beginPath();
+
                 ctx.moveTo(175, 175);
-                ctx.arc(175, 175, 160, i * sliceAngle, (i + 1) * sliceAngle);
-                ctx.fillStyle = p.color; ctx.fill(); ctx.stroke();
-                ctx.save(); ctx.translate(175, 175);
-                ctx.rotate(i * sliceAngle + sliceAngle / 2);
-                ctx.textAlign = "right"; ctx.fillStyle = "#fff"; ctx.font = "bold 13px Arial";
-                ctx.fillText(p.text, 140, 5); ctx.restore();
+
+                ctx.arc(
+
+                    175,
+                    175,
+                    160,
+
+                    i * sliceAngle,
+
+                    (i + 1) * sliceAngle
+
+                );
+
+                ctx.fillStyle =
+                p.color;
+
+                ctx.fill();
+
+                ctx.stroke();
+
+
+                ctx.save();
+
+                ctx.translate(
+                    175,
+                    175
+                );
+
+
+                ctx.rotate(
+                    i * sliceAngle
+                    +
+                    sliceAngle / 2
+                );
+
+
+                ctx.textAlign =
+                "right";
+
+                ctx.fillStyle =
+                "#fff";
+
+                ctx.font =
+                "bold 13px Cairo";
+
+
+                ctx.fillText(
+                    p.text,
+                    140,
+                    5
+                );
+
+                ctx.restore();
+
             });
         }
+
+
         drawWheel();
 
-        function canSpin() {
-            const start = localStorage.getItem('wheelStart') || "17:00";
-            const end = localStorage.getItem('wheelEnd') || "18:00";
-            const now = new Date();
-            const currentTime = String(now.getHours()).padStart(2, '0') + ":" + String(now.getMinutes()).padStart(2, '0');
-            return currentTime >= start && currentTime <= end;
+
+
+
+        // =========================
+        // التحقق من الوقت
+        // =========================
+
+        async function canSpinNow() {
+
+            const settingsRef =
+
+            doc(
+                db,
+                "wheel_settings",
+                "config"
+            );
+
+
+            const settingsSnap =
+            await getDoc(settingsRef);
+
+
+
+            if (!settingsSnap.exists()) {
+
+                return true;
+            }
+
+
+            const settings =
+            settingsSnap.data();
+
+
+
+            if (
+                !settings.startHour
+                ||
+                !settings.endHour
+            ) {
+
+                return true;
+            }
+
+
+
+            const now =
+            new Date();
+
+
+
+            const currentMinutes =
+
+                now.getHours() * 60
+                +
+                now.getMinutes();
+
+
+
+
+            const [startH, startM] =
+
+            settings.startHour
+            .split(":")
+            .map(Number);
+
+
+
+
+            const [endH, endM] =
+
+            settings.endHour
+            .split(":")
+            .map(Number);
+
+
+
+
+            const startMinutes =
+
+                startH * 60
+                +
+                startM;
+
+
+
+
+            const endMinutes =
+
+                endH * 60
+                +
+                endM;
+
+
+
+
+            return (
+
+                currentMinutes >=
+                startMinutes
+
+                &&
+
+                currentMinutes <=
+                endMinutes
+
+            );
         }
 
-        function startSpin() {
-            if (!canSpin()) {
-                alert("❌ العجلة مقفولة حالياً! ارجع في وقت التخفيضات.");
+
+
+
+        // =========================
+        // تدوير العجلة
+        // =========================
+
+        window.startSpin =
+        async function () {
+
+
+            const allowed =
+            await canSpinNow();
+
+
+
+            if (!allowed) {
+
+                alert(
+                    "⛔ العجلة مغلقة حاليا"
+                );
+
                 return;
             }
 
-            resultDiv.innerText = "⏳ جاري التدوير...";
-            const randomAngle = Math.floor(Math.random() * 3600) + 1800;
-            rotation += randomAngle;
-            canvas.style.transform = `rotate(${rotation}deg)`;
-            
-            setTimeout(() => {
-                const finalDegree = rotation % 360;
-                const degreesPerSlice = 360 / prizes.length;
-                const index = Math.floor(((360 - finalDegree + 270) % 360) / degreesPerSlice) % prizes.length;
-                
-                const win = prizes[index].text;
-                resultDiv.innerText = "🎉 مبروك! ربحت: " + win;
-                
-                // --- التعديل هنا: حفظ النتائج في قائمة (Array) ---
-                const history = JSON.parse(localStorage.getItem('allResults') || "[]");
-                history.push({ prize: win, time: new Date().toLocaleTimeString() });
-                localStorage.setItem('allResults', JSON.stringify(history));
-                // ----------------------------------------------
+
+
+            resultDiv.innerText =
+            "⏳ جاري التدوير...";
+
+
+
+            const randomAngle =
+
+                Math.floor(
+                    Math.random() * 3600
+                )
+
+                + 1800;
+
+
+
+            rotation +=
+            randomAngle;
+
+
+
+            canvas.style.transform =
+            `rotate(${rotation}deg)`;
+
+
+
+
+            setTimeout(async () => {
+
+                const finalDegree =
+
+                    rotation % 360;
+
+
+
+                const degreesPerSlice =
+
+                    360 / prizes.length;
+
+
+
+
+                const index =
+
+                    Math.floor(
+
+                        (
+                            (
+                                360
+                                -
+                                finalDegree
+                                +
+                                270
+                            )
+                            %
+                            360
+                        )
+
+                        /
+
+                        degreesPerSlice
+
+                    )
+
+                    %
+
+                    prizes.length;
+
+
+
+
+                const win =
+
+                prizes[index].text;
+
+
+
+                resultDiv.innerText =
+
+                "🎉 مبروك! ربحت: "
+                +
+                win;
+
+
+
+
+                // حفظ النتيجة في Firebase
+
+                await addDoc(
+
+                    collection(
+                        db,
+                        "prizes"
+                    ),
+
+                    {
+
+                        prize: win,
+
+                        time:
+                        new Date()
+                        .toLocaleTimeString()
+
+                    }
+
+                );
+
+
+
             }, 5000);
+
         }
+
     </script>
+
 </body>
 </html>
