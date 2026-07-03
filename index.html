@@ -23,67 +23,92 @@ padding:20px;
 
 font-family:'Cairo',sans-serif;
 
-background:#1a0a00;
+background:
+linear-gradient(
+135deg,
+#1a0a00,
+#3b1200
+);
 
 color:white;
 
 text-align:center;
+
+overflow-x:hidden;
 }
 
 .logo{
 
-width:140px;
+width:150px;
 
 margin-top:20px;
 
 animation:
-upDown 3s infinite ease-in-out;
+floatLogo 3s ease-in-out infinite;
 }
 
-@keyframes upDown{
+@keyframes floatLogo{
 
 0%{
-transform:translateY(0);
+transform:translateY(0px);
 }
 
 50%{
-transform:translateY(-10px);
+transform:translateY(-12px);
 }
 
 100%{
-transform:translateY(0);
+transform:translateY(0px);
 }
 }
 
 h1{
 
 color:gold;
+
+font-size:38px;
+
+text-shadow:
+0 0 20px rgba(255,215,0,0.7);
+}
+
+.tagline{
+
+color:#ddd;
+
+margin-bottom:30px;
+
+font-size:18px;
 }
 
 .container{
 
-max-width:400px;
+max-width:420px;
 
 margin:auto;
 }
 
-button{
+.card-btn{
 
 width:100%;
 
-padding:16px;
+padding:18px;
 
 margin-top:15px;
 
 border:none;
 
-border-radius:20px;
+border-radius:25px;
 
-font-size:18px;
+font-size:19px;
 
 font-weight:bold;
 
 cursor:pointer;
+
+color:white;
+
+transition:0.3s;
 
 background:
 linear-gradient(
@@ -92,25 +117,20 @@ linear-gradient(
 #e65100
 );
 
-color:white;
+box-shadow:
+0 6px 15px rgba(0,0,0,0.4);
 }
 
-button:hover{
+.card-btn:hover{
 
-transform:scale(1.03);
+transform:
+scale(1.04);
+
+box-shadow:
+0 0 25px rgba(255,152,0,0.6);
 }
 
-.download{
-
-background:
-linear-gradient(
-135deg,
-#2196f3,
-#0d47a1
-);
-}
-
-.admin{
+.admin-btn{
 
 background:
 linear-gradient(
@@ -124,22 +144,42 @@ linear-gradient(
 
 display:none;
 
-margin-top:25px;
+margin-top:30px;
+
+animation:
+fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn{
+
+from{
+opacity:0;
+transform:translateY(20px);
+}
+
+to{
+opacity:1;
+transform:translateY(0);
+}
 }
 
 .menu-item{
 
 background:
-rgba(255,255,255,0.05);
+rgba(255,255,255,0.06);
 
-padding:15px;
+padding:18px;
 
-margin-top:10px;
+margin-top:15px;
 
-border-radius:15px;
+border-radius:18px;
 
 border:
-1px solid gold;
+1px solid rgba(255,215,0,0.3);
+
+font-size:18px;
+
+backdrop-filter:blur(6px);
 }
 
 </style>
@@ -153,42 +193,52 @@ class="logo">
 
 <h1>مطعم الفنان</h1>
 
-<p>
+<p class="tagline">
 أشهى الأطباق والمأكولات التونسية
 </p>
 
 <div class="container">
 
-<button onclick="toggleMenu()">
+<button class="card-btn"
+onclick="toggleMenu()">
+
 🍽️ قائمة اليوم
+
 </button>
 
-<button onclick="window.location.href='wheel.html'">
+<button class="card-btn"
+onclick="window.location.href='wheel.html'">
+
 🎡 عجلة الحظ والجوائز
+
 </button>
 
-<button>
+<button class="card-btn">
+
 📞 اتصل بنا
+
 </button>
 
-<button class="download"
-onclick="downloadApp()">
-⬇️ تنزيل التطبيق
-</button>
+<button
+class="card-btn admin-btn"
+onclick="openAdmin()">
 
-<button class="admin"
-onclick="window.location.href='admin.html'">
 👨‍🍳 لوحة الشيف
+
 </button>
 
 <div id="menu">
 
 <div class="menu-item">
-🍕 Pizza — 15 د
+🍕 بيتزا خاصة — 15 د
 </div>
 
 <div class="menu-item">
-🥘 Escalope — 18 د
+🥘 إسكالوب — 18 د
+</div>
+
+<div class="menu-item">
+🍟 فريت — 5 د
 </div>
 
 </div>
@@ -212,12 +262,21 @@ menu.style.display="block";
 }
 }
 
-function downloadApp(){
+function openAdmin(){
 
-window.open(
-"https://mbarekprod.github.io/appomar/",
-"_blank"
-);
+const password =
+prompt("🔐 أدخل كلمة سر الشيف");
+
+if(password === "chef2026"){
+
+window.location.href =
+"admin.html";
+
+}else{
+
+alert("❌ كلمة السر خاطئة");
+}
+
 }
 
 </script>
