@@ -1,13 +1,18 @@
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
 
 <title>مطعم الفنان | Mbarek Prod</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap"
+rel="stylesheet">
 
 <style>
 
@@ -18,163 +23,485 @@ box-sizing:border-box;
 }
 
 body{
+
 font-family:'Cairo',sans-serif;
+
 min-height:100vh;
+
 color:white;
+
 text-align:center;
+
 overflow-x:hidden;
 
+/* الخلفية */
+
 background:
-linear-gradient(rgba(0,0,0,0.75),rgba(0,0,0,0.85)),
+
+linear-gradient(
+rgba(0,0,0,0.75),
+rgba(0,0,0,0.85)
+),
+
 url("https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=1600&auto=format&fit=crop");
 
 background-size:cover;
+
 background-position:center;
+
 background-attachment:fixed;
 }
 
-.logo{
-width:170px;
-margin-top:25px;
-border-radius:50%;
-box-shadow:0 0 30px rgba(255,193,7,0.7);
+
+/* طبقة إضاءة */
+
+body::before{
+
+content:"";
+
+position:fixed;
+
+inset:0;
+
+background:
+
+radial-gradient(
+circle,
+rgba(255,193,7,0.08),
+transparent 70%
+);
+
+animation:
+bgMove 12s linear infinite;
+
+z-index:-1;
 }
 
+@keyframes bgMove{
+
+0%{
+transform:translate(-10%,-10%);
+}
+
+50%{
+transform:translate(-20%,-15%);
+}
+
+100%{
+transform:translate(-10%,-10%);
+}
+}
+
+
+/* لوقو المطعم */
+
+.logo{
+
+width:170px;
+
+margin-top:25px;
+
+border-radius:50%;
+
+box-shadow:
+0 0 30px rgba(255,193,7,0.7);
+
+animation:
+floatLogo 4s ease-in-out infinite;
+}
+
+@keyframes floatLogo{
+
+0%{
+transform:translateY(0px);
+}
+
+50%{
+transform:translateY(-12px);
+}
+
+100%{
+transform:translateY(0px);
+}
+}
+
+
+/* عنوان */
+
 h1{
+
+font-size:46px;
+
+margin-top:15px;
+
 color:#ffca28;
-margin-top:10px;
+
+text-shadow:
+0 0 10px #ff9800,
+0 0 20px #ff9800,
+0 0 40px rgba(255,152,0,0.6);
 }
 
 .tagline{
-color:#ddd;
-margin-bottom:20px;
+
+margin-top:12px;
+
+font-size:18px;
+
+color:#eee;
 }
+
+
+/* Powered by */
+
+.powered{
+
+margin-top:8px;
+
+font-size:14px;
+
+color:#ffca28;
+
+letter-spacing:1px;
+}
+
+
+/* الكونتينر */
 
 .container{
+
 max-width:430px;
-margin:auto;
-padding:20px;
+
+margin:40px auto;
 }
+
+
+/* الأزرار */
 
 .card-btn{
+
 width:100%;
+
 padding:18px;
-margin-top:15px;
+
+margin-top:18px;
+
 border:none;
+
 border-radius:25px;
-font-size:18px;
+
+font-size:20px;
+
+font-weight:bold;
+
 cursor:pointer;
+
 color:white;
-background:linear-gradient(135deg,#ff9800,#e65100);
+
+background:
+linear-gradient(
+135deg,
+rgba(255,152,0,0.95),
+rgba(230,81,0,0.95)
+);
+
+backdrop-filter:blur(10px);
+
+box-shadow:
+0 10px 25px rgba(0,0,0,0.4);
+
+transition:0.35s;
 }
+
+.card-btn:hover{
+
+transform:
+translateY(-5px)
+scale(1.03);
+
+box-shadow:
+0 0 30px rgba(255,152,0,0.7);
+}
+
+
+/* زر الأدمن */
 
 .admin-btn{
-background:linear-gradient(135deg,#4caf50,#1b5e20);
+
+background:
+linear-gradient(
+135deg,
+#4caf50,
+#1b5e20
+);
 }
+
+
+/* المنيو */
 
 #menu{
+
 display:none;
-margin-top:20px;
+
+margin-top:35px;
+
+animation:
+fadeIn 0.6s ease;
 }
+
+@keyframes fadeIn{
+
+from{
+opacity:0;
+transform:translateY(20px);
+}
+
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
+
+
+/* عناصر المنيو */
 
 .menu-item{
-background:rgba(255,255,255,0.08);
-padding:15px;
-margin-top:10px;
-border-radius:15px;
+
+background:
+rgba(255,255,255,0.08);
+
+padding:18px;
+
+margin-top:15px;
+
+border-radius:20px;
+
+border:
+1px solid rgba(255,193,7,0.3);
+
+font-size:19px;
+
+backdrop-filter:blur(12px);
+
+box-shadow:
+0 8px 20px rgba(0,0,0,0.25);
+
+transition:0.3s;
 }
 
-#wheelResult{
-margin-top:20px;
-font-size:22px;
-color:gold;
-font-weight:bold;
+.menu-item:hover{
+
+transform:scale(1.02);
+
+border:
+1px solid gold;
 }
 
 </style>
+
 </head>
 
 <body>
 
-<img src="go.png" class="logo">
+<img src="go.png"
+class="logo">
 
 <h1>مطعم الفنان</h1>
-<p class="tagline">أشهى الأطباق التونسية</p>
+
+<p class="tagline">
+أشهى الأطباق والمأكولات التونسية
+</p>
+
+<div class="powered">
+✨ Powered By Mbarek Prod
+</div>
 
 <div class="container">
 
-<button class="card-btn" onclick="toggleMenu()">
+<button class="card-btn"
+onclick="toggleMenu()">
+
 🍽️ قائمة اليوم
+
 </button>
 
-<button class="card-btn" onclick="spinWheel()">
-🎡 عجلة الحظ
+<button class="card-btn"
+onclick="window.location.href='wheel.html'">
+
+🎡 عجلة الحظ والجوائز
+
 </button>
 
-<button class="card-btn admin-btn" onclick="openAdmin()">
+<button class="card-btn">
+
+📞 اتصل بنا
+
+</button>
+
+<button
+class="card-btn admin-btn"
+onclick="openAdmin()">
+
 👨‍🍳 لوحة الشيف
+
 </button>
 
 <div id="menu">
-<div class="menu-item">🍕 بيتزا - 15 د</div>
-<div class="menu-item">🥘 إسكالوب - 18 د</div>
-<div class="menu-item">🍟 فريت - 5 د</div>
+
+<div class="menu-item">
+🍕 بيتزا خاصة — 15 د
 </div>
 
-<div id="wheelResult">🎡 استنى دورك...</div>
+<div class="menu-item">
+🥘 إسكالوب — 18 د
+</div>
+
+<div class="menu-item">
+🍟 فريت — 5 د
+</div>
+
+</div>
 
 </div>
 
 <script>
 
 function toggleMenu(){
-let menu = document.getElementById("menu");
-menu.style.display = menu.style.display === "block" ? "none" : "block";
-}
 
-/* =========================
-   🎡 SYSTEME WHEEL
-========================= */
+const menu =
+document.getElementById("menu");
 
-let spinCount = 0;
+if(menu.style.display==="block"){
 
-function spinWheel(){
+menu.style.display="none";
 
-spinCount++;
+}else{
 
-let box = document.getElementById("wheelResult");
-
-// 🔁 spins 1 → 10
-if(spinCount <= 10){
-
-let msgs = ["🔄 عاود داور", "🚫 ارجع غدوة"];
-box.innerHTML = msgs[Math.floor(Math.random()*msgs.length)];
-return;
-}
-
-// 🏆 spin 11 = WIN
-if(spinCount === 11){
-
-let win = Math.random() < 0.5 ? "🍟 Portion Frit" : "🧀 Gezouza";
-
-box.innerHTML = "🎉 مبروك ربحت: " + win;
-
-spinCount = 0;
+menu.style.display="block";
 }
 }
 
-/* =========================
-   ADMIN
-========================= */
+
+
+// حماية لوحة الشيف
 
 function openAdmin(){
 
-let pass = prompt("🔐 Password");
+let attempts =
 
-if(pass === "0000omar1234"){
-window.location.href = "admin.html";
+localStorage.getItem(
+"adminAttempts"
+) || 0;
+
+
+let blockedUntil =
+
+localStorage.getItem(
+"blockedUntil"
+);
+
+
+if(blockedUntil){
+
+const now =
+new Date().getTime();
+
+
+if(now < blockedUntil){
+
+alert(
+"⛔ تم غلق لوحة الشيف لمدة ساعة"
+);
+
+return;
+
 }else{
-alert("❌ خطأ");
+
+localStorage.removeItem(
+"blockedUntil"
+);
+
+localStorage.setItem(
+"adminAttempts",
+0
+);
+
+attempts = 0;
+}
+}
+
+
+
+const password =
+prompt(
+"🔐 أدخل كلمة سر الشيف"
+);
+
+
+
+if(password === "0000omar1234"){
+
+localStorage.setItem(
+"adminAttempts",
+0
+);
+
+window.location.href =
+"admin.html";
+
+}else{
+
+attempts++;
+
+localStorage.setItem(
+"adminAttempts",
+attempts
+);
+
+
+
+if(attempts >= 3){
+
+const oneHour =
+
+60 * 60 * 1000;
+
+const blockTime =
+
+new Date().getTime()
++
+oneHour;
+
+localStorage.setItem(
+"blockedUntil",
+blockTime
+);
+
+alert(
+"⛔ تم غلق لوحة الشيف لمدة ساعة"
+);
+
+}else{
+
+alert(
+
+"❌ كلمة السر خاطئة\n\n"
+
++
+
+"المحاولة: "
+
++
+
+attempts
+
++
+
+"/3"
+
+);
+
+}
 }
 }
 
