@@ -1,90 +1,247 @@
 <!DOCTYPE html>
+
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>لوحة تحكم الشيف 🔐</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
-    <style>
-        body { font-family: 'Cairo', sans-serif; background: #1a0a00; color: white; padding: 20px; text-align: center; }
-        .box { background: rgba(255,255,255,0.05); padding: 20px; border-radius: 15px; border: 1px solid #f5c842; max-width: 420px; margin: 20px auto; }
-        input { width: 90%; padding: 10px; margin: 10px 0; border-radius: 10px; border: 1px solid #ccc; font-family: 'Cairo'; text-align: center; font-size: 16px; color: #000; }
-        button { background: linear-gradient(135deg, #ff9800, #e65100); color: white; border: none; padding: 12px 30px; border-radius: 25px; font-weight: bold; cursor: pointer; width: 100%; margin-top: 15px; font-size: 16px; }
-        .notify-btn { background: linear-gradient(135deg, #2196f3, #0d47a1); }
-        .lucky-btn { background: linear-gradient(135deg, #4caf50, #2e7d32); }
-        table { width: 100%; border-collapse: collapse; margin-top: 10px; color: white; }
-        th, td { padding: 8px; border: 1px solid #444; text-align: center; }
-    </style>
+
+```
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+
+<style>
+    body {
+        font-family: 'Cairo', sans-serif;
+        background: #1a0a00;
+        color: white;
+        padding: 20px;
+        text-align: center;
+    }
+
+    .box {
+        background: rgba(255,255,255,0.05);
+        padding: 20px;
+        border-radius: 15px;
+        border: 1px solid #f5c842;
+        max-width: 420px;
+        margin: 20px auto;
+    }
+
+    input {
+        width: 90%;
+        padding: 10px;
+        margin: 10px 0;
+        border-radius: 10px;
+        border: 1px solid #ccc;
+        font-family: 'Cairo';
+        text-align: center;
+        font-size: 16px;
+        color: #000;
+    }
+
+    button {
+        background: linear-gradient(135deg, #ff9800, #e65100);
+        color: white;
+        border: none;
+        padding: 12px 30px;
+        border-radius: 25px;
+        font-weight: bold;
+        cursor: pointer;
+        width: 100%;
+        margin-top: 15px;
+        font-size: 16px;
+    }
+
+    .notify-btn {
+        background: linear-gradient(135deg, #2196f3, #0d47a1);
+    }
+
+    .lucky-btn {
+        background: linear-gradient(135deg, #4caf50, #2e7d32);
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+        color: white;
+    }
+
+    th, td {
+        padding: 8px;
+        border: 1px solid #444;
+        text-align: center;
+    }
+</style>
+```
+
 </head>
+
 <body>
 
 <div id="content">
-    <h1>👨‍🍳 لوحة تحكم الشيف الفنان</h1>
-    
-    <div class="box">
-        <h3>🍽️ تحديث قائمة اليوم</h3>
-        <input type="text" id="food1" placeholder="أكلة 1">
-        <input type="text" id="price1" placeholder="السوم">
-        <input type="text" id="food2" placeholder="أكلة 2">
-        <input type="text" id="price2" placeholder="السوم">
-        <button onclick="saveMenu()">🚀 تحديث المنيو</button>
-        <button class="notify-btn" onclick="openNotificationPanel()">📢 إرسال إشعار للزبائن</button>
-    </div>
 
-    <div class="box">
-        <h3>🎡 ساعة الحظ (القازوزة)</h3>
-        <input type="number" id="hourInput" min="0" max="23" placeholder="حدد ساعة القازوزة (0-23)">
-        <button class="lucky-btn" onclick="saveHappyHour()">⏰ حفظ ساعة الحظ</button>
-    </div>
+```
+<h1>👨‍🍳 لوحة تحكم الشيف الفنان</h1>
 
-    <div class="box">
-        <h3>📊 سجل نتائج العجلات (مباشر)</h3>
-        <table>
-            <thead><tr><th>الوقت</th><th>النتيجة</th></tr></thead>
-            <tbody id="wheel-results-body"><tr><td colspan="2">جارِ تحميل البيانات...</td></tr></tbody>
-        </table>
-    </div>
-    <a href="index.html" style="color:gold;">⬅️ رجوع للموقع</a>
+<div class="box">
+    <h3>🍽️ تحديث قائمة اليوم</h3>
+
+    <input type="text" id="food1" placeholder="أكلة 1">
+    <input type="text" id="price1" placeholder="السوم">
+
+    <input type="text" id="food2" placeholder="أكلة 2">
+    <input type="text" id="price2" placeholder="السوم">
+
+    <button onclick="saveMenu()">🚀 تحديث المنيو</button>
+
+    <button class="notify-btn" onclick="openNotificationPanel()">
+        📢 إرسال إشعار للزبائن
+    </button>
+</div>
+
+<div class="box">
+    <h3>🎡 توقيت عمل عجلة الحظ</h3>
+
+    <input type="time" id="startHour">
+    <input type="time" id="endHour">
+
+    <button class="lucky-btn" onclick="saveHappyHour()">
+        ⏰ حفظ توقيت العجلة
+    </button>
+</div>
+
+<div class="box">
+    <h3>📊 سجل نتائج العجلات (مباشر)</h3>
+
+    <table>
+        <thead>
+            <tr>
+                <th>الوقت</th>
+                <th>النتيجة</th>
+            </tr>
+        </thead>
+
+        <tbody id="wheel-results-body">
+            <tr>
+                <td colspan="2">جارِ تحميل البيانات...</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<a href="index.html" style="color:gold;">
+    ⬅️ رجوع للموقع
+</a>
+```
+
 </div>
 
 <script type="module">
-    import { doc, setDoc, collection, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
-    import { db } from "./firebase.js"; 
 
-    window.saveMenu = async function() {
-        await setDoc(doc(db, "menu", "today"), {
-            food1: document.getElementById("food1").value,
-            price1: document.getElementById("price1").value,
-            food2: document.getElementById("food2").value,
-            price2: document.getElementById("price2").value
-        });
-        alert("✅ تم تحديث المنيو!");
-    };
+import {
+    doc,
+    setDoc,
+    collection,
+    onSnapshot,
+    query,
+    orderBy
 
-    // حفظ الساعة في Firebase
-    window.saveHappyHour = async function() {
-        const hour = parseInt(document.getElementById("hourInput").value);
-        await setDoc(doc(db, "wheel_settings", "config"), { happyHour: hour }, { merge: true });
-        alert("⏰ تم ضبط ساعة الحظ على: " + hour + ":00");
-    };
+} from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
 
-    window.openNotificationPanel = function() {
-        window.open('https://console.firebase.google.com/project/base-resto-3d1e8/notification', '_blank');
-    };
+import { db } from "./firebase.js";
 
-    function loadData() {
-        const q = query(collection(db, "prizes"), orderBy("time", "desc"));
-        onSnapshot(q, (snapshot) => {
-            const tbody = document.getElementById('wheel-results-body');
-            tbody.innerHTML = ""; 
-            snapshot.forEach((doc) => {
-                const res = doc.data();
-                tbody.innerHTML += `<tr><td>${res.time}</td><td style="color:gold; font-weight:bold;">${res.prize}</td></tr>`;
-            });
-        });
+
+window.saveMenu = async function () {
+
+    await setDoc(doc(db, "menu", "today"), {
+
+        food1: document.getElementById("food1").value,
+        price1: document.getElementById("price1").value,
+
+        food2: document.getElementById("food2").value,
+        price2: document.getElementById("price2").value
+
+    });
+
+    alert("✅ تم تحديث المنيو!");
+};
+
+
+
+// حفظ توقيت بداية ونهاية عجلة الحظ
+window.saveHappyHour = async function () {
+
+    const start = document.getElementById("startHour").value;
+    const end = document.getElementById("endHour").value;
+
+    if (!start || !end) {
+
+        alert("⚠️ حدد وقت البداية والنهاية");
+        return;
     }
 
-    loadData();
+    await setDoc(
+
+        doc(db, "wheel_settings", "config"),
+
+        {
+            startHour: start,
+            endHour: end
+        },
+
+        { merge: true }
+
+    );
+
+    alert("✅ تم ضبط توقيت العجلة من " + start + " إلى " + end);
+};
+
+
+
+// فتح Firebase Notifications
+window.openNotificationPanel = function () {
+
+    window.open(
+        'https://console.firebase.google.com/project/base-resto-3d1e8/notification',
+        '_blank'
+    );
+};
+
+
+
+// تحميل النتائج مباشرة
+function loadData() {
+
+    const q = query(
+        collection(db, "prizes"),
+        orderBy("time", "desc")
+    );
+
+    onSnapshot(q, (snapshot) => {
+
+        const tbody = document.getElementById('wheel-results-body');
+
+        tbody.innerHTML = "";
+
+        snapshot.forEach((docSnap) => {
+
+            const res = docSnap.data();
+
+            tbody.innerHTML += `
+                <tr>
+                    <td>${res.time}</td>
+                    <td style="color:gold; font-weight:bold;">
+                        ${res.prize}
+                    </td>
+                </tr>
+            `;
+        });
+    });
+}
+
+loadData();
+
 </script>
 
 </body>
