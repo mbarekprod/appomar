@@ -1,89 +1,304 @@
 <!DOCTYPE html>
+
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>مطعم الفنان</title>
-    <link rel="manifest" href="manifest.json">
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
-    <meta name="theme-color" content="#b8860b">
+
+```
+<link rel="manifest" href="manifest.json">
+<link rel="stylesheet" href="style.css">
+
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+
+<meta name="theme-color" content="#b8860b">
+```
+
 </head>
+
 <body>
 
 <header class="header">
-    <div class="logo-ring"><img src="go.png" alt="مطعم الفنان" class="logo"></div>
-    <h1 class="brand-name">مطعم الفنان</h1>
-    <p class="tagline">أشهى الأطباق والمأكولات التونسية</p>
+
+```
+<div class="logo-ring">
+    <img src="go.png" alt="مطعم الفنان" class="logo">
+</div>
+
+<h1 class="brand-name">مطعم الفنان</h1>
+
+<p class="tagline">
+    أشهى الأطباق والمأكولات التونسية
+</p>
+```
+
 </header>
 
 <main class="main-menu">
-    <button class="card-btn" onclick="showSection('menu')">🍽️ قائمة اليوم</button>
-    <button class="card-btn" onclick="window.location.href='wheel.html'">🎡 عجلة الحظ والجوائز</button>
-    <button class="card-btn" onclick="showSection('contact')">📞 اتصل بنا</button>
-    
-    <button id="install-btn" style="display:none; background: #28a745; color: white; padding: 15px; border-radius: 25px; border: none; width: 80%; margin: 15px auto; font-family: 'Cairo'; cursor: pointer;">
-        📱 تحميل التطبيق على هاتفك
-    </button>
-    
-    <button class="card-btn admin-btn" onclick="window.location.href='admin.html'">👨‍🍳 لوحة الشيف</button>
+
+```
+<button class="card-btn" onclick="showSection('menu')">
+    🍽️ قائمة اليوم
+</button>
+
+<button class="card-btn" id="wheel-btn">
+    🎡 عجلة الحظ والجوائز
+</button>
+
+<button class="card-btn" onclick="showSection('contact')">
+    📞 اتصل بنا
+</button>
+
+
+<button
+    id="install-btn"
+    style="
+        display:none;
+        background:#28a745;
+        color:white;
+        padding:15px;
+        border-radius:25px;
+        border:none;
+        width:80%;
+        margin:15px auto;
+        font-family:'Cairo';
+        cursor:pointer;
+    "
+>
+    📱 تحميل التطبيق على هاتفك
+</button>
+
+
+<button
+    class="card-btn admin-btn"
+    onclick="window.location.href='admin.html'"
+>
+    👨‍🍳 لوحة الشيف
+</button>
+```
+
 </main>
 
 <section id="menu" class="section hidden">
-    <h2>🍽️ قائمة اليوم</h2>
-    <div id="dynamic-menu"></div>
+
+```
+<h2>🍽️ قائمة اليوم</h2>
+
+<div id="dynamic-menu"></div>
+```
+
 </section>
 
 <script type="module">
-  import { doc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
-  import { getMessaging, getToken } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-messaging.js";
-  import { db } from "./firebase.js";
 
-  // 1. تحديث المنيو لحظة بلحظة
-  const menuRef = doc(db, "menu", "today");
-  onSnapshot(menuRef, (doc) => {
-    if (doc.exists()) {
-      const data = doc.data();
-      document.getElementById('dynamic-menu').innerHTML = `
-        <div class="menu-item"><span>🍕 ${data.food1 || '---'}</span><strong>${data.price1 || '---'} د</strong></div>
-        <div class="menu-item"><span>🥘 ${data.food2 || '---'}</span><strong>${data.price2 || '---'} د</strong></div>
-      `;
+import {
+    doc,
+    onSnapshot,
+    getDoc
+
+} from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
+
+import {
+    getMessaging,
+    getToken
+
+} from "https://www.gstatic.com/firebasejs/11.9.1/firebase-messaging.js";
+
+import { db } from "./firebase.js";
+
+
+
+// ========================================
+// تحديث المنيو لحظة بلحظة
+// ========================================
+
+const menuRef = doc(db, "menu", "today");
+
+onSnapshot(menuRef, (docSnap) => {
+
+    if (docSnap.exists()) {
+
+        const data = docSnap.data();
+
+        document.getElementById('dynamic-menu').innerHTML = `
+
+            <div class="menu-item">
+                <span>🍕 ${data.food1 || '---'}</span>
+                <strong>${data.price1 || '---'} د</strong>
+            </div>
+
+            <div class="menu-item">
+                <span>🥘 ${data.food2 || '---'}</span>
+                <strong>${data.price2 || '---'} د</strong>
+            </div>
+
+        `;
     }
-  });
+});
 
-  // 2. تفعيل الإشعارات
-  const messaging = getMessaging();
-  const vapidKey = 'BLAh8sVDM-cX5y4GpVLwwfQiyTi94CwuH5AYIILf5xLD9qxPqZdJDLiOdo148bo9D96ao7PFPAopBcRuG2vWcuU';
 
-  Notification.requestPermission().then((permission) => {
+
+// ========================================
+// تفعيل الإشعارات
+// ========================================
+
+const messaging = getMessaging();
+
+const vapidKey =
+'BLAh8sVDM-cX5y4GpVLwwfQiyTi94CwuH5AYIILf5xLD9qxPqZdJDLiOdo148bo9D96ao7PFPAopBcRuG2vWcuU';
+
+
+Notification.requestPermission().then((permission) => {
+
     if (permission === 'granted') {
-      getToken(messaging, { vapidKey: vapidKey }).then((token) => {
-        console.log("تم تسجيل الجهاز بنجاح!");
-      });
+
+        getToken(messaging, {
+
+            vapidKey: vapidKey
+
+        }).then((token) => {
+
+            console.log("تم تسجيل الجهاز بنجاح!");
+
+        });
     }
-  });
+});
 
-  // 3. كود تحميل التطبيق (PWA)
-  let deferredPrompt;
-  const installBtn = document.getElementById('install-btn');
 
-  window.addEventListener('beforeinstallprompt', (e) => {
-      e.preventDefault();
-      deferredPrompt = e;
-      installBtn.style.display = 'block';
-  });
 
-  installBtn.addEventListener('click', () => {
-      deferredPrompt.prompt();
-      deferredPrompt.userChoice.then((choiceResult) => {
-          if (choiceResult.outcome === 'accepted') {
-              installBtn.style.display = 'none';
-          }
-          deferredPrompt = null;
-      });
-  });
+// ========================================
+// كود تحميل التطبيق PWA
+// ========================================
+
+let deferredPrompt;
+
+const installBtn =
+document.getElementById('install-btn');
+
+
+window.addEventListener('beforeinstallprompt', (e) => {
+
+    e.preventDefault();
+
+    deferredPrompt = e;
+
+    installBtn.style.display = 'block';
+});
+
+
+installBtn.addEventListener('click', () => {
+
+    deferredPrompt.prompt();
+
+    deferredPrompt.userChoice.then((choiceResult) => {
+
+        if (choiceResult.outcome === 'accepted') {
+
+            installBtn.style.display = 'none';
+        }
+
+        deferredPrompt = null;
+    });
+});
+
+
+
+// ========================================
+// التحقق من توقيت عجلة الحظ
+// ========================================
+
+async function checkWheelTime() {
+
+    const settingsRef =
+    doc(db, "wheel_settings", "config");
+
+    const settingsSnap =
+    await getDoc(settingsRef);
+
+    if (!settingsSnap.exists()) {
+
+        return true;
+    }
+
+    const settings =
+    settingsSnap.data();
+
+
+    // إذا ما فماش توقيت
+    if (!settings.startHour || !settings.endHour) {
+
+        return true;
+    }
+
+
+    const now = new Date();
+
+    const currentMinutes =
+        now.getHours() * 60 +
+        now.getMinutes();
+
+
+    const [startH, startM] =
+        settings.startHour
+        .split(":")
+        .map(Number);
+
+
+    const [endH, endM] =
+        settings.endHour
+        .split(":")
+        .map(Number);
+
+
+    const startMinutes =
+        startH * 60 + startM;
+
+
+    const endMinutes =
+        endH * 60 + endM;
+
+
+    return (
+
+        currentMinutes >= startMinutes &&
+        currentMinutes <= endMinutes
+
+    );
+}
+
+
+
+// ========================================
+// زر عجلة الحظ
+// ========================================
+
+const wheelBtn =
+document.getElementById("wheel-btn");
+
+
+wheelBtn.addEventListener("click", async () => {
+
+    const canOpen =
+    await checkWheelTime();
+
+
+    if (!canOpen) {
+
+        alert("⛔ عجلة الحظ مسكرة حاليا");
+
+        return;
+    }
+
+
+    window.location.href = "wheel.html";
+
+});
+
 </script>
 
 <script src="script.js"></script>
+
 </body>
 </html>
+
