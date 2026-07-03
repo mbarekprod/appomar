@@ -1,19 +1,84 @@
 <!DOCTYPE html>
-
 <html lang="ar" dir="rtl">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
     <title>مطعم الفنان</title>
 
-```
-<link rel="manifest" href="manifest.json">
-<link rel="stylesheet" href="style.css">
+    <link rel="manifest"
+        href="manifest.json">
 
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet"
+        href="style.css">
 
-<meta name="theme-color" content="#b8860b">
-```
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap"
+        rel="stylesheet">
+
+    <meta name="theme-color"
+        content="#b8860b">
+
+    <style>
+
+        .logo {
+            animation:
+            floatLogo 3s ease-in-out infinite;
+        }
+
+        @keyframes floatLogo {
+
+            0% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        .brand-name {
+
+            animation:
+            fadeInDown 1.5s ease;
+        }
+
+        @keyframes fadeInDown {
+
+            from {
+                opacity: 0;
+                transform:
+                translateY(-30px);
+            }
+
+            to {
+                opacity: 1;
+                transform:
+                translateY(0px);
+            }
+        }
+
+        .card-btn {
+
+            transition: 0.3s;
+            transform: scale(1);
+        }
+
+        .card-btn:hover {
+
+            transform: scale(1.06);
+
+            box-shadow:
+            0 0 25px
+            rgba(255,193,7,0.5);
+        }
+
+    </style>
 
 </head>
 
@@ -21,298 +86,254 @@
 
 <header class="header">
 
-```
-<div class="logo-ring">
-    <img src="go.png" alt="مطعم الفنان" class="logo">
-</div>
+    <div class="logo-ring">
 
-<h1 class="brand-name">مطعم الفنان</h1>
+        <img src="go.png"
+            alt="مطعم الفنان"
+            class="logo">
 
-<p class="tagline">
-    أشهى الأطباق والمأكولات التونسية
-</p>
-```
+    </div>
+
+    <h1 class="brand-name">
+        مطعم الفنان
+    </h1>
+
+    <p class="tagline">
+        أشهى الأطباق والمأكولات التونسية
+    </p>
 
 </header>
 
 <main class="main-menu">
 
-```
-<button class="card-btn" onclick="showSection('menu')">
-    🍽️ قائمة اليوم
-</button>
+    <button class="card-btn"
+        onclick="showSection('menu')">
 
-<button class="card-btn" id="wheel-btn">
-    🎡 عجلة الحظ والجوائز
-</button>
+        🍽️ قائمة اليوم
 
-<button class="card-btn" onclick="showSection('contact')">
-    📞 اتصل بنا
-</button>
+    </button>
 
+    <button class="card-btn"
+        onclick="window.location.href='wheel.html'">
 
-<button
-    id="install-btn"
-    style="
-        display:none;
-        background:#28a745;
-        color:white;
-        padding:15px;
-        border-radius:25px;
-        border:none;
-        width:80%;
-        margin:15px auto;
-        font-family:'Cairo';
-        cursor:pointer;
-    "
->
-    📱 تحميل التطبيق على هاتفك
-</button>
+        🎡 عجلة الحظ والجوائز
 
+    </button>
 
-<button
-    class="card-btn admin-btn"
-    onclick="window.location.href='admin.html'"
->
-    👨‍🍳 لوحة الشيف
-</button>
-```
+    <button class="card-btn"
+        onclick="showSection('contact')">
+
+        📞 اتصل بنا
+
+    </button>
+
+    <button id="install-btn"
+
+        style="
+            display:none;
+            background:#28a745;
+            color:white;
+            padding:15px;
+            border-radius:25px;
+            border:none;
+            width:80%;
+            margin:15px auto;
+            font-family:'Cairo';
+            cursor:pointer;
+        ">
+
+        📱 تحميل التطبيق على هاتفك
+
+    </button>
+
+    <button class="card-btn admin-btn"
+        onclick="window.location.href='admin.html'">
+
+        👨‍🍳 لوحة الشيف
+
+    </button>
 
 </main>
 
-<section id="menu" class="section hidden">
+<section id="menu"
+    class="section hidden">
 
-```
-<h2>🍽️ قائمة اليوم</h2>
+    <h2>🍽️ قائمة اليوم</h2>
 
-<div id="dynamic-menu"></div>
-```
+    <div id="dynamic-menu"></div>
 
 </section>
 
 <script type="module">
 
-import {
-    doc,
-    onSnapshot,
-    getDoc
+    import {
+        doc,
+        onSnapshot
 
-} from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
+    } from
 
-import {
-    getMessaging,
-    getToken
-
-} from "https://www.gstatic.com/firebasejs/11.9.1/firebase-messaging.js";
-
-import { db } from "./firebase.js";
+    "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
 
 
+    import {
+        getMessaging,
+        getToken
 
-// ========================================
-// تحديث المنيو لحظة بلحظة
-// ========================================
+    } from
 
-const menuRef = doc(db, "menu", "today");
+    "https://www.gstatic.com/firebasejs/11.9.1/firebase-messaging.js";
 
-onSnapshot(menuRef, (docSnap) => {
 
-    if (docSnap.exists()) {
+    import { db }
+    from "./firebase.js";
 
-        const data = docSnap.data();
 
-        document.getElementById('dynamic-menu').innerHTML = `
+
+    const menuRef =
+
+    doc(
+        db,
+        "menu",
+        "today"
+    );
+
+
+
+    onSnapshot(menuRef,
+
+    (docSnap) => {
+
+        if (docSnap.exists()) {
+
+            const data =
+            docSnap.data();
+
+            document.getElementById(
+                'dynamic-menu'
+            ).innerHTML = `
 
             <div class="menu-item">
-                <span>🍕 ${data.food1 || '---'}</span>
-                <strong>${data.price1 || '---'} د</strong>
+
+                <span>
+                    🍕 ${data.food1 || '---'}
+                </span>
+
+                <strong>
+                    ${data.price1 || '---'} د
+                </strong>
+
             </div>
+
 
             <div class="menu-item">
-                <span>🥘 ${data.food2 || '---'}</span>
-                <strong>${data.price2 || '---'} د</strong>
+
+                <span>
+                    🥘 ${data.food2 || '---'}
+                </span>
+
+                <strong>
+                    ${data.price2 || '---'} د
+                </strong>
+
             </div>
 
-        `;
-    }
-});
-
-
-
-// ========================================
-// تفعيل الإشعارات
-// ========================================
-
-const messaging = getMessaging();
-
-const vapidKey =
-'BLAh8sVDM-cX5y4GpVLwwfQiyTi94CwuH5AYIILf5xLD9qxPqZdJDLiOdo148bo9D96ao7PFPAopBcRuG2vWcuU';
-
-
-Notification.requestPermission().then((permission) => {
-
-    if (permission === 'granted') {
-
-        getToken(messaging, {
-
-            vapidKey: vapidKey
-
-        }).then((token) => {
-
-            console.log("تم تسجيل الجهاز بنجاح!");
-
-        });
-    }
-});
-
-
-
-// ========================================
-// كود تحميل التطبيق PWA
-// ========================================
-
-let deferredPrompt;
-
-const installBtn =
-document.getElementById('install-btn');
-
-
-window.addEventListener('beforeinstallprompt', (e) => {
-
-    e.preventDefault();
-
-    deferredPrompt = e;
-
-    installBtn.style.display = 'block';
-});
-
-
-installBtn.addEventListener('click', () => {
-
-    deferredPrompt.prompt();
-
-    deferredPrompt.userChoice.then((choiceResult) => {
-
-        if (choiceResult.outcome === 'accepted') {
-
-            installBtn.style.display = 'none';
+            `;
         }
-
-        deferredPrompt = null;
     });
-});
 
 
 
-// ========================================
-// التحقق من توقيت عجلة الحظ
-// ========================================
-async function checkWheelTime() {
-
-```
-const settingsRef =
-doc(db, "wheel_settings", "config");
-
-const settingsSnap =
-await getDoc(settingsRef);
-
-// إذا ما فماش إعدادات تخدم عادي
-if (!settingsSnap.exists()) {
-
-    return true;
-}
-
-const settings = settingsSnap.data();
-
-// إذا البداية أو النهاية فارغين
-if (!settings.startHour || !settings.endHour) {
-
-    return true;
-}
+    const messaging =
+    getMessaging();
 
 
-// الوقت الحالي
-const now = new Date();
+    const vapidKey =
 
-const currentHour = now.getHours();
-const currentMinute = now.getMinutes();
-
-const currentTotal =
-    (currentHour * 60) + currentMinute;
+    'BLAh8sVDM-cX5y4GpVLwwfQiyTi94CwuH5AYIILf5xLD9qxPqZdJDLiOdo148bo9D96ao7PFPAopBcRuG2vWcuU';
 
 
-// وقت البداية
-const startParts =
-    settings.startHour.split(":");
 
-const startHour =
-    parseInt(startParts[0]);
+    Notification.requestPermission()
 
-const startMinute =
-    parseInt(startParts[1]);
+    .then((permission) => {
 
-const startTotal =
-    (startHour * 60) + startMinute;
+        if (
+            permission === 'granted'
+        ) {
 
+            getToken(
+                messaging,
+                {
+                    vapidKey:
+                    vapidKey
+                }
 
-// وقت النهاية
-const endParts =
-    settings.endHour.split(":");
+            ).then((token) => {
 
-const endHour =
-    parseInt(endParts[0]);
+                console.log(
+                    "تم تسجيل الجهاز بنجاح!"
+                );
 
-const endMinute =
-    parseInt(endParts[1]);
-
-const endTotal =
-    (endHour * 60) + endMinute;
-
-
-console.log("الوقت الحالي:", currentTotal);
-console.log("البداية:", startTotal);
-console.log("النهاية:", endTotal);
+            });
+        }
+    });
 
 
-// التحقق
-if (
-    currentTotal >= startTotal &&
-    currentTotal <= endTotal
-) {
 
-    return true;
-}
-
-return false;
-```
-
-}
-
-// ========================================
-// زر عجلة الحظ
-// ========================================
-
-const wheelBtn =
-document.getElementById("wheel-btn");
+    let deferredPrompt;
 
 
-wheelBtn.addEventListener("click", async () => {
+    const installBtn =
 
-    const canOpen =
-    await checkWheelTime();
-
-
-    if (!canOpen) {
-
-        alert("⛔ عجلة الحظ مسكرة حاليا");
-
-        return;
-    }
+    document.getElementById(
+        'install-btn'
+    );
 
 
-    window.location.href = "wheel.html";
 
-});
+    window.addEventListener(
+
+    'beforeinstallprompt',
+
+    (e) => {
+
+        e.preventDefault();
+
+        deferredPrompt = e;
+
+        installBtn.style.display =
+        'block';
+    });
+
+
+
+    installBtn.addEventListener(
+
+    'click',
+
+    () => {
+
+        deferredPrompt.prompt();
+
+        deferredPrompt.userChoice
+
+        .then((choiceResult) => {
+
+            if (
+
+                choiceResult.outcome
+                ===
+                'accepted'
+
+            ) {
+
+                installBtn.style.display =
+                'none';
+            }
+
+            deferredPrompt = null;
+        });
+    });
 
 </script>
 
@@ -320,4 +341,3 @@ wheelBtn.addEventListener("click", async () => {
 
 </body>
 </html>
-
