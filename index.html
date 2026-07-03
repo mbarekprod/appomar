@@ -207,67 +207,86 @@ installBtn.addEventListener('click', () => {
 // ========================================
 // التحقق من توقيت عجلة الحظ
 // ========================================
-
 async function checkWheelTime() {
 
-    const settingsRef =
-    doc(db, "wheel_settings", "config");
+```
+const settingsRef =
+doc(db, "wheel_settings", "config");
 
-    const settingsSnap =
-    await getDoc(settingsRef);
+const settingsSnap =
+await getDoc(settingsRef);
 
-    if (!settingsSnap.exists()) {
+// إذا ما فماش إعدادات تخدم عادي
+if (!settingsSnap.exists()) {
 
-        return true;
-    }
+    return true;
+}
 
-    const settings =
-    settingsSnap.data();
+const settings = settingsSnap.data();
 
+// إذا البداية أو النهاية فارغين
+if (!settings.startHour || !settings.endHour) {
 
-    // إذا ما فماش توقيت
-    if (!settings.startHour || !settings.endHour) {
-
-        return true;
-    }
-
-
-    const now = new Date();
-
-    const currentMinutes =
-        now.getHours() * 60 +
-        now.getMinutes();
-
-
-    const [startH, startM] =
-        settings.startHour
-        .split(":")
-        .map(Number);
-
-
-    const [endH, endM] =
-        settings.endHour
-        .split(":")
-        .map(Number);
-
-
-    const startMinutes =
-        startH * 60 + startM;
-
-
-    const endMinutes =
-        endH * 60 + endM;
-
-
-    return (
-
-        currentMinutes >= startMinutes &&
-        currentMinutes <= endMinutes
-
-    );
+    return true;
 }
 
 
+// الوقت الحالي
+const now = new Date();
+
+const currentHour = now.getHours();
+const currentMinute = now.getMinutes();
+
+const currentTotal =
+    (currentHour * 60) + currentMinute;
+
+
+// وقت البداية
+const startParts =
+    settings.startHour.split(":");
+
+const startHour =
+    parseInt(startParts[0]);
+
+const startMinute =
+    parseInt(startParts[1]);
+
+const startTotal =
+    (startHour * 60) + startMinute;
+
+
+// وقت النهاية
+const endParts =
+    settings.endHour.split(":");
+
+const endHour =
+    parseInt(endParts[0]);
+
+const endMinute =
+    parseInt(endParts[1]);
+
+const endTotal =
+    (endHour * 60) + endMinute;
+
+
+console.log("الوقت الحالي:", currentTotal);
+console.log("البداية:", startTotal);
+console.log("النهاية:", endTotal);
+
+
+// التحقق
+if (
+    currentTotal >= startTotal &&
+    currentTotal <= endTotal
+) {
+
+    return true;
+}
+
+return false;
+```
+
+}
 
 // ========================================
 // زر عجلة الحظ
