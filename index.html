@@ -2,83 +2,133 @@
 <html lang="ar" dir="rtl">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-        content="width=device-width, initial-scale=1.0">
 
-    <title>مطعم الفنان</title>
+<meta charset="UTF-8">
 
-    <link rel="manifest"
-        href="manifest.json">
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet"
-        href="style.css">
+<title>مطعم الفنان</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap"
-        rel="stylesheet">
+<link rel="manifest"
+href="manifest.json">
 
-    <meta name="theme-color"
-        content="#b8860b">
+<link rel="stylesheet"
+href="style.css">
 
-    <style>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap"
+rel="stylesheet">
 
-        .logo {
-            animation:
-            floatLogo 3s ease-in-out infinite;
-        }
+<meta name="theme-color"
+content="#b8860b">
 
-        @keyframes floatLogo {
+<style>
 
-            0% {
-                transform: translateY(0px);
-            }
+body{
 
-            50% {
-                transform: translateY(-10px);
-            }
+overflow-x:hidden;
+}
 
-            100% {
-                transform: translateY(0px);
-            }
-        }
+.logo{
 
-        .brand-name {
+animation:
+floatLogo 3s ease-in-out infinite;
+}
 
-            animation:
-            fadeInDown 1.5s ease;
-        }
+@keyframes floatLogo{
 
-        @keyframes fadeInDown {
+0%{
+transform:translateY(0px);
+}
 
-            from {
-                opacity: 0;
-                transform:
-                translateY(-30px);
-            }
+50%{
+transform:translateY(-10px);
+}
 
-            to {
-                opacity: 1;
-                transform:
-                translateY(0px);
-            }
-        }
+100%{
+transform:translateY(0px);
+}
+}
 
-        .card-btn {
+.brand-name{
 
-            transition: 0.3s;
-            transform: scale(1);
-        }
+animation:
+fadeInDown 1.5s ease;
+}
 
-        .card-btn:hover {
+@keyframes fadeInDown{
 
-            transform: scale(1.06);
+from{
 
-            box-shadow:
-            0 0 25px
-            rgba(255,193,7,0.5);
-        }
+opacity:0;
 
-    </style>
+transform:
+translateY(-30px);
+}
+
+to{
+
+opacity:1;
+
+transform:
+translateY(0px);
+}
+}
+
+.card-btn{
+
+transition:0.3s;
+
+transform:scale(1);
+}
+
+.card-btn:hover{
+
+transform:scale(1.06);
+
+box-shadow:
+0 0 25px
+rgba(255,193,7,0.5);
+}
+
+.menu-item{
+
+animation:
+fadeMenu 1s ease;
+}
+
+@keyframes fadeMenu{
+
+from{
+
+opacity:0;
+
+transform:
+translateY(20px);
+}
+
+to{
+
+opacity:1;
+
+transform:
+translateY(0px);
+}
+}
+
+.download-btn{
+
+background:
+linear-gradient(
+135deg,
+#2196f3,
+#0d47a1
+);
+
+color:white;
+}
+
+</style>
 
 </head>
 
@@ -86,254 +136,279 @@
 
 <header class="header">
 
-    <div class="logo-ring">
+<div class="logo-ring">
 
-        <img src="go.png"
-            alt="مطعم الفنان"
-            class="logo">
+<img src="go.png"
+alt="مطعم الفنان"
+class="logo">
 
-    </div>
+</div>
 
-    <h1 class="brand-name">
-        مطعم الفنان
-    </h1>
+<h1 class="brand-name">
 
-    <p class="tagline">
-        أشهى الأطباق والمأكولات التونسية
-    </p>
+مطعم الفنان
+
+</h1>
+
+<p class="tagline">
+
+أشهى الأطباق والمأكولات التونسية
+
+</p>
 
 </header>
 
 <main class="main-menu">
 
-    <button class="card-btn"
-        onclick="showSection('menu')">
+<button class="card-btn"
+onclick="showSection('menu')">
 
-        🍽️ قائمة اليوم
+🍽️ قائمة اليوم
 
-    </button>
+</button>
 
-    <button class="card-btn"
-        onclick="window.location.href='wheel.html'">
+<button class="card-btn"
+onclick="window.location.href='wheel.html'">
 
-        🎡 عجلة الحظ والجوائز
+🎡 عجلة الحظ والجوائز
 
-    </button>
+</button>
 
-    <button class="card-btn"
-        onclick="showSection('contact')">
+<button class="card-btn"
+onclick="showSection('contact')">
 
-        📞 اتصل بنا
+📞 اتصل بنا
 
-    </button>
+</button>
 
-    <button id="install-btn"
+<button id="install-btn"
 
-        style="
-            display:none;
-            background:#28a745;
-            color:white;
-            padding:15px;
-            border-radius:25px;
-            border:none;
-            width:80%;
-            margin:15px auto;
-            font-family:'Cairo';
-            cursor:pointer;
-        ">
+style="
+display:none;
+background:#28a745;
+color:white;
+padding:15px;
+border-radius:25px;
+border:none;
+width:80%;
+margin:15px auto;
+font-family:'Cairo';
+cursor:pointer;
+">
 
-        📱 تحميل التطبيق على هاتفك
+📱 تحميل التطبيق على هاتفك
 
-    </button>
+</button>
 
-    <button class="card-btn admin-btn"
-        onclick="window.location.href='admin.html'">
+<button class="card-btn download-btn"
+onclick="downloadApp()">
 
-        👨‍🍳 لوحة الشيف
+⬇️ تنزيل التطبيق
 
-    </button>
+</button>
+
+<button class="card-btn admin-btn"
+onclick="window.location.href='admin.html'">
+
+👨‍🍳 لوحة الشيف
+
+</button>
 
 </main>
 
 <section id="menu"
-    class="section hidden">
+class="section hidden">
 
-    <h2>🍽️ قائمة اليوم</h2>
+<h2>🍽️ قائمة اليوم</h2>
 
-    <div id="dynamic-menu"></div>
+<div id="dynamic-menu"></div>
 
 </section>
 
 <script type="module">
 
-    import {
-        doc,
-        onSnapshot
+import {
+doc,
+onSnapshot
 
-    } from
+} from
 
-    "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
+"https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
 
 
-    import {
-        getMessaging,
-        getToken
+import {
+getMessaging,
+getToken
 
-    } from
+} from
 
-    "https://www.gstatic.com/firebasejs/11.9.1/firebase-messaging.js";
+"https://www.gstatic.com/firebasejs/11.9.1/firebase-messaging.js";
 
 
-    import { db }
-    from "./firebase.js";
+import { db }
+from "./firebase.js";
 
 
 
-    const menuRef =
+const menuRef =
 
-    doc(
-        db,
-        "menu",
-        "today"
-    );
+doc(
+db,
+"menu",
+"today"
+);
 
 
 
-    onSnapshot(menuRef,
+onSnapshot(menuRef,
 
-    (docSnap) => {
+(docSnap) => {
 
-        if (docSnap.exists()) {
+if (docSnap.exists()) {
 
-            const data =
-            docSnap.data();
+const data =
+docSnap.data();
 
-            document.getElementById(
-                'dynamic-menu'
-            ).innerHTML = `
+document.getElementById(
+'dynamic-menu'
+).innerHTML = `
 
-            <div class="menu-item">
+<div class="menu-item">
 
-                <span>
-                    🍕 ${data.food1 || '---'}
-                </span>
+<span>
+🍕 ${data.food1 || '---'}
+</span>
 
-                <strong>
-                    ${data.price1 || '---'} د
-                </strong>
+<strong>
+${data.price1 || '---'} د
+</strong>
 
-            </div>
+</div>
 
 
-            <div class="menu-item">
+<div class="menu-item">
 
-                <span>
-                    🥘 ${data.food2 || '---'}
-                </span>
+<span>
+🥘 ${data.food2 || '---'}
+</span>
 
-                <strong>
-                    ${data.price2 || '---'} د
-                </strong>
+<strong>
+${data.price2 || '---'} د
+</strong>
 
-            </div>
+</div>
 
-            `;
-        }
-    });
+`;
+}
+});
 
 
 
-    const messaging =
-    getMessaging();
+const messaging =
+getMessaging();
 
 
-    const vapidKey =
+const vapidKey =
 
-    'BLAh8sVDM-cX5y4GpVLwwfQiyTi94CwuH5AYIILf5xLD9qxPqZdJDLiOdo148bo9D96ao7PFPAopBcRuG2vWcuU';
+'BLAh8sVDM-cX5y4GpVLwwfQiyTi94CwuH5AYIILf5xLD9qxPqZdJDLiOdo148bo9D96ao7PFPAopBcRuG2vWcuU';
 
 
 
-    Notification.requestPermission()
+Notification.requestPermission()
 
-    .then((permission) => {
+.then((permission) => {
 
-        if (
-            permission === 'granted'
-        ) {
+if (
+permission === 'granted'
+) {
 
-            getToken(
-                messaging,
-                {
-                    vapidKey:
-                    vapidKey
-                }
+getToken(
+messaging,
+{
+vapidKey:
+vapidKey
+}
 
-            ).then((token) => {
+).then((token) => {
 
-                console.log(
-                    "تم تسجيل الجهاز بنجاح!"
-                );
+console.log(
+"تم تسجيل الجهاز بنجاح!"
+);
 
-            });
-        }
-    });
+});
+}
+});
 
 
 
-    let deferredPrompt;
+let deferredPrompt;
 
 
-    const installBtn =
+const installBtn =
 
-    document.getElementById(
-        'install-btn'
-    );
+document.getElementById(
+'install-btn'
+);
 
 
 
-    window.addEventListener(
+window.addEventListener(
 
-    'beforeinstallprompt',
+'beforeinstallprompt',
 
-    (e) => {
+(e) => {
 
-        e.preventDefault();
+e.preventDefault();
 
-        deferredPrompt = e;
+deferredPrompt = e;
 
-        installBtn.style.display =
-        'block';
-    });
+installBtn.style.display =
+'block';
+});
 
 
 
-    installBtn.addEventListener(
+installBtn.addEventListener(
 
-    'click',
+'click',
 
-    () => {
+() => {
 
-        deferredPrompt.prompt();
+deferredPrompt.prompt();
 
-        deferredPrompt.userChoice
+deferredPrompt.userChoice
 
-        .then((choiceResult) => {
+.then((choiceResult) => {
 
-            if (
+if (
 
-                choiceResult.outcome
-                ===
-                'accepted'
+choiceResult.outcome
+===
+'accepted'
 
-            ) {
+) {
 
-                installBtn.style.display =
-                'none';
-            }
+installBtn.style.display =
+'none';
+}
 
-            deferredPrompt = null;
-        });
-    });
+deferredPrompt = null;
+});
+});
+
+
+
+window.downloadApp = function(){
+
+window.open(
+
+"https://base-resto-3d1e8.web.app",
+
+"_blank"
+
+);
+
+}
 
 </script>
 
