@@ -10,9 +10,9 @@
         body {
             margin: 0; padding: 20px;
             font-family: 'Cairo', sans-serif;
-            /* هوني التعديل: الخلفية ولات ثابتة وتغطي الشاشة كاملة من غير ما تتبكسل */
-            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
-                        url('https://i.ibb.co/JRShBbcf/background.jpg');
+            /* الخلفية الجديدة بجودة عالية */
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
+                        url('https://images.unsplash.com/photo-1552566626-52f8b828add9?q=80&w=1600&auto=format&fit=crop');
             background-size: cover; 
             background-position: center center;
             background-repeat: no-repeat;
@@ -25,21 +25,28 @@
             width: 180px; height: 180px; margin-bottom: 30px;
             border-radius: 50%; border: 5px solid #ffcc33;
             box-shadow: 0 0 40px #ffcc33;
-            animation: rotateLogo 15s linear infinite;
             overflow: hidden;
             display: flex; align-items: center; justify-content: center;
         }
         .logo-container img { width: 100%; height: 100%; object-fit: cover; }
-        @keyframes rotateLogo { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+        .buttons-cadre {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 30px;
+            border-radius: 30px;
+            border: 1px solid rgba(255, 204, 51, 0.3);
+            display: flex; flex-direction: column; align-items: center;
+            backdrop-filter: blur(10px);
+            width: 300px;
+        }
 
         .btn {
-            display: block; width: 280px; padding: 16px; margin: 12px;
-            background: rgba(0, 0, 0, 0.6); border: 2px solid #ffcc33;
+            display: block; width: 100%; padding: 14px; margin: 8px 0;
+            background: transparent; border: 1px solid #ffcc33;
             border-radius: 30px; color: #ffcc33; text-align: center;
             text-decoration: none; font-weight: bold; transition: 0.4s;
-            box-shadow: 0 0 15px rgba(255, 204, 51, 0.2);
         }
-        .btn:hover { background: #ffcc33; color: black; transform: scale(1.05); }
+        .btn:hover { background: #ffcc33; color: black; cursor: pointer; }
 
         #menu-wrapper { 
             display: none; width: 300px; margin-top: 20px;
@@ -55,10 +62,12 @@
         <img src="https://i.ibb.co/svszNHtx/448924350-122100516512380788-8402045732983525719-n.jpg" alt="Logo">
     </div>
 
-    <button class="btn" onclick="toggleMenu()">🍽️ قائمة اليوم</button>
-    <button class="btn" onclick="window.location.href='wheel.html'">🎡 عجلة الحظ</button>
-    <button class="btn" onclick="window.location.href='contact.html'">📞 اتصل بنا</button>
-    <button class="btn" onclick="openAdmin()">👨‍🍳 لوحة الشيف</button>
+    <div class="buttons-cadre">
+        <button class="btn" onclick="toggleMenu()">🍽️ قائمة اليوم</button>
+        <button class="btn" onclick="window.location.href='wheel.html'">🎡 عجلة الحظ</button>
+        <button class="btn" onclick="window.location.href='contact.html'">📞 اتصل بنا</button>
+        <button class="btn" onclick="openAdmin()">👨‍🍳 لوحة الشيف</button>
+    </div>
 
     <div id="menu-wrapper">
         <div id="menu-content">جاري التحميل...</div>
@@ -86,7 +95,7 @@
             const content = document.getElementById("menu-content");
             if (docSnap.exists()) {
                 const d = docSnap.data();
-                content.innerHTML = `🍕 ${d.food1} (${d.price1} د) <br> 🥘 ${d.food2} (${d.price2} د)`;
+                content.innerHTML = `🍕 ${d.food1} — ${d.price1} د <br> 🥘 ${d.food2} — ${d.price2} د`;
             }
         });
     </script>
