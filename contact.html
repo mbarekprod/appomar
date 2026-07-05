@@ -1,263 +1,62 @@
-import React, { useState, useEffect } from 'react';
-import { useLocation } from 'wouter';
-import food1 from '@/assets/food1.png';
-import food2 from '@/assets/food2.png';
-import food3 from '@/assets/food3.png';
-import logoSrc from '@/assets/logo.jpg';
-
-const PHOTOS = [food1, food2, food3];
-const CAPTIONS = ['برغر الفنان 🍔', 'مأكولات بحرية 🦐', 'سلطة الشيف 🥗'];
-
-export default function Contact() {
-  const [, navigate] = useLocation();
-  const [active, setActive] = useState(0);
-
-  useEffect(() => {
-    const t = setInterval(() => setActive(p => (p + 1) % PHOTOS.length), 3500);
-    return () => clearInterval(t);
-  }, []);
-
-  return (
-    <div className="cp">
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap');
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-        .cp {
-          font-family: 'Cairo', sans-serif;
-          min-height: 100vh; width: 100vw;
-          background: #0a0a0a;
-          display: flex; flex-direction: column;
-          align-items: center;
-          direction: rtl; color: white;
-          position: relative; overflow-x: hidden;
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اتصل بنا | مطعم الفنان</title>
+    <style>
+        body {
+            background-color: #0a0a0a;
+            color: white;
+            font-family: 'Cairo', sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
         }
-
-        /* ── Animated background glow ── */
-        .cp-glow {
-          position: fixed; inset: 0; z-index: 0; pointer-events: none;
-          background:
-            radial-gradient(ellipse 70% 50% at 50% -10%, rgba(255,140,0,.18), transparent),
-            radial-gradient(ellipse 50% 40% at 80% 100%, rgba(67,160,71,.12), transparent);
+        .container {
+            margin-top: 50px;
+            max-width: 400px;
+            width: 100%;
         }
-
-        /* ── Floating sparks ── */
-        .cp-spark {
-          position: fixed; bottom: -10px; width: 5px; height: 5px;
-          border-radius: 50%; background: #ffcc33;
-          box-shadow: 0 0 10px #ff7b00; opacity: 0; z-index: 0;
-          animation: cpRise linear infinite;
+        .btn {
+            display: block;
+            background: linear-gradient(135deg, #ff9800, #e65100);
+            color: white;
+            padding: 20px;
+            margin: 15px 0;
+            text-decoration: none;
+            border-radius: 25px;
+            font-size: 20px;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(255,152,0,0.3);
         }
-        @keyframes cpRise {
-          0%   { transform: translateY(0) scale(1); opacity: 0; }
-          10%  { opacity: .7; }
-          100% { transform: translateY(-100vh) scale(.2); opacity: 0; }
-        }
-
-        /* ── Back button ── */
         .back-btn {
-          position: fixed; top: 20px; right: 20px; z-index: 100;
-          background: rgba(255,255,255,.08);
-          border: 1px solid rgba(255,255,255,.15);
-          backdrop-filter: blur(10px);
-          color: white; font-family: 'Cairo', sans-serif;
-          font-size: 15px; font-weight: 700;
-          padding: 10px 20px; border-radius: 50px;
-          cursor: pointer; transition: .25s;
-          display: flex; align-items: center; gap: 8px;
+            background: rgba(255,255,255,0.1);
+            color: #ccc;
+            padding: 10px 20px;
+            border-radius: 20px;
+            text-decoration: none;
+            margin-top: 30px;
+            display: inline-block;
         }
-        .back-btn:hover {
-          background: rgba(255,255,255,.15);
-          transform: translateX(4px);
-        }
+    </style>
+</head>
+<body>
 
-        /* ── Main content ── */
-        .cp-inner {
-          position: relative; z-index: 1;
-          width: 100%; max-width: 480px;
-          padding: 80px 20px 40px;
-          display: flex; flex-direction: column; gap: 28px;
-        }
+    <div class="container">
+        <h1>📞 اتصل بمطعم الفنان</h1>
+        <p>نحن في خدمتكم دائماً</p>
+        
+        <a href="tel:+21627091965" class="btn">اتصل بنا: 27091965</a>
+        
+        <a href="https://maps.app.goo.gl/AKaPvfZgR5FXJSwdA" class="btn" style="background: #1976d2;">موقعنا على الخريطة</a>
 
-        /* ── Header ── */
-        .cp-header {
-          display: flex; flex-direction: column; align-items: center; gap: 14px;
-        }
-        .cp-logo {
-          width: 90px; height: 90px; border-radius: 50%;
-          border: 4px solid #ffcc33; overflow: hidden;
-          box-shadow: 0 0 30px rgba(255,204,51,.5);
-          animation: logoPulse 3s ease-in-out infinite;
-        }
-        .cp-logo img { width: 100%; height: 100%; object-fit: cover; }
-        @keyframes logoPulse {
-          0%,100% { box-shadow: 0 0 20px rgba(255,204,51,.4); }
-          50%      { box-shadow: 0 0 45px rgba(255,204,51,.9), 0 0 70px rgba(255,120,0,.4); }
-        }
-        .cp-name {
-          font-size: 32px; font-weight: 900; color: #ffcc33;
-          text-shadow: 0 0 20px rgba(255,204,51,.6);
-        }
-        .cp-tagline {
-          font-size: 14px; color: rgba(255,255,255,.45); text-align: center;
-        }
-
-        /* ── Photo gallery ── */
-        .cp-gallery {
-          position: relative; width: 100%; height: 260px;
-          border-radius: 24px; overflow: hidden;
-          border: 2px solid rgba(255,204,51,.2);
-          box-shadow: 0 20px 60px rgba(0,0,0,.6);
-        }
-        .cp-gallery img {
-          position: absolute; inset: 0;
-          width: 100%; height: 100%; object-fit: cover;
-          transition: opacity .9s ease;
-        }
-        .cp-gallery img.show { opacity: 1; }
-        .cp-gallery img.hide { opacity: 0; }
-
-        /* Caption bar */
-        .cp-caption {
-          position: absolute; bottom: 0; left: 0; right: 0;
-          padding: 28px 18px 14px;
-          background: linear-gradient(transparent, rgba(0,0,0,.75));
-          font-size: 16px; font-weight: 700; color: #ffcc33;
-          text-shadow: 0 1px 4px rgba(0,0,0,.8);
-        }
-
-        /* Dots */
-        .cp-dots {
-          position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%);
-          display: flex; gap: 6px; align-items: center;
-        }
-        /* moved dots to right so they don't overlap caption text */
-        .cp-dot {
-          width: 7px; height: 7px; border-radius: 50%;
-          background: rgba(255,255,255,.35); border: none; cursor: pointer;
-          transition: all .3s;
-        }
-        .cp-dot.on { background: #ffcc33; transform: scale(1.3); }
-
-        /* ── Info cards ── */
-        .cp-cards { display: flex; flex-direction: column; gap: 14px; }
-
-        .cp-card {
-          display: flex; align-items: center; gap: 16px;
-          background: rgba(255,255,255,.04);
-          border: 1px solid rgba(255,255,255,.08);
-          border-radius: 18px; padding: 18px 20px;
-          text-decoration: none; color: white;
-          transition: all .25s; position: relative; overflow: hidden;
-        }
-        .cp-card::before {
-          content: ''; position: absolute; inset: 0;
-          background: linear-gradient(120deg,transparent 40%,rgba(255,255,255,.04) 60%,transparent 80%);
-          transform: translateX(-100%); transition: transform .4s;
-        }
-        .cp-card:hover::before { transform: translateX(100%); }
-        .cp-card:hover {
-          background: rgba(255,255,255,.08);
-          border-color: rgba(255,204,51,.3);
-          transform: translateY(-2px);
-          box-shadow: 0 8px 30px rgba(0,0,0,.4);
-        }
-
-        .card-icon {
-          font-size: 32px; flex-shrink: 0;
-          width: 52px; height: 52px; border-radius: 14px;
-          display: flex; align-items: center; justify-content: center;
-        }
-        .card-icon.phone { background: rgba(67,160,71,.2); }
-        .card-icon.map   { background: rgba(30,136,229,.2); }
-
-        .card-text { display: flex; flex-direction: column; gap: 3px; }
-        .card-label { font-size: 12px; color: rgba(255,255,255,.4); }
-        .card-value { font-size: 20px; font-weight: 900; color: #ffcc33; direction: ltr; }
-        .card-sub   { font-size: 13px; color: rgba(255,255,255,.55); }
-
-        /* ── Footer ── */
-        .cp-footer {
-          text-align: center; font-size: 12px;
-          color: rgba(255,255,255,.2); padding-top: 8px;
-        }
-
-        @media (max-width: 480px) {
-          .cp-gallery { height: 220px; }
-          .cp-name { font-size: 26px; }
-          .card-value { font-size: 17px; }
-        }
-      `}</style>
-
-      <div className="cp-glow" />
-
-      {/* Sparks */}
-      {[8,22,38,55,68,80,92].map((l,i) => (
-        <div key={i} className="cp-spark" style={{
-          left: `${l}%`,
-          animationDuration: `${8+i*1.5}s`,
-          animationDelay: `${i*1.1}s`,
-        }} />
-      ))}
-
-      {/* Back */}
-      <button className="back-btn" onClick={() => navigate('/')}>
-        العجلة ← 🎡
-      </button>
-
-      <div className="cp-inner">
-
-        {/* Header */}
-        <div className="cp-header">
-          <div className="cp-logo"><img src={logoSrc} alt="logo" /></div>
-          <div className="cp-name">🍽️ مطعم الفنان</div>
-          <div className="cp-tagline">ذوق أصيل — خدمة راقية — جودة لا تُنافَس</div>
-        </div>
-
-        {/* Gallery */}
-        <div className="cp-gallery">
-          {PHOTOS.map((src, i) => (
-            <img key={i} src={src} alt={CAPTIONS[i]}
-              className={i === active ? 'show' : 'hide'} />
-          ))}
-          <div className="cp-caption">{CAPTIONS[active]}</div>
-          <div className="cp-dots">
-            {PHOTOS.map((_, i) => (
-              <button key={i} className={`cp-dot${i === active ? ' on' : ''}`}
-                onClick={() => setActive(i)} />
-            ))}
-          </div>
-        </div>
-
-        {/* Cards */}
-        <div className="cp-cards">
-
-          <a href="tel:+21627091965" className="cp-card">
-            <div className="card-icon phone">📞</div>
-            <div className="card-text">
-              <span className="card-label">اتصل بنا مباشرة</span>
-              <span className="card-value">27 091 965</span>
-              <span className="card-sub">انقر للاتصال الفوري</span>
-            </div>
-          </a>
-
-          <a href="https://maps.app.goo.gl/AKaPvfZgR5FXJSwdA"
-             target="_blank" rel="noopener noreferrer" className="cp-card">
-            <div className="card-icon map">📍</div>
-            <div className="card-text">
-              <span className="card-label">موقعنا</span>
-              <span className="card-value" style={{ fontSize: '17px', color: '#fff' }}>
-                فتح الخريطة
-              </span>
-              <span className="card-sub">Google Maps ←</span>
-            </div>
-          </a>
-
-        </div>
-
-        <div className="cp-footer">© مطعم الفنان — كل الحقوق محفوظة</div>
-      </div>
+        <a href="index.html" class="back-btn">رجوع للرئيسية</a>
     </div>
-  );
-}
 
+</body>
+</html>
