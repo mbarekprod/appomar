@@ -372,7 +372,20 @@ onclick="openAdmin()">
 </div>
 
 <script>
+// أضف هذا الكود في index.html لربطها بـ Firebase
+import { doc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
+import { db } from "./firebase.js"; // تأكد من وجود ملف firebase.js
 
+onSnapshot(doc(db, "menu", "today"), (doc) => {
+    const data = doc.data();
+    if (data) {
+        // تحديث المنيو في الصفحة الرئيسية مباشرة
+        document.getElementById("menu").innerHTML = `
+            <div class="menu-item">${data.food1} — ${data.price1} د</div>
+            <div class="menu-item">${data.food2} — ${data.price2} د</div>
+        `;
+    }
+});
 function toggleMenu(){
 
 const menu =
