@@ -5,42 +5,47 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>مطعم الفنان</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap');
         
         body {
             margin: 0; padding: 20px;
             font-family: 'Cairo', sans-serif;
-            background: #0d0d0d; /* خلفية سوداء نظيفة */
-            color: #fff;
+            /* هوني التعديل: الخلفية ولات ثابتة وتغطي الشاشة كاملة من غير ما تتبكسل */
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
+                        url('https://i.ibb.co/JRShBbcf/background.jpg');
+            background-size: cover; 
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
             min-height: 100vh;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
         }
 
         .logo-container {
-            width: 150px; height: 150px; margin-bottom: 30px;
-            border-radius: 50%; border: 2px solid #ffcc33;
+            width: 180px; height: 180px; margin-bottom: 30px;
+            border-radius: 50%; border: 5px solid #ffcc33;
+            box-shadow: 0 0 40px #ffcc33;
+            animation: rotateLogo 15s linear infinite;
             overflow: hidden;
+            display: flex; align-items: center; justify-content: center;
         }
         .logo-container img { width: 100%; height: 100%; object-fit: cover; }
-
-        .buttons-cadre {
-            width: 100%; max-width: 350px;
-            display: flex; flex-direction: column; gap: 15px;
-        }
+        @keyframes rotateLogo { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
         .btn {
-            padding: 15px;
-            background: #1a1a1a; border: 1px solid #333;
-            border-radius: 12px; color: #ffcc33;
-            text-align: center; font-size: 16px;
-            text-decoration: none; cursor: pointer; transition: 0.3s;
+            display: block; width: 280px; padding: 16px; margin: 12px;
+            background: rgba(0, 0, 0, 0.6); border: 2px solid #ffcc33;
+            border-radius: 30px; color: #ffcc33; text-align: center;
+            text-decoration: none; font-weight: bold; transition: 0.4s;
+            box-shadow: 0 0 15px rgba(255, 204, 51, 0.2);
         }
-        .btn:hover { border-color: #ffcc33; background: #222; }
+        .btn:hover { background: #ffcc33; color: black; transform: scale(1.05); }
 
         #menu-wrapper { 
-            display: none; width: 100%; max-width: 350px; margin-top: 20px;
-            background: #1a1a1a; padding: 20px; border-radius: 12px;
-            text-align: center; border: 1px solid #333;
+            display: none; width: 300px; margin-top: 20px;
+            background: rgba(0,0,0,0.8); padding: 15px; 
+            border-radius: 20px; border: 1px solid #ffcc33;
+            color: white; text-align: center;
         }
     </style>
 </head>
@@ -50,12 +55,10 @@
         <img src="https://i.ibb.co/svszNHtx/448924350-122100516512380788-8402045732983525719-n.jpg" alt="Logo">
     </div>
 
-    <div class="buttons-cadre">
-        <button class="btn" onclick="toggleMenu()">🍽️ قائمة اليوم</button>
-        <button class="btn" onclick="window.location.href='wheel.html'">🎡 عجلة الحظ</button>
-        <button class="btn" onclick="window.location.href='contact.html'">📞 اتصل بنا</button>
-        <button class="btn" onclick="openAdmin()">👨‍🍳 لوحة الشيف</button>
-    </div>
+    <button class="btn" onclick="toggleMenu()">🍽️ قائمة اليوم</button>
+    <button class="btn" onclick="window.location.href='wheel.html'">🎡 عجلة الحظ</button>
+    <button class="btn" onclick="window.location.href='contact.html'">📞 اتصل بنا</button>
+    <button class="btn" onclick="openAdmin()">👨‍🍳 لوحة الشيف</button>
 
     <div id="menu-wrapper">
         <div id="menu-content">جاري التحميل...</div>
@@ -71,9 +74,11 @@
         };
 
         window.openAdmin = () => {
-            const pass = prompt("🔐 كلمة السر:");
+            const pass = prompt("🔐 كلمة سر الشيف:");
             if (pass === "0000omar1234") {
                 window.location.href = "admin.html";
+            } else if (pass !== null) {
+                alert("❌ كلمة السر خاطئة!");
             }
         };
 
@@ -81,7 +86,7 @@
             const content = document.getElementById("menu-content");
             if (docSnap.exists()) {
                 const d = docSnap.data();
-                content.innerHTML = `<div>🍕 ${d.food1} — ${d.price1} د</div><div style="margin-top:10px;">🥘 ${d.food2} — ${d.price2} د</div>`;
+                content.innerHTML = `🍕 ${d.food1} (${d.price1} د) <br> 🥘 ${d.food2} (${d.price2} د)`;
             }
         });
     </script>
