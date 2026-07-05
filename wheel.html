@@ -2,107 +2,69 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🎡 عجلة الحظ - مطعم الفنان</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    <title>عجلة مطعم الفنان</title>
     <style>
-        body {
-            background: #1a0a00;
-            color: #ffca28;
-            font-family: 'Cairo', sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            margin: 0;
-            background-image: radial-gradient(circle, #4a0000, #1a0a00);
-        }
-
-        h1 { margin-bottom: 10px; color: #ffca28; text-shadow: 2px 2px 4px #000; }
+        body { background: #1a0a00; color: #ffca28; text-align: center; font-family: 'Cairo', sans-serif; }
         
-        /* تصميم العجلة */
+        /* حاوية العجلة */
+        .wheel-container { position: relative; width: 300px; height: 300px; margin: 50px auto; }
+        
         #wheel {
-            width: 280px;
-            height: 280px;
-            border-radius: 50%;
+            width: 100%; height: 100%; border-radius: 50%;
             border: 10px solid #ffca28;
-            background: conic-gradient(#b71c1c 0% 25%, #ff6f00 25% 50%, #b71c1c 50% 75%, #ff6f00 75% 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 50px;
-            box-shadow: 0 0 30px rgba(255, 193, 7, 0.4);
+            position: relative; overflow: hidden;
             transition: transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99);
-            position: relative;
+            /* تقسيم الألوان */
+            background: conic-gradient(
+                #b71c1c 0deg 60deg, #ff6f00 60deg 120deg, 
+                #b71c1c 120deg 180deg, #ff6f00 180deg 240deg,
+                #b71c1c 240deg 300deg, #ff6f00 300deg 360deg
+            );
         }
 
-        #wheel::after {
-            content: "🎨"; /* مكان الشعار */
-            font-size: 60px;
+        /* النصوص داخل الشرائح */
+        .segment {
+            position: absolute; width: 50%; height: 50%;
+            transform-origin: 100% 100%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 14px; font-weight: bold; color: white;
+            left: 0; top: 0;
         }
 
-        button {
-            margin-top: 30px;
-            padding: 15px 50px;
-            font-size: 20px;
-            font-weight: bold;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            background: #ffca28;
-            color: #4a0000;
-            transition: 0.3s;
-        }
+        /* توزيع النصوص في الزوايا */
+        .s1 { transform: rotate(30deg); }
+        .s2 { transform: rotate(90deg); }
+        .s3 { transform: rotate(150deg); }
+        .s4 { transform: rotate(210deg); }
+        .s5 { transform: rotate(270deg); }
+        .s6 { transform: rotate(330deg); }
 
-        button:active { transform: scale(0.95); }
-
-        #result {
-            margin-top: 25px;
-            font-size: 28px;
-            font-weight: 900;
-            height: 50px;
-        }
+        button { padding: 15px 40px; font-size: 20px; border-radius: 30px; border: none; background: #ffca28; cursor: pointer; }
     </style>
 </head>
 <body>
 
     <h1>مطعم الفنان 🎡</h1>
-    <div id="wheel" id="wheel"></div>
-    <button id="spinBtn" onclick="startSpin()">دَوّر واربح!</button>
-    <div id="result">استنى حظك...</div>
+    
+    <div class="wheel-container">
+        <div id="wheel">
+            <div class="segment s1">ارجع غدوة</div>
+            <div class="segment s2">تخفيض 50%</div>
+            <div class="segment s3">تخفيض 25%</div>
+            <div class="segment s4">اضافة فريت</div>
+            <div class="segment s5">قازوزة</div>
+            <div class="segment s6">عاود دور</div>
+        </div>
+    </div>
+
+    <button onclick="spin()">دَوّر!</button>
 
     <script>
-        let spinCount = 0;
         let rotation = 0;
-
-        function startSpin() {
+        function spin() {
             const wheel = document.getElementById("wheel");
-            const result = document.getElementById("result");
-            const btn = document.getElementById("spinBtn");
-
-            btn.disabled = true;
-            spinCount++;
-
-            // حركة الدوران
-            rotation += 1440 + Math.random() * 360; 
+            rotation += 1800 + Math.floor(Math.random() * 360);
             wheel.style.transform = `rotate(${rotation}deg)`;
-
-            setTimeout(() => {
-                let text = "";
-                
-                if (spinCount < 11) {
-                    const msgs = ["🔄 عاود دور", "🚫 ارجع غدوة"];
-                    text = msgs[Math.floor(Math.random() * msgs.length)];
-                } else {
-                    const prizes = ["🎁 Remise 50%", "🎁 Remise 25%", "🥤 Gezouza بلاش", "🍟 Portion Frit"];
-                    text = "🎉 مبروك ربحت: " + prizes[Math.floor(Math.random() * prizes.length)];
-                    spinCount = 0; // إعادة العداد للصفر بعد الربح
-                }
-
-                result.innerText = text;
-                btn.disabled = false;
-            }, 4000);
         }
     </script>
 </body>
