@@ -31,16 +31,16 @@
 
         .buttons-cadre {
             background: rgba(0, 0, 0, 0.5);
-            padding: 40px; /* كبّرنا الـ padding باش يولي الإطار أوسع */
+            padding: 40px;
             border-radius: 30px;
-            border: 2px solid #ffcc33; /* زدنا في سمك الإطار */
+            border: 2px solid #ffcc33;
             display: flex; flex-direction: column; align-items: center;
-            width: 320px; /* عرض أكبر شوية */
+            width: 320px;
         }
 
         .btn {
             display: block; width: 100%; 
-            padding: 20px; /* أزرار أكبر وأوضح */
+            padding: 20px;
             margin: 12px 0;
             background: rgba(255, 204, 51, 0.1); 
             border: 2px solid #ffcc33;
@@ -48,8 +48,8 @@
             color: #ffcc33; 
             text-align: center;
             text-decoration: none; 
-            font-weight: 900; /* خط أعرض */
-            font-size: 20px; /* خط أكبر */
+            font-weight: 900;
+            font-size: 20px;
             transition: 0.4s;
         }
         .btn:hover { 
@@ -57,6 +57,14 @@
             color: black; 
             transform: scale(1.05); 
             box-shadow: 0 0 20px #ffcc33;
+            cursor: pointer;
+        }
+
+        /* لوغو MBarek Prod في اللوطة */
+        .mbarek-logo {
+            width: 150px;
+            margin-top: 30px;
+            filter: drop-shadow(0 0 5px rgba(255,255,255,0.5));
         }
     </style>
 </head>
@@ -72,6 +80,9 @@
         <button class="btn" onclick="window.location.href='contact.html'">📞 اتصل بنا</button>
         <button class="btn" onclick="alert('كلمة السر مطلوبة')">👨‍🍳 لوحة الشيف</button>
     </div>
+
+    <!-- لوغو MBarek Prod -->
+    <img src="https://github.com/mbarekprod/appomar/blob/main/qq.png?raw=true" class="mbarek-logo" alt="MBarek Prod">
 
 </body>
 </html>
