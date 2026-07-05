@@ -2,46 +2,17 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🎡 عجلة الحظ - مطعم الفنان</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        body {
-            background: radial-gradient(circle, #4a0000, #1a0a00);
-            color: #ffca28;
-            text-align: center;
-            font-family: 'Cairo', sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            margin: 0;
-        }
-
-        h1 {
-            margin-top: -20px;
-            margin-bottom: 20px;
-            font-weight: 900;
-            text-shadow: 2px 2px 4px #000;
-        }
-
+        /* ستايل العجلة */
         .wheel-container {
             position: relative;
-            width: 350px;
-            height: 350px;
+            width: 300px; height: 300px;
+            margin: 50px auto;
         }
-
         #wheel {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            border: 12px solid #ffca28;
-            position: relative;
-            overflow: hidden;
-            /* الدوران الواقعي: CUBIC-BEZIER */
-            transition: transform 5s cubic-bezier(0.2, 0.8, 0.1, 1); 
-            box-shadow: 0 0 50px rgba(255, 193, 7, 0.6);
+            width: 100%; height: 100%; border-radius: 50%;
+            border: 8px solid #ffca28;
+            position: relative; overflow: hidden;
             background: conic-gradient(
                 #b71c1c 0deg 30deg, #ff6f00 30deg 60deg, 
                 #b71c1c 60deg 90deg, #ff6f00 90deg 120deg,
@@ -50,236 +21,43 @@
                 #b71c1c 240deg 270deg, #ff6f00 270deg 300deg,
                 #b71c1c 300deg 330deg, #ff6f00 330deg 360deg
             );
+            transition: transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99);
         }
 
-        /* المؤشر */
-        .pointer {
-            position: absolute;
-            top: -20px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 0;
-            height: 0;
-            border-left: 20px solid transparent;
-            border-right: 20px solid transparent;
-            border-top: 40px solid #ffca28;
-            z-index: 10;
-            filter: drop-shadow(0 3px 3px rgba(0,0,0,0.5));
-        }
-
-        /* تنسيق النصوص لتدور باستواء */
+        /* تنسيق النصوص: هذا هو السر باش تطلع منظمة */
         .segment-text {
             position: absolute;
-            top: 0;
-            left: 50%;
-            width: 100px; /* عرض الشريحة تقريباً */
-            height: 50%;
-            transform-origin: 0% 100%; /* نقطة الدوران هي مركز العجلة */
-            text-align: center;
-            color: white;
+            top: 50%; left: 50%;
+            width: 50%; height: 20px;
+            transform-origin: 0 0;
+            font-size: 12px;
             font-weight: bold;
-            font-size: 14px;
-            padding-top: 15px;
-            /* توزيع النصوص على الزوايا */
-            transform: translateX(-50%) rotate(0deg);
-            pointer-events: none; /* لا تعيق النقر */
+            color: white;
+            text-align: center;
         }
 
-        /* تدوير كل نص ليكون في منتصف شريحته (كل شريحة 30 درجة) */
-        .text-1 { transform: translateX(-50%) rotate(15deg); }
-        .text-2 { transform: translateX(-50%) rotate(45deg); }
-        .text-3 { transform: translateX(-50%) rotate(75deg); }
-        .text-4 { transform: translateX(-50%) rotate(105deg); }
-        .text-5 { transform: translateX(-50%) rotate(135deg); }
-        .text-6 { transform: translateX(-50%) rotate(165deg); }
-        .text-7 { transform: translateX(-50%) rotate(195deg); }
-        .text-8 { transform: translateX(-50%) rotate(225deg); }
-        .text-9 { transform: translateX(-50%) rotate(255deg); }
-        .text-10 { transform: translateX(-50%) rotate(285deg); }
-        .text-11 { transform: translateX(-50%) rotate(315deg); }
-        .text-12 { transform: translateX(-50%) rotate(345deg); }
-
-        button {
-            margin-top: 30px;
-            padding: 18px 50px;
-            font-size: 20px;
-            font-weight: 900;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            background: #ffca28;
-            color: #4a0000;
-            transition: 0.3s;
-            box-shadow: 0 5px 15px rgba(255, 193, 7, 0.4);
-        }
-
-        button:active {
-            transform: scale(0.95);
-            box-shadow: 0 2px 5px rgba(255, 193, 7, 0.4);
-        }
-
-        button:disabled {
-            background: #888;
-            cursor: not-allowed;
-        }
-
-        #result-area {
-            margin-top: 25px;
-            height: 60px;
-            font-size: 28px;
-            font-weight: 900;
-            color: #fff;
-            text-shadow: 2px 2px 4px #000;
-            opacity: 0;
-            transition: opacity 0.5s ease-in;
-        }
-
-        #result-area.show {
-            opacity: 1;
-        }
-
-        /* ستايل التنبيه المنبثق للجوائز الكبرى */
-        .popup {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) scale(0);
-            background: #fff;
-            color: #4a0000;
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 0 100px rgba(0,0,0,0.8);
-            z-index: 100;
-            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        .popup.show {
-            transform: translate(-50%, -50%) scale(1);
-        }
-
-        .popup-header { font-size: 40px; margin-bottom: 20px; }
-        .popup-body { font-size: 30px; font-weight: bold; }
-        .overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.7);
-            z-index: 90; display: none;
-        }
-        .overlay.show { display: block; }
-
+        /* توزيع كل نص في شريحته الخاصة */
+        .s1 { transform: rotate(15deg); }
+        .s2 { transform: rotate(45deg); }
+        .s3 { transform: rotate(75deg); }
+        .s4 { transform: rotate(105deg); }
+        .s5 { transform: rotate(135deg); }
+        .s6 { transform: rotate(165deg); }
+        .s7 { transform: rotate(195deg); }
+        .s8 { transform: rotate(225deg); }
+        .s9 { transform: rotate(255deg); }
+        .s10 { transform: rotate(285deg); }
+        .s11 { transform: rotate(315deg); }
+        .s12 { transform: rotate(345deg); }
     </style>
 </head>
 <body>
-
-    <h1>مطعم الفنان 🎡</h1>
-    
     <div class="wheel-container">
-        <div class="pointer"></div>
         <div id="wheel">
-            <!-- النصوص (سنقوم بوضعها لتتطابق مع الصورة الأصلية) -->
-            <!-- 1 --> <div class="segment-text text-1">تخفيض 50%</div>
-            <!-- 2 --> <div class="segment-text text-2">ارجع غدوة</div>
-            <!-- 3 --> <div class="segment-text text-3">ارجع غدوة</div>
-            <!-- 4 --> <div class="segment-text text-4">تخفيض 15%</div>
-            <!-- 5 --> <div class="segment-text text-5">قازوزة بلاش</div>
-            <!-- 6 --> <div class="segment-text text-6">قازوزة بلاش</div>
-            <!-- 7 --> <div class="segment-text text-7">اضافة فريت</div>
-            <!-- 8 --> <div class="segment-text text-8">تخفيض 25%</div>
-            <!-- 9 --> <div class="segment-text text-9">عاود دور</div>
-            <!-- 10 --> <div class="segment-text text-10">عاود دور</div>
-            <!-- 11 --> <div class="segment-text text-11">تخفيض 25%</div>
-            <!-- 12 --> <div class="segment-text text-12">تخفيض 50%</div>
-        </div>
+            <div class="segment-text s1">قازوزة</div>
+            <div class="segment-text s2">فريت</div>
+            <div class="segment-text s3">تخفيض 50%</div>
+            </div>
     </div>
-
-    <button id="spinBtn" onclick="startSpin()">دَوّر واربح!</button>
-
-    <div id="result-area">استنى الحظ...</div>
-
-    <!-- عناصر لظهور الجائزة الكبرى -->
-    <div class="overlay" id="overlay"></div>
-    <div class="popup" id="popup">
-        <div class="popup-header">🎉 مبروك! 🎉</div>
-        <div class="popup-body" id="popup-prize">لقد ربحت</div>
-        <button onclick="closePopup()" style="margin-top: 20px;">تم</button>
-    </div>
-
-    <script>
-        let spinCount = 0;
-        let currentRotation = 0;
-
-        function startSpin() {
-            spinCount++;
-            const wheel = document.getElementById("wheel");
-            const resultArea = document.getElementById("result-area");
-            const spinBtn = document.getElementById("spinBtn");
-            
-            // تعطيل الزر أثناء الدوران
-            spinBtn.disabled = true;
-            resultArea.classList.remove("show");
-            resultArea.innerText = "العجلة تدور...";
-
-            // حساب الدوران العشوائي (مع ضمان دوران كامل لعدة دورات لزيادة التشويق)
-            const baseSpin = 1800; // 5 دورات كاملة (360 * 5)
-            const randomDegrees = Math.floor(Math.random() * 360);
-            currentRotation += baseSpin + randomDegrees;
-            
-            wheel.style.transform = `rotate(${currentRotation}deg)`;
-
-            // تحديد النتيجة بناءً على العداد
-            let finalMessage = "";
-            let isMajorWin = false;
-            let prize = "";
-
-            setTimeout(() => {
-                // 🔁 1 → 10 = TRY AGAIN
-                if (spinCount <= 10) {
-                    const msgs = ["🔄 عاود دور", "🚫 ارجع غدوة"];
-                    finalMessage = msgs[Math.floor(Math.random() * msgs.length)];
-                    resultArea.innerText = finalMessage;
-                    resultArea.style.color = "#fff";
-                    resultArea.classList.add("show");
-                }
-
-                // 🏆 11 = WIN
-                else if (spinCount === 11) {
-                    const majorPrizes = ["🎁 تخفيض 50%", "🥤 قازوزة بلاش", "🍟 Portion Frit"];
-                    prize = majorPrizes[Math.floor(Math.random() * majorPrizes.length)];
-                    isMajorWin = true;
-                    
-                    // إظهار رسالة التبريك في الأسفل
-                    resultArea.innerText = "مبروك ربحت: " + prize.replace("🎁", "").replace("🥤", "").replace("🍟", "");
-                    resultArea.style.color = "#ffca28";
-                    resultArea.classList.add("show");
-
-                    // إظهار نافذة منبثقة للجائزة الكبرى
-                    showPopup(prize);
-
-                    // إعادة العداد للصفر
-                    spinCount = 0;
-                }
-
-                // إعادة تفعيل الزر
-                spinBtn.disabled = false;
-            }, 5005); // مدة الدوران هي 5 ثواني
-        }
-
-        function showPopup(prizeText) {
-            const overlay = document.getElementById("overlay");
-            const popup = document.getElementById("popup");
-            const popupPrize = document.getElementById("popup-prize");
-            
-            popupPrize.innerText = prizeText;
-            overlay.classList.add("show");
-            popup.classList.add("show");
-        }
-
-        function closePopup() {
-            const overlay = document.getElementById("overlay");
-            const popup = document.getElementById("popup");
-            
-            overlay.classList.remove("show");
-            popup.classList.remove("show");
-        }
-    </script>
 </body>
 </html>
