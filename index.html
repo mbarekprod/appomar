@@ -10,8 +10,8 @@
         body {
             margin: 0; padding: 0;
             font-family: 'Cairo', sans-serif;
-            background: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)), 
-                        url('https://github.com/mbarekprod/appomar/blob/main/qq.png?raw=true');
+            /* نحينا الـ linear-gradient باش الخلفية تظهر بوضوح تام */
+            background: url('https://github.com/mbarekprod/appomar/blob/main/qq.png?raw=true');
             background-size: cover; 
             background-position: center;
             background-attachment: fixed;
@@ -23,40 +23,42 @@
             width: 150px; height: 150px; margin-bottom: 20px;
             border-radius: 50%; border: 4px solid #ffcc33;
             overflow: hidden;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
         }
         .logo-container img { width: 100%; height: 100%; object-fit: cover; }
 
         .buttons-cadre {
-            background: rgba(0, 0, 0, 0.6);
-            padding: 40px 20px;
-            border-top: 3px solid #ffcc33;
-            border-bottom: 3px solid #ffcc33;
+            background: rgba(0, 0, 0, 0.7); /* زدنا في الـ opacity باش يظهر الإطار والأزرار واضحة على الخلفية */
+            padding: 30px 20px;
+            border: 2px solid #ffcc33;
+            border-radius: 20px;
             display: flex; flex-direction: column; align-items: center;
-            width: 100%; 
+            width: 80%; /* صغرنا العرض متاع الإطار */
+            max-width: 300px; /* الإطار ما يفوتش 300px */
             box-sizing: border-box;
         }
 
         .btn {
-            display: block; width: 90%; 
-            padding: 20px;
-            margin: 10px 0;
+            display: block; width: 100%; /* الأزرار تاخذ كامل عرض الإطار المصغر */
+            padding: 15px;
+            margin: 8px 0;
             background: rgba(255, 204, 51, 0.1); 
             border: 2px solid #ffcc33;
             border-radius: 50px; 
             color: #ffcc33; 
             text-align: center;
             text-decoration: none; 
-            font-weight: 900;
-            font-size: 20px;
+            font-weight: 700;
+            font-size: 18px;
             transition: 0.4s;
         }
         .btn:hover { background: #ffcc33; color: black; cursor: pointer; }
 
         #menu-wrapper { 
-            display: none; width: 90%; margin-top: 20px;
-            background: rgba(0,0,0,0.8); padding: 20px; 
-            border-radius: 20px; border: 1px solid #ffcc33;
-            color: #ffcc33; text-align: center; font-size: 18px;
+            display: none; width: 80%; max-width: 300px; margin-top: 20px;
+            background: rgba(0,0,0,0.9); padding: 15px; 
+            border-radius: 15px; border: 1px solid #ffcc33;
+            color: #ffcc33; text-align: center;
         }
     </style>
 </head>
@@ -100,8 +102,6 @@
             if (docSnap.exists()) {
                 const d = docSnap.data();
                 content.innerHTML = `🍕 ${d.food1} — ${d.price1} د <br> 🥘 ${d.food2} — ${d.price2} د`;
-            } else {
-                content.innerHTML = "❌ لا توجد قائمة اليوم";
             }
         });
     </script>
