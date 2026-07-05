@@ -6,28 +6,19 @@
     <title>مطعم الفنان</title>
     <style>
      body {
-    /* وضع الصورة كخلفية */
-    background-image: url('735043823_122232458936380788_691619389420209673_n (1).jpg');
-    
-    /* جعل الصورة تغطي كامل المساحة */
-    background-size: cover;
-    
-    /* توسيط الصورة */
-    background-position: center;
-    
-    /* منع تكرار الصورة */
-    background-repeat: no-repeat;
-    
-    /* تثبيت الصورة أثناء التمرير (اختياري) */
-    background-attachment: fixed;
-    
-    /* إضافة تباين لضمان وضوح النصوص فوق الصورة */
-    background-blend-mode: overlay;
-    background-color: rgba(0, 0, 0, 0.5); /* طبقة سوداء خفيفة */
-    
-    /* التأكد من أن الخلفية تغطي كامل طول الصفحة */
-    min-height: 100vh;
-    margin: 0;
+      @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap');
+        
+        body {
+            margin: 0; padding: 0;
+            font-family: 'Cairo', sans-serif;
+            /* نحينا الـ linear-gradient باش الخلفية تظهر بوضوح تام */
+            background: url('https://github.com/mbarekprod/appomar/blob/main/qq.png?raw=true');
+            background-size: cover; 
+            background-position: center;
+            background-attachment: fixed;
+            min-height: 100vh;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+        }
 }
         .logo-container {
             width: 150px; height: 150px; margin-bottom: 20px;
