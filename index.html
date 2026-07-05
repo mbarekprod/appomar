@@ -8,57 +8,57 @@
         @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap');
         
         body {
-            margin: 0; padding: 20px;
+            margin: 0; padding: 0;
             font-family: 'Cairo', sans-serif;
-            /* الخلفية ولات اللوغو */
-            background: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)), 
-                        url('https://i.ibb.co/svszNHtx/448924350-122100516512380788-8402045732983525719-n.jpg');
-            background-size: cover; background-position: center;
-            background-attachment: fixed;
+            /* خلفية سوداء ملكية مع تدرج ذهبي خفيف */
+            background: radial-gradient(circle, #2a2a2a 0%, #000000 100%);
             min-height: 100vh;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
+            overflow: hidden;
         }
 
+        /* اللوغو في الوسط - Animation فخمة */
         .logo-container {
-            width: 180px; height: 180px; margin-bottom: 30px;
-            border-radius: 50%; border: 5px solid #ffcc33;
-            box-shadow: 0 0 20px #ffcc33, 0 0 40px #ffcc33;
-            animation: rotateLogo 15s linear infinite;
+            width: 200px; height: 200px; margin-bottom: 40px;
+            border-radius: 50%; border: 3px solid #ffcc33;
+            box-shadow: 0 0 50px rgba(255, 204, 51, 0.4);
+            animation: float 4s ease-in-out infinite;
             overflow: hidden;
-            display: flex; align-items: center; justify-content: center;
         }
-        /* اللوغو ولى التصويرة متاع الـ Cover */
         .logo-container img { width: 100%; height: 100%; object-fit: cover; }
 
-        @keyframes rotateLogo { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        @keyframes float { 
+            0% { transform: translateY(0px); } 
+            50% { transform: translateY(-20px); } 
+            100% { transform: translateY(0px); } 
+        }
 
         .btn {
-            width: 280px; padding: 16px; margin: 12px;
-            background: rgba(0, 0, 0, 0.6); border: 2px solid #ffcc33;
-            border-radius: 30px; color: #ffcc33; text-align: center;
-            font-weight: bold; cursor: pointer; transition: 0.4s;
+            width: 280px; padding: 15px; margin: 10px;
+            background: transparent; border: 1px solid #ffcc33;
+            border-radius: 50px; color: #ffcc33; text-align: center;
+            font-weight: bold; cursor: pointer; transition: 0.5s;
             text-decoration: none; font-size: 18px;
-            text-shadow: 0 0 5px #ffcc33;
+            backdrop-filter: blur(5px);
         }
         .btn:hover { 
-            background: #ffcc33; color: black; 
-            transform: scale(1.05);
-            box-shadow: 0 0 20px #ffcc33;
+            background: #ffcc33; color: #000; 
+            box-shadow: 0 0 30px #ffcc33;
         }
 
         #menu-wrapper { 
             display: none; width: 300px; margin-top: 20px;
-            background: rgba(0,0,0,0.8); padding: 15px; 
-            border-radius: 20px; border: 1px solid #ffcc33;
-            color: white; text-align: center;
+            background: rgba(255,255,255,0.05); padding: 15px; 
+            border-radius: 15px; border: 1px solid #ffcc33;
+            color: #fff; text-align: center;
         }
     </style>
 </head>
 <body>
 
     <div class="logo-container">
-        <!-- هنا التصويرة متاع الـ Cover ولات في اللوغو -->
-        <img src="https://i.ibb.co/k2LCR2dN/735043823-122232458936380788-691619389420209673-n.jpg" alt="Logo">
+        <!-- رابط اللوغو -->
+        <img src="https://i.ibb.co/svszNHtx/448924350-122100516512380788-8402045732983525719-n.jpg" alt="Logo">
     </div>
 
     <button class="btn" onclick="toggleMenu()">🍽️ قائمة اليوم</button>
@@ -80,11 +80,11 @@
         };
 
         window.openAdmin = () => {
-            const pass = prompt("🔐 أدخل كلمة السر:");
+            const pass = prompt("🔐 كلمة سر الشيف:");
             if (pass === "0000omar1234") {
                 window.location.href = "admin.html";
             } else if (pass !== null) {
-                alert("❌ كلمة سر خاطئة");
+                alert("❌ كلمة السر خاطئة!");
             }
         };
 
@@ -92,11 +92,7 @@
             const content = document.getElementById("menu-content");
             if (docSnap.exists()) {
                 const d = docSnap.data();
-                content.innerHTML = `
-                    <div style="font-size:18px;">
-                        🍕 ${d.food1} — ${d.price1} د<br>
-                        🥘 ${d.food2} — ${d.price2} د
-                    </div>`;
+                content.innerHTML = `🍕 ${d.food1} — ${d.price1} د <br> 🥘 ${d.food2} — ${d.price2} د`;
             }
         });
     </script>
