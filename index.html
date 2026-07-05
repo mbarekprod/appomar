@@ -3,78 +3,93 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مطعم الفنان | الفخامة والذوق</title>
+    <title>مطعم الفنان</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap');
-
+        
         body {
-            margin: 0; padding: 0;
+            margin: 0; padding: 20px;
             font-family: 'Cairo', sans-serif;
             background: #000;
             min-height: 100vh;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            /* الخلفية هي الصورة اللي بعثتها */
             background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
-                        url('https://i.ibb.co/Lg54Q6P/cover.jpg'); /* حط رابط صورتك هنا */
+                        url('https://scontent.fnbe1-2.fna.fbcdn.net/v/t39.30808-6/735043823_122232458936380788_691619389420209673_n.jpg');
             background-size: cover; background-position: center;
-            animation: zoomBg 20s infinite alternate;
         }
 
-        @keyframes zoomBg { from { background-size: 100%; } to { background-size: 110%; } }
-
-        /* اللوغو في الوسط الفوقاني */
         .logo-container {
-            width: 150px; height: 150px;
-            margin-bottom: 30px;
-            border-radius: 50%;
-            border: 4px solid #ffcc33;
+            width: 150px; height: 150px; margin-bottom: 20px;
+            border-radius: 50%; border: 4px solid #ffcc33;
             box-shadow: 0 0 30px #ffcc33;
-            animation: rotateLogo 10s linear infinite;
+            animation: rotateLogo 15s linear infinite;
+            overflow: hidden;
         }
-        .logo-container img { width: 100%; height: 100%; border-radius: 50%; }
-
+        .logo-container img { width: 100%; height: 100%; object-fit: cover; }
         @keyframes rotateLogo { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-        /* حاوية الأزرار في الوسط */
-        .main-menu { width: 90%; max-width: 350px; }
-
         .btn {
-            display: block; width: 100%;
-            padding: 18px; margin: 15px 0;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 204, 51, 0.3);
-            border-radius: 50px;
-            color: #ffcc33; font-size: 18px; font-weight: bold;
-            text-decoration: none; cursor: pointer;
-            transition: 0.4s; backdrop-filter: blur(10px);
-            text-align: center;
+            width: 280px; padding: 15px; margin: 10px;
+            background: rgba(0, 0, 0, 0.7); border: 2px solid #ffcc33;
+            border-radius: 25px; color: #ffcc33; text-align: center;
+            font-weight: bold; cursor: pointer; transition: 0.3s;
+            font-size: 16px;
         }
+        .btn:hover { background: #ffcc33; color: black; }
 
-        .btn:hover {
-            background: #ffcc33; color: #000;
-            box-shadow: 0 0 20px #ffcc33;
-            transform: scale(1.05);
+        /* ستايل المنيو الجديد */
+        #menu-wrapper { 
+            display: none; width: 300px; margin-top: 20px;
+            background: rgba(255,255,255,0.1); padding: 15px; 
+            border-radius: 20px; border: 1px solid #ffcc33;
+            color: white; text-align: center; backdrop-filter: blur(5px);
         }
     </style>
 </head>
 <body>
 
     <div class="logo-container">
-        <img src="logo.png" alt="Logo"> </div>
-
-    <div class="main-menu">
-        <button class="btn" onclick="toggleMenu()">🍽️ قائمة اليوم</button>
-        <button class="btn" onclick="window.location.href='wheel.html'">🎡 عجلة الحظ</button>
-        <button class="btn" onclick="window.location.href='contact.html'">📞 اتصل بنا</button>
-        <button class="btn" onclick="openAdmin()">👨‍🍳 لوحة الشيف</button>
+        <img src="https://scontent.fnbe1-2.fna.fbcdn.net/v/t39.30808-6/448924350_122100516512380788_8402045732983525719_n.jpg" alt="Logo">
     </div>
 
-    <div id="menu" style="display:none; color:white; margin-top:20px; background:rgba(0,0,0,0.5); padding:20px; border-radius:20px;">
-        </div>
+    <button class="btn" onclick="toggleMenu()">🍽️ قائمة اليوم</button>
+    <button class="btn" onclick="window.location.href='wheel.html'">🎡 عجلة الحظ</button>
+    <button class="btn" onclick="window.location.href='contact.html'">📞 اتصل بنا</button>
+    <button class="btn" onclick="openAdmin()">👨‍🍳 لوحة الشيف</button>
+
+    <div id="menu-wrapper">
+        <div id="menu-content">جاري التحميل...</div>
+    </div>
 
     <script type="module">
-        // كود الربط بالفايربيز والمنيو والتحكم اللي عملناه قبل
-        // ... (نفس كود المنيو واللوغين اللي استقرينا عليه)
+        import { doc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
+        import { db } from "./firebase.js";
+
+        // دالة إظهار المنيو
+        window.toggleMenu = function() {
+            const m = document.getElementById("menu-wrapper");
+            m.style.display = (m.style.display === "block") ? "none" : "block";
+        };
+
+        // دالة الذهاب للـ admin
+        window.openAdmin = function() {
+            window.location.href = "admin.html";
+        };
+
+        // الربط بالفايربيز
+        onSnapshot(doc(db, "menu", "today"), (docSnap) => {
+            const content = document.getElementById("menu-content");
+            if (docSnap.exists()) {
+                const d = docSnap.data();
+                content.innerHTML = `
+                    <div style="font-size:18px;">
+                        🍕 ${d.food1} — ${d.price1} د<br>
+                        🥘 ${d.food2} — ${d.price2} د
+                    </div>`;
+            } else {
+                content.innerHTML = "لا يوجد منيو اليوم";
+            }
+        });
     </script>
 </body>
 </html>
