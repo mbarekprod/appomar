@@ -5,61 +5,77 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>مطعم الفنان</title>
     <style>
-        /* استدعاء الخط في البداية ليعمل بشكل صحيح */
-      background: url('https://i.ibb.co/3s6q4fN/735043823-122232458936380788-691619389420209673-n.jpg');
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap');
 
         body {
-            margin: 0; padding: 0;
+            margin: 0;
+            padding: 0;
             font-family: 'Cairo', sans-serif;
-            /* تم وضع الرابط المباشر الصحيح للخلفية هنا */
-            background: url('https://i.ibb.co/3s6q4fN/735043823-122232458936380788-691619389420209673-n.jpg');
-            background-size: cover; 
+            /* الخلفية المباشرة والمضمونة */
+            background-image: url('https://i.ibb.co/3s6q4fN/735043823-122232458936380788-691619389420209673-n.jpg');
+            background-size: cover;
             background-position: center;
             background-attachment: fixed;
+            background-repeat: no-repeat;
             min-height: 100vh;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
 
         .logo-container {
-            width: 150px; height: 150px; margin-bottom: 20px;
-            border-radius: 50%; border: 4px solid #ffcc33;
+            width: 150px;
+            height: 150px;
+            margin-bottom: 20px;
+            border-radius: 50%;
+            border: 4px solid #ffcc33;
             overflow: hidden;
             box-shadow: 0 0 20px rgba(0,0,0,0.5);
         }
         .logo-container img { width: 100%; height: 100%; object-fit: cover; }
 
         .buttons-cadre {
-            background: rgba(0, 0, 0, 0.7); 
+            background: rgba(0, 0, 0, 0.7);
             padding: 30px 20px;
             border: 2px solid #ffcc33;
             border-radius: 20px;
-            display: flex; flex-direction: column; align-items: center;
-            width: 80%; 
-            max-width: 300px; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 80%;
+            max-width: 300px;
             box-sizing: border-box;
         }
 
         .btn {
-            display: block; width: 100%;
+            display: block;
+            width: 100%;
             padding: 15px;
             margin: 8px 0;
-            background: rgba(255, 204, 51, 0.1); 
+            background: rgba(255, 204, 51, 0.1);
             border: 2px solid #ffcc33;
-            border-radius: 50px; 
-            color: #ffcc33; 
+            border-radius: 50px;
+            color: #ffcc33;
             text-align: center;
-            text-decoration: none; 
+            text-decoration: none;
             font-weight: 700;
             font-size: 18px;
             transition: 0.4s;
         }
         .btn:hover { background: #ffcc33; color: black; cursor: pointer; }
 
-        #menu-wrapper { 
-            display: none; width: 80%; max-width: 300px; margin-top: 20px;
-            background: rgba(0,0,0,0.9); padding: 15px; 
-            border-radius: 15px; border: 1px solid #ffcc33;
-            color: #ffcc33; text-align: center;
+        #menu-wrapper {
+            display: none;
+            width: 80%;
+            max-width: 300px;
+            margin-top: 20px;
+            background: rgba(0,0,0,0.9);
+            padding: 15px;
+            border-radius: 15px;
+            border: 1px solid #ffcc33;
+            color: #ffcc33;
+            text-align: center;
         }
     </style>
 </head>
