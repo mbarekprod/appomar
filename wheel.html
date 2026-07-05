@@ -1,119 +1,109 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎡 عجلة الحظ - مطعم الفنان</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: #1a0a00;
+            color: #ffca28;
+            font-family: 'Cairo', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            background-image: radial-gradient(circle, #4a0000, #1a0a00);
+        }
 
-<title>🎡 عجلة مطعم الفنان</title>
+        h1 { margin-bottom: 10px; color: #ffca28; text-shadow: 2px 2px 4px #000; }
+        
+        /* تصميم العجلة */
+        #wheel {
+            width: 280px;
+            height: 280px;
+            border-radius: 50%;
+            border: 10px solid #ffca28;
+            background: conic-gradient(#b71c1c 0% 25%, #ff6f00 25% 50%, #b71c1c 50% 75%, #ff6f00 75% 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 50px;
+            box-shadow: 0 0 30px rgba(255, 193, 7, 0.4);
+            transition: transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99);
+            position: relative;
+        }
 
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+        #wheel::after {
+            content: "🎨"; /* مكان الشعار */
+            font-size: 60px;
+        }
 
-<style>
+        button {
+            margin-top: 30px;
+            padding: 15px 50px;
+            font-size: 20px;
+            font-weight: bold;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            background: #ffca28;
+            color: #4a0000;
+            transition: 0.3s;
+        }
 
-body{
-background: linear-gradient(135deg,#1a0a00,#4a0000);
-color:#ffca28;
-text-align:center;
-font-family:'Cairo',sans-serif;
-display:flex;
-flex-direction:column;
-align-items:center;
-justify-content:center;
-min-height:100vh;
-margin:0;
-}
+        button:active { transform: scale(0.95); }
 
-h1{
-margin-bottom:20px;
-}
-
-#wheel{
-width:250px;
-height:250px;
-border-radius:50%;
-background: radial-gradient(circle,#ffca28,#ff6f00);
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:60px;
-box-shadow:0 0 25px rgba(255,193,7,0.7);
-transition: transform 4s cubic-bezier(0.17,0.67,0.12,0.99);
-}
-
-button{
-margin-top:25px;
-padding:15px 40px;
-font-size:18px;
-border:none;
-border-radius:30px;
-cursor:pointer;
-background:#b71c1c;
-color:white;
-}
-
-#result{
-margin-top:20px;
-font-size:24px;
-font-weight:bold;
-}
-
-</style>
+        #result {
+            margin-top: 25px;
+            font-size: 28px;
+            font-weight: 900;
+            height: 50px;
+        }
+    </style>
 </head>
-
 <body>
 
-<h1>🎡 عجلة الحظ</h1>
+    <h1>مطعم الفنان 🎡</h1>
+    <div id="wheel" id="wheel"></div>
+    <button id="spinBtn" onclick="startSpin()">دَوّر واربح!</button>
+    <div id="result">استنى حظك...</div>
 
-<div id="wheel">🎡</div>
+    <script>
+        let spinCount = 0;
+        let rotation = 0;
 
-<button onclick="startSpin()">دَوّر!</button>
+        function startSpin() {
+            const wheel = document.getElementById("wheel");
+            const result = document.getElementById("result");
+            const btn = document.getElementById("spinBtn");
 
-<div id="result">استنى الحظ...</div>
+            btn.disabled = true;
+            spinCount++;
 
-<script>
+            // حركة الدوران
+            rotation += 1440 + Math.random() * 360; 
+            wheel.style.transform = `rotate(${rotation}deg)`;
 
-let spinCount = 0;
-let rotation = 0;
+            setTimeout(() => {
+                let text = "";
+                
+                if (spinCount < 11) {
+                    const msgs = ["🔄 عاود دور", "🚫 ارجع غدوة"];
+                    text = msgs[Math.floor(Math.random() * msgs.length)];
+                } else {
+                    const prizes = ["🎁 Remise 50%", "🎁 Remise 25%", "🥤 Gezouza بلاش", "🍟 Portion Frit"];
+                    text = "🎉 مبروك ربحت: " + prizes[Math.floor(Math.random() * prizes.length)];
+                    spinCount = 0; // إعادة العداد للصفر بعد الربح
+                }
 
-function startSpin(){
-
-spinCount++;
-
-const wheel = document.getElementById("wheel");
-const result = document.getElementById("result");
-
-// 🎡 animation
-rotation += 720 + Math.random()*360;
-wheel.style.transform = `rotate(${rotation}deg)`;
-
-setTimeout(()=>{
-
-let text = "";
-
-// 🔁 1 → 10
-if(spinCount <= 10){
-
-const msgs = ["🔄 عاود داور","🚫 ارجع غدوة"];
-text = msgs[Math.floor(Math.random()*msgs.length)];
-}
-
-// 🏆 11 = WIN
-else if(spinCount === 11){
-
-const prizes = ["🍟 Portion Frit","🍊 Gezouza"];
-text = "🎉 مبروك: " + prizes[Math.floor(Math.random()*prizes.length)];
-
-spinCount = 0;
-}
-
-result.innerText = text;
-
-},4000);
-
-}
-
-</script>
-
+                result.innerText = text;
+                btn.disabled = false;
+            }, 4000);
+        }
+    </script>
 </body>
 </html>
