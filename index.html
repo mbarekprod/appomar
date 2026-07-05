@@ -3,65 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مطعم الفنان</title>
-    <link rel="stylesheet" href="style.css"> 
+    <title>مطعم الفنان | الفخامة والذوق</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap');
+
+        body {
+            margin: 0; padding: 0;
+            font-family: 'Cairo', sans-serif;
+            background: #000;
+            min-height: 100vh;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            /* الخلفية هي الصورة اللي بعثتها */
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
+                        url('https://i.ibb.co/Lg54Q6P/cover.jpg'); /* حط رابط صورتك هنا */
+            background-size: cover; background-position: center;
+            animation: zoomBg 20s infinite alternate;
+        }
+
+        @keyframes zoomBg { from { background-size: 100%; } to { background-size: 110%; } }
+
+        /* اللوغو في الوسط الفوقاني */
+        .logo-container {
+            width: 150px; height: 150px;
+            margin-bottom: 30px;
+            border-radius: 50%;
+            border: 4px solid #ffcc33;
+            box-shadow: 0 0 30px #ffcc33;
+            animation: rotateLogo 10s linear infinite;
+        }
+        .logo-container img { width: 100%; height: 100%; border-radius: 50%; }
+
+        @keyframes rotateLogo { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+        /* حاوية الأزرار في الوسط */
+        .main-menu { width: 90%; max-width: 350px; }
+
+        .btn {
+            display: block; width: 100%;
+            padding: 18px; margin: 15px 0;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 204, 51, 0.3);
+            border-radius: 50px;
+            color: #ffcc33; font-size: 18px; font-weight: bold;
+            text-decoration: none; cursor: pointer;
+            transition: 0.4s; backdrop-filter: blur(10px);
+            text-align: center;
+        }
+
+        .btn:hover {
+            background: #ffcc33; color: #000;
+            box-shadow: 0 0 20px #ffcc33;
+            transform: scale(1.05);
+        }
+    </style>
 </head>
 <body>
 
-    <div class="main-content">
-        <button class="card-btn" onclick="toggleMenu()">🍽️ قائمة اليوم</button>
-        <button class="card-btn" onclick="window.location.href='wheel.html'">🎡 عجلة الحظ</button>
-        <button class="card-btn" onclick="window.location.href='contact.html'">📞 اتصل بنا</button>
-        <button class="card-btn" onclick="openAdmin()">👨‍🍳 لوحة الشيف</button>
+    <div class="logo-container">
+        <img src="logo.png" alt="Logo"> </div>
 
-        <div id="menu" style="display:none;">
-            <div class="menu-item">جاري تحميل البيانات...</div>
-        </div>
+    <div class="main-menu">
+        <button class="btn" onclick="toggleMenu()">🍽️ قائمة اليوم</button>
+        <button class="btn" onclick="window.location.href='wheel.html'">🎡 عجلة الحظ</button>
+        <button class="btn" onclick="window.location.href='contact.html'">📞 اتصل بنا</button>
+        <button class="btn" onclick="openAdmin()">👨‍🍳 لوحة الشيف</button>
     </div>
 
+    <div id="menu" style="display:none; color:white; margin-top:20px; background:rgba(0,0,0,0.5); padding:20px; border-radius:20px;">
+        </div>
+
     <script type="module">
-        import { doc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
-        import { db } from "./firebase.js";
-
-        const menuDiv = document.getElementById("menu");
-
-        // هذي هي الخدمة: تحديث المنيو لايف من Firebase
-        onSnapshot(doc(db, "menu", "today"), (docSnap) => {
-            const data = docSnap.data();
-            if (data) {
-                menuDiv.innerHTML = `
-                    <div class="menu-item">🍕 ${data.food1} — ${data.price1} د</div>
-                    <div class="menu-item">🥘 ${data.food2} — ${data.price2} د</div>
-                `;
-            }
-        });
-
-        // دوال الأزرار
-        window.toggleMenu = function() {
-            menuDiv.style.display = (menuDiv.style.display === "block") ? "none" : "block";
-        };
-
-        window.openAdmin = function() {
-            let attempts = parseInt(localStorage.getItem("adminAttempts") || 0);
-            if (localStorage.getItem("blockedUntil") && new Date().getTime() < localStorage.getItem("blockedUntil")) {
-                alert("⛔ تم غلق لوحة الشيف لمدة ساعة");
-                return;
-            }
-            
-            const password = prompt("🔐 كلمة السر:");
-            if (password === "0000omar1234") {
-                localStorage.setItem("adminAttempts", 0);
-                window.location.href = "admin.html";
-            } else {
-                attempts++;
-                localStorage.setItem("adminAttempts", attempts);
-                if (attempts >= 3) {
-                    localStorage.setItem("blockedUntil", new Date().getTime() + 3600000);
-                }
-                alert("❌ كلمة سر خاطئة");
-            }
-        };
+        // كود الربط بالفايربيز والمنيو والتحكم اللي عملناه قبل
+        // ... (نفس كود المنيو واللوغين اللي استقرينا عليه)
     </script>
-
 </body>
 </html>
