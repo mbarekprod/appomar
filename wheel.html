@@ -1,273 +1,524 @@
+```html id="x2s9fk"
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>عجلة الحظ - الفنان</title>
+
+<title>🎡 عجلة الحظ - الفنان</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
 
 <style>
 
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #1a0a00;
-    color: white;
-    text-align: center;
-    padding: 20px;
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
 }
 
-h1 {
-    color: #f5c842;
+body{
+font-family:'Cairo',sans-serif;
+background:
+linear-gradient(rgba(0,0,0,.78),rgba(0,0,0,.78)),
+url('https://images.unsplash.com/photo-1552566626-52f8b828add9?q=80&w=1400&auto=format&fit=crop');
+background-size:cover;
+background-position:center;
+min-height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+overflow:hidden;
+color:white;
+padding:20px;
 }
 
-.wheel-container {
-    position: relative;
-    width: 320px;
-    height: 320px;
-    margin: 30px auto;
+.logo{
+font-size:58px;
+font-weight:900;
+color:#ffcc33;
+text-shadow:
+0 0 10px rgba(255,204,51,.8),
+0 0 25px rgba(255,136,0,.7);
+margin-bottom:10px;
 }
 
-#wheel {
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    border: 8px solid #f5c842;
-    transition: transform 5s ease-out;
+.sub{
+font-size:22px;
+margin-bottom:25px;
+color:#fff2b8;
 }
 
-.pointer {
-    position: absolute;
-    top: -20px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 40px;
-    color: red;
+.wheel-wrapper{
+position:relative;
+width:430px;
+height:430px;
+display:flex;
+justify-content:center;
+align-items:center;
 }
 
-button {
-    background: #f5c842;
-    color: #1a0a00;
-    border: none;
-    padding: 15px 30px;
-    border-radius: 30px;
-    font-size: 20px;
-    font-weight: bold;
-    cursor: pointer;
-    margin-top: 20px;
+.pointer{
+position:absolute;
+top:-20px;
+font-size:65px;
+z-index:99;
+color:#ff1e1e;
+filter:drop-shadow(0 0 8px black);
 }
 
-button:disabled {
-    opacity: 0.6;
+#wheel{
+width:100%;
+height:100%;
+border-radius:50%;
+border:12px solid #ffcc33;
+background:#111;
+box-shadow:
+0 0 20px rgba(255,204,51,.8),
+0 0 50px rgba(255,136,0,.5);
+transition:transform 6s cubic-bezier(.17,.67,.12,.99);
 }
 
-#result {
-    margin-top: 25px;
-    font-size: 24px;
-    color: #f5c842;
-    font-weight: bold;
+.center-circle{
+position:absolute;
+width:130px;
+height:130px;
+border-radius:50%;
+background:
+radial-gradient(circle,#ffcc33,#ff7b00);
+display:flex;
+justify-content:center;
+align-items:center;
+font-size:40px;
+font-weight:900;
+border:8px solid white;
+z-index:50;
+box-shadow:0 0 20px rgba(255,255,255,.4);
 }
 
-.back-btn {
-    display: inline-block;
-    margin-top: 30px;
-    text-decoration: none;
-    background: white;
-    color: #1a0a00;
-    padding: 12px 25px;
-    border-radius: 25px;
+.spin-btn{
+margin-top:35px;
+padding:18px 65px;
+border:none;
+border-radius:50px;
+font-size:28px;
+font-weight:900;
+cursor:pointer;
+background:
+linear-gradient(45deg,#ff1e1e,#ff7b00);
+color:white;
+box-shadow:
+0 0 20px rgba(255,87,34,.7);
+transition:.3s;
 }
+
+.spin-btn:hover{
+transform:scale(1.08);
+}
+
+.spin-btn:disabled{
+opacity:.5;
+cursor:not-allowed;
+}
+
+#result{
+margin-top:30px;
+font-size:35px;
+font-weight:900;
+min-height:60px;
+color:#ffcc33;
+text-shadow:0 0 10px rgba(255,204,51,.8);
+animation:fade .4s ease;
+text-align:center;
+}
+
+.counter{
+margin-top:10px;
+font-size:25px;
+font-weight:bold;
+color:#fff;
+}
+
+.info{
+margin-top:20px;
+background:rgba(0,0,0,.45);
+padding:18px 30px;
+border-radius:20px;
+font-size:20px;
+line-height:1.8;
+border:1px solid rgba(255,255,255,.1);
+text-align:center;
+}
+
+.glow{
+animation:glow 1s infinite alternate;
+}
+
+@keyframes glow{
+
+from{
+filter:drop-shadow(0 0 5px #fff);
+}
+
+to{
+filter:drop-shadow(0 0 20px #ffcc33);
+}
+
+}
+
+@keyframes fade{
+
+from{
+opacity:0;
+transform:translateY(15px);
+}
+
+to{
+opacity:1;
+transform:translateY(0);
+}
+
+}
+
+@media(max-width:500px){
+
+.wheel-wrapper{
+width:320px;
+height:320px;
+}
+
+.logo{
+font-size:42px;
+}
+
+.spin-btn{
+font-size:22px;
+padding:15px 40px;
+}
+
+#result{
+font-size:26px;
+}
+
+.info{
+font-size:16px;
+}
+
+}
+
 </style>
 </head>
 
 <body>
 
-<h1>🎡 عجلة الحظ الفنان</h1>
+<div class="logo">
+🍔 EL FANEN
+</div>
 
-<div class="wheel-container">
+<div class="sub">
+🎡 عجلة الحظ الخاصة بمطعم الفنان
+</div>
 
-    <div class="pointer">▼</div>
+<div class="wheel-wrapper">
 
-    <canvas id="wheel" width="320" height="320"></canvas>
+<div class="pointer glow">
+▼
+</div>
+
+<canvas id="wheel" width="430" height="430"></canvas>
+
+<div class="center-circle">
+🎡
+</div>
 
 </div>
 
-<button id="spinBtn">🎰 دور العجلة</button>
+<button class="spin-btn" id="spinBtn">
+🔥 دوّر العجلة
+</button>
 
-<div id="result"></div>
+<div id="result">
+🔥 جرّب حظك
+</div>
 
-<a href="index.html" class="back-btn">
-🏠 العودة للرئيسية
-</a>
+<div class="counter">
+الدورة الحالية:
+<span id="roundNumber">1</span>/11
+</div>
+
+<div class="info">
+
+كل زبون يدور مرة فقط 🎯<br>
+
+أول 10 دورات:<br>
+🔁 عاود داور أو 🚫 ارجع غدوة<br>
+
+الدورة 11 : ربح مضمون 🎁
+
+</div>
 
 <script>
-const prizes = [
-    {
-        text: "المرة الجاية",
-        color: "#f39c12",
-        weight: 40
-    },
-    {
-        text: "دابوزة ماء",
-        color: "#3498db",
-        weight: 25  red
-    },
-    {
-        text: "إضافة فريت",
-        color: "#2ecc71",
-        weight: 20
-    },
-    {
-        text: "قازوزة",
-        color: "#e74c3c",
-        weight: 10
-    },
-    {
-        text: "تخفيض 10%",
-        color: "#9b59b6",
-        weight: 5
-    }
-];
 
 const canvas = document.getElementById("wheel");
+
 const ctx = canvas.getContext("2d");
 
 const spinBtn = document.getElementById("spinBtn");
+
 const result = document.getElementById("result");
 
-let currentRotation = 0;
-let spinning = false;
+const roundNumber =
+document.getElementById("roundNumber");
 
-function drawWheel() {
+const wheelData = [
 
-    const total = prizes.reduce((sum, p) => sum + p.weight, 0);
+{
+text:"🔁",
+label:"عاود داور",
+color:"#1e88e5"
+},
 
-    let startAngle = 0;
+{
+text:"🚫",
+label:"ارجع غدوة",
+color:"#757575"
+},
 
-    prizes.forEach(prize => {
+{
+text:"🍟",
+label:"Portion Frit",
+color:"#8e24aa"
+},
 
-        const angle = (prize.weight / total) * 2 * Math.PI;
+{
+text:"🥤",
+label:"Gezouza",
+color:"#fbc02d"
+},
 
-        ctx.beginPath();
+{
+text:"💧",
+label:"Debouza Mé",
+color:"#2ecc71"
+},
 
-        ctx.moveTo(160, 160);
+{
+text:"25%",
+label:"Remise",
+color:"#ff6f00"
+},
 
-        ctx.arc(
-            160,
-            160,
-            160,
-            startAngle,
-            startAngle + angle
-        );
+{
+text:"50%",
+label:"Remise",
+color:"#d50000"
+}
 
-        ctx.fillStyle = prize.color;
+];
 
-        ctx.fill();
+const totalSlices = wheelData.length;
 
-        ctx.strokeStyle = "#fff";
+const sliceAngle =
+(2 * Math.PI) / totalSlices;
 
-        ctx.stroke();
+function drawWheel(){
 
-        ctx.save();
+for(let i = 0; i < totalSlices; i++){
 
-        ctx.translate(160, 160);
+const start = i * sliceAngle;
 
-        ctx.rotate(startAngle + angle / 2);
+const end = start + sliceAngle;
 
-        ctx.fillStyle = "#fff";
+ctx.beginPath();
 
-        ctx.font = "bold 16px Arial";
+ctx.moveTo(215,215);
 
-        ctx.textAlign = "right";
+ctx.arc(
+215,
+215,
+215,
+start,
+end
+);
 
-        ctx.fillText(
-            prize.text,
-            120,
-            5
-        );
+ctx.fillStyle = wheelData[i].color;
 
-        ctx.restore();
+ctx.fill();
 
-        startAngle += angle;
+ctx.strokeStyle = "#ffffff";
 
-    });
+ctx.lineWidth = 3;
+
+ctx.stroke();
+
+ctx.save();
+
+ctx.translate(215,215);
+
+ctx.rotate(start + sliceAngle / 2);
+
+ctx.fillStyle = "#fff";
+
+ctx.textAlign = "center";
+
+/* ICON */
+
+ctx.font = "bold 34px Cairo";
+
+ctx.fillText(
+wheelData[i].text,
+150,
+-5
+);
+
+/* LABEL */
+
+ctx.font = "bold 18px Cairo";
+
+ctx.fillText(
+wheelData[i].label,
+150,
+30
+);
+
+ctx.restore();
+
+}
 
 }
 
 drawWheel();
 
-function getPrize() {
+let rotation = 0;
 
-    const total = prizes.reduce((sum, p) => sum + p.weight, 0);
+let spinning = false;
 
-    let random = Math.random() * total;
+let spinCount = 0;
 
-    for (let prize of prizes) {
+function getResult(){
 
-        random -= prize.weight;
+spinCount++;
 
-        if (random <= 0) {
+if(spinCount <= 10){
 
-            return prize;
+const normalResults = [
 
-        }
+"🔁 عاود داور",
 
-    }
+"🚫 ارجع غدوة"
+
+];
+
+return normalResults[
+Math.floor(
+Math.random() *
+normalResults.length
+)
+];
 
 }
 
-spinBtn.addEventListener("click", () => {
+else{
 
-    if (spinning) return;
+const bigWins = [
 
-    spinning = true;
+"🍟 Portion Frit",
 
-    spinBtn.disabled = true;
+"🥤 Gezouza"
 
-    const winner = getPrize();
+];
 
-    const total = prizes.reduce((sum, p) => sum + p.weight, 0);
+spinCount = 0;
 
-    let angle = 0;
+return bigWins[
+Math.floor(
+Math.random() *
+bigWins.length
+)
+];
 
-    for (let prize of prizes) {
+}
 
-        const size = (prize.weight / total) * 360;
+}
 
-        if (prize === winner) {
+spinBtn.addEventListener("click",()=>{
 
-            angle += size / 2;
+if(spinning) return;
 
-            break;
+spinning = true;
 
-        }
+spinBtn.disabled = true;
 
-        angle += size;
+result.innerHTML =
+"🎡 العجلة تدور...";
 
-    }
+const finalPrize = getResult();
 
-    const finalRotation =
-        currentRotation +
-        360 * 6 +
-        (360 - angle);
+let targetIndex = 0;
 
-    currentRotation = finalRotation;
+if(finalPrize.includes("عاود")){
 
-    canvas.style.transform =
-        `rotate(${finalRotation}deg)`;
+targetIndex = 0;
 
-    setTimeout(() => {
+}
 
-        result.innerHTML =
-            `🎉 ربحت: ${winner.text}`;
+else if(finalPrize.includes("غدوة")){
 
-        spinBtn.disabled = false;
+targetIndex = 1;
 
-        spinning = false;
+}
 
-    }, 5000);
+else if(finalPrize.includes("Portion")){
+
+targetIndex = 2;
+
+}
+
+else if(finalPrize.includes("Gezouza")){
+
+targetIndex = 3;
+
+}
+
+const extraSpins = 360 * 6;
+
+const degreePerSlice =
+360 / totalSlices;
+
+const stopDegree =
+360 -
+(targetIndex * degreePerSlice) -
+(degreePerSlice / 2);
+
+rotation +=
+extraSpins +
+stopDegree;
+
+canvas.style.transform =
+`rotate(${rotation}deg)`;
+
+setTimeout(()=>{
+
+result.innerHTML =
+`🎉 النتيجة: ${finalPrize}`;
+
+spinning = false;
+
+spinBtn.disabled = false;
+
+roundNumber.innerHTML =
+spinCount === 0
+? 1
+: spinCount + 1;
+
+},6000);
 
 });
+
 </script>
- 
+
 </body>
 </html>
+```
