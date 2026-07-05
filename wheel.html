@@ -1,63 +1,273 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <style>
-        /* ستايل العجلة */
-        .wheel-container {
-            position: relative;
-            width: 300px; height: 300px;
-            margin: 50px auto;
-        }
-        #wheel {
-            width: 100%; height: 100%; border-radius: 50%;
-            border: 8px solid #ffca28;
-            position: relative; overflow: hidden;
-            background: conic-gradient(
-                #b71c1c 0deg 30deg, #ff6f00 30deg 60deg, 
-                #b71c1c 60deg 90deg, #ff6f00 90deg 120deg,
-                #b71c1c 120deg 150deg, #ff6f00 150deg 180deg,
-                #b71c1c 180deg 210deg, #ff6f00 210deg 240deg,
-                #b71c1c 240deg 270deg, #ff6f00 270deg 300deg,
-                #b71c1c 300deg 330deg, #ff6f00 330deg 360deg
-            );
-            transition: transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99);
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>عجلة الحظ - الفنان</title>
 
-        /* تنسيق النصوص: هذا هو السر باش تطلع منظمة */
-        .segment-text {
-            position: absolute;
-            top: 50%; left: 50%;
-            width: 50%; height: 20px;
-            transform-origin: 0 0;
-            font-size: 12px;
-            font-weight: bold;
-            color: white;
-            text-align: center;
-        }
+<style>
 
-        /* توزيع كل نص في شريحته الخاصة */
-        .s1 { transform: rotate(15deg); }
-        .s2 { transform: rotate(45deg); }
-        .s3 { transform: rotate(75deg); }
-        .s4 { transform: rotate(105deg); }
-        .s5 { transform: rotate(135deg); }
-        .s6 { transform: rotate(165deg); }
-        .s7 { transform: rotate(195deg); }
-        .s8 { transform: rotate(225deg); }
-        .s9 { transform: rotate(255deg); }
-        .s10 { transform: rotate(285deg); }
-        .s11 { transform: rotate(315deg); }
-        .s12 { transform: rotate(345deg); }
-    </style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #1a0a00;
+    color: white;
+    text-align: center;
+    padding: 20px;
+}
+
+h1 {
+    color: #f5c842;
+}
+
+.wheel-container {
+    position: relative;
+    width: 320px;
+    height: 320px;
+    margin: 30px auto;
+}
+
+#wheel {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 8px solid #f5c842;
+    transition: transform 5s ease-out;
+}
+
+.pointer {
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 40px;
+    color: red;
+}
+
+button {
+    background: #f5c842;
+    color: #1a0a00;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 30px;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+button:disabled {
+    opacity: 0.6;
+}
+
+#result {
+    margin-top: 25px;
+    font-size: 24px;
+    color: #f5c842;
+    font-weight: bold;
+}
+
+.back-btn {
+    display: inline-block;
+    margin-top: 30px;
+    text-decoration: none;
+    background: white;
+    color: #1a0a00;
+    padding: 12px 25px;
+    border-radius: 25px;
+}
+</style>
 </head>
+
 <body>
-    <div class="wheel-container">
-        <div id="wheel">
-            <div class="segment-text s1">قازوزة</div>
-            <div class="segment-text s2">فريت</div>
-            <div class="segment-text s3">تخفيض 50%</div>
-            </div>
-    </div>
+
+<h1>🎡 عجلة الحظ الفنان</h1>
+
+<div class="wheel-container">
+
+    <div class="pointer">▼</div>
+
+    <canvas id="wheel" width="320" height="320"></canvas>
+
+</div>
+
+<button id="spinBtn">🎰 دور العجلة</button>
+
+<div id="result"></div>
+
+<a href="index.html" class="back-btn">
+🏠 العودة للرئيسية
+</a>
+
+<script>
+const prizes = [
+    {
+        text: "المرة الجاية",
+        color: "#f39c12",
+        weight: 40
+    },
+    {
+        text: "دابوزة ماء",
+        color: "#3498db",
+        weight: 25  red
+    },
+    {
+        text: "إضافة فريت",
+        color: "#2ecc71",
+        weight: 20
+    },
+    {
+        text: "قازوزة",
+        color: "#e74c3c",
+        weight: 10
+    },
+    {
+        text: "تخفيض 10%",
+        color: "#9b59b6",
+        weight: 5
+    }
+];
+
+const canvas = document.getElementById("wheel");
+const ctx = canvas.getContext("2d");
+
+const spinBtn = document.getElementById("spinBtn");
+const result = document.getElementById("result");
+
+let currentRotation = 0;
+let spinning = false;
+
+function drawWheel() {
+
+    const total = prizes.reduce((sum, p) => sum + p.weight, 0);
+
+    let startAngle = 0;
+
+    prizes.forEach(prize => {
+
+        const angle = (prize.weight / total) * 2 * Math.PI;
+
+        ctx.beginPath();
+
+        ctx.moveTo(160, 160);
+
+        ctx.arc(
+            160,
+            160,
+            160,
+            startAngle,
+            startAngle + angle
+        );
+
+        ctx.fillStyle = prize.color;
+
+        ctx.fill();
+
+        ctx.strokeStyle = "#fff";
+
+        ctx.stroke();
+
+        ctx.save();
+
+        ctx.translate(160, 160);
+
+        ctx.rotate(startAngle + angle / 2);
+
+        ctx.fillStyle = "#fff";
+
+        ctx.font = "bold 16px Arial";
+
+        ctx.textAlign = "right";
+
+        ctx.fillText(
+            prize.text,
+            120,
+            5
+        );
+
+        ctx.restore();
+
+        startAngle += angle;
+
+    });
+
+}
+
+drawWheel();
+
+function getPrize() {
+
+    const total = prizes.reduce((sum, p) => sum + p.weight, 0);
+
+    let random = Math.random() * total;
+
+    for (let prize of prizes) {
+
+        random -= prize.weight;
+
+        if (random <= 0) {
+
+            return prize;
+
+        }
+
+    }
+
+}
+
+spinBtn.addEventListener("click", () => {
+
+    if (spinning) return;
+
+    spinning = true;
+
+    spinBtn.disabled = true;
+
+    const winner = getPrize();
+
+    const total = prizes.reduce((sum, p) => sum + p.weight, 0);
+
+    let angle = 0;
+
+    for (let prize of prizes) {
+
+        const size = (prize.weight / total) * 360;
+
+        if (prize === winner) {
+
+            angle += size / 2;
+
+            break;
+
+        }
+
+        angle += size;
+
+    }
+
+    const finalRotation =
+        currentRotation +
+        360 * 6 +
+        (360 - angle);
+
+    currentRotation = finalRotation;
+
+    canvas.style.transform =
+        `rotate(${finalRotation}deg)`;
+
+    setTimeout(() => {
+
+        result.innerHTML =
+            `🎉 ربحت: ${winner.text}`;
+
+        spinBtn.disabled = false;
+
+        spinning = false;
+
+    }, 5000);
+
+});
+</script>
+ 
 </body>
 </html>
