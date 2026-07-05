@@ -1,532 +1,67 @@
-```html
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-
 <head>
-
-<meta charset="UTF-8">
-
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0">
-
-<title>مطعم الفنان | Mbarek Prod</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap"
-rel="stylesheet">
-
-<style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-}
-
-body{
-
-font-family:'Cairo',sans-serif;
-
-min-height:100vh;
-
-color:white;
-
-text-align:center;
-
-overflow-x:hidden;
-
-/* الخلفية */
-
-background:
-
-linear-gradient(
-rgba(0,0,0,0.75),
-rgba(0,0,0,0.85)
-),
-
-url("https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=1600&auto=format&fit=crop");
-
-background-size:cover;
-
-background-position:center;
-
-background-attachment:fixed;
-}
-
-
-/* طبقة إضاءة */
-
-body::before{
-
-content:"";
-
-position:fixed;
-
-inset:0;
-
-background:
-
-radial-gradient(
-circle,
-rgba(255,193,7,0.08),
-transparent 70%
-);
-
-animation:
-bgMove 12s linear infinite;
-
-z-index:-1;
-}
-
-@keyframes bgMove{
-
-0%{
-transform:translate(-10%,-10%);
-}
-
-50%{
-transform:translate(-20%,-15%);
-}
-
-100%{
-transform:translate(-10%,-10%);
-}
-}
-
-
-/* لوقو المطعم */
-
-.logo{
-
-width:170px;
-
-margin-top:25px;
-
-border-radius:50%;
-
-box-shadow:
-0 0 30px rgba(255,193,7,0.7);
-
-animation:
-floatLogo 4s ease-in-out infinite;
-}
-
-@keyframes floatLogo{
-
-0%{
-transform:translateY(0px);
-}
-
-50%{
-transform:translateY(-12px);
-}
-
-100%{
-transform:translateY(0px);
-}
-}
-
-
-/* عنوان */
-
-h1{
-
-font-size:46px;
-
-margin-top:15px;
-
-color:#ffca28;
-
-text-shadow:
-0 0 10px #ff9800,
-0 0 20px #ff9800,
-0 0 40px rgba(255,152,0,0.6);
-}
-
-.tagline{
-
-margin-top:12px;
-
-font-size:18px;
-
-color:#eee;
-}
-
-
-/* Powered by */
-
-.powered{
-
-margin-top:8px;
-
-font-size:14px;
-
-color:#ffca28;
-
-letter-spacing:1px;
-}
-
-
-/* الكونتينر */
-
-.container{
-
-max-width:430px;
-
-margin:40px auto;
-}
-
-
-/* الأزرار */
-
-.card-btn{
-
-width:100%;
-
-padding:18px;
-
-margin-top:18px;
-
-border:none;
-
-border-radius:25px;
-
-font-size:20px;
-
-font-weight:bold;
-
-cursor:pointer;
-
-color:white;
-
-background:
-linear-gradient(
-135deg,
-rgba(255,152,0,0.95),
-rgba(230,81,0,0.95)
-);
-
-backdrop-filter:blur(10px);
-
-box-shadow:
-0 10px 25px rgba(0,0,0,0.4);
-
-transition:0.35s;
-}
-
-.card-btn:hover{
-
-transform:
-translateY(-5px)
-scale(1.03);
-
-box-shadow:
-0 0 30px rgba(255,152,0,0.7);
-}
-
-
-/* زر الأدمن */
-
-.admin-btn{
-
-background:
-linear-gradient(
-135deg,
-#4caf50,
-#1b5e20
-);
-}
-
-
-/* المنيو */
-
-#menu{
-
-display:none;
-
-margin-top:35px;
-
-animation:
-fadeIn 0.6s ease;
-}
-
-@keyframes fadeIn{
-
-from{
-opacity:0;
-transform:translateY(20px);
-}
-
-to{
-opacity:1;
-transform:translateY(0);
-}
-}
-
-
-/* عناصر المنيو */
-
-.menu-item{
-
-background:
-rgba(255,255,255,0.08);
-
-padding:18px;
-
-margin-top:15px;
-
-border-radius:20px;
-
-border:
-1px solid rgba(255,193,7,0.3);
-
-font-size:19px;
-
-backdrop-filter:blur(12px);
-
-box-shadow:
-0 8px 20px rgba(0,0,0,0.25);
-
-transition:0.3s;
-}
-
-.menu-item:hover{
-
-transform:scale(1.02);
-
-border:
-1px solid gold;
-}
-
-</style>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مطعم الفنان</title>
+    <link rel="stylesheet" href="style.css"> 
 </head>
-
 <body>
 
-<img src="go.png"
-class="logo">
-
-<h1>مطعم الفنان</h1>
-
-<p class="tagline">
-أشهى الأطباق والمأكولات التونسية
-</p>
-
-<div class="powered">
-✨ Powered By Mbarek Prod
-</div>
-
-<div class="container">
-
-<button class="card-btn"
-onclick="toggleMenu()">
-
-🍽️ قائمة اليوم
-
-</button>
-
-<button class="card-btn"
-onclick="window.location.href='wheel.html'">
-
-🎡 عجلة الحظ والجوائز
-
-
-<button
-class="card-btn admin-btn"
-onclick="openAdmin()">
-
-cv cheffe
-
-</button>
-
-<button
-class="card-btn admin-btn"
-onclick="openAdmin()">
-
-👨‍🍳 لوحة الشيف
-
-</button>
-
-
-
-    <a href="contact.html" class="card-btn" style="text-decoration: none; display: block; text-align: center;">
-    📞 اتصل بنا
-</a>
-
-<div id="menu">
-
-<div class="menu-item">
-🍕 بيتزا خاصة — 15 د
-</div>
-
-<div class="menu-item">
-🥘 إسكالوب — 18 د
-</div>
-
-<div class="menu-item">
-🍟 فريت — 5 د
-</div>
-
-</div>
-
-</div>
-
-<script>
-// أضف هذا الكود في index.html لربطها بـ Firebase
-import { doc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
-import { db } from "./firebase.js"; // تأكد من وجود ملف firebase.js
-
-onSnapshot(doc(db, "menu", "today"), (doc) => {
-    const data = doc.data();
-    if (data) {
-        // تحديث المنيو في الصفحة الرئيسية مباشرة
-        document.getElementById("menu").innerHTML = `
-            <div class="menu-item">${data.food1} — ${data.price1} د</div>
-            <div class="menu-item">${data.food2} — ${data.price2} د</div>
-        `;
-    }
-});
-function toggleMenu(){
-
-const menu =
-document.getElementById("menu");
-
-if(menu.style.display==="block"){
-
-menu.style.display="none";
-
-}else{
-
-menu.style.display="block";
-}
-}
-
-
-
-// حماية لوحة الشيف
-
-function openAdmin(){
-
-let attempts =
-
-localStorage.getItem(
-"adminAttempts"
-) || 0;
-
-
-let blockedUntil =
-
-localStorage.getItem(
-"blockedUntil"
-);
-
-
-if(blockedUntil){
-
-const now =
-new Date().getTime();
-
-
-if(now < blockedUntil){
-
-alert(
-"⛔ تم غلق لوحة الشيف لمدة ساعة"
-);
-
-return;
-
-}else{
-
-localStorage.removeItem(
-"blockedUntil"
-);
-
-localStorage.setItem(
-"adminAttempts",
-0
-);
-
-attempts = 0;
-}
-}
-
-
-
-const password =
-prompt(
-"🔐 أدخل كلمة سر الشيف"
-);
-
-
-
-if(password === "0000omar1234"){
-
-localStorage.setItem(
-"adminAttempts",
-0
-);
-
-window.location.href =
-"admin.html";
-
-}else{
-
-attempts++;
-
-localStorage.setItem(
-"adminAttempts",
-attempts
-);
-
-
-
-if(attempts >= 3){
-
-const oneHour =
-
-60 * 60 * 1000;
-
-const blockTime =
-
-new Date().getTime()
-+
-oneHour;
-
-localStorage.setItem(
-"blockedUntil",
-blockTime
-);
-
-alert(
-"⛔ تم غلق لوحة الشيف لمدة ساعة"
-);
-
-}else{
-
-alert(
-
-"❌ كلمة السر خاطئة\n\n"
-
-+
-
-"المحاولة: "
-
-+
-
-attempts
-
-+
-
-"/3"
-
-);
-
-}
-}
-}
-
-</script>
+    <div class="main-content">
+        <button class="card-btn" onclick="toggleMenu()">🍽️ قائمة اليوم</button>
+        <button class="card-btn" onclick="window.location.href='wheel.html'">🎡 عجلة الحظ</button>
+        <button class="card-btn" onclick="window.location.href='contact.html'">📞 اتصل بنا</button>
+        <button class="card-btn" onclick="openAdmin()">👨‍🍳 لوحة الشيف</button>
+
+        <div id="menu" style="display:none;">
+            <div class="menu-item">جاري تحميل البيانات...</div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { doc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
+        import { db } from "./firebase.js";
+
+        const menuDiv = document.getElementById("menu");
+
+        // هذي هي الخدمة: تحديث المنيو لايف من Firebase
+        onSnapshot(doc(db, "menu", "today"), (docSnap) => {
+            const data = docSnap.data();
+            if (data) {
+                menuDiv.innerHTML = `
+                    <div class="menu-item">🍕 ${data.food1} — ${data.price1} د</div>
+                    <div class="menu-item">🥘 ${data.food2} — ${data.price2} د</div>
+                `;
+            }
+        });
+
+        // دوال الأزرار
+        window.toggleMenu = function() {
+            menuDiv.style.display = (menuDiv.style.display === "block") ? "none" : "block";
+        };
+
+        window.openAdmin = function() {
+            let attempts = parseInt(localStorage.getItem("adminAttempts") || 0);
+            if (localStorage.getItem("blockedUntil") && new Date().getTime() < localStorage.getItem("blockedUntil")) {
+                alert("⛔ تم غلق لوحة الشيف لمدة ساعة");
+                return;
+            }
+            
+            const password = prompt("🔐 كلمة السر:");
+            if (password === "0000omar1234") {
+                localStorage.setItem("adminAttempts", 0);
+                window.location.href = "admin.html";
+            } else {
+                attempts++;
+                localStorage.setItem("adminAttempts", attempts);
+                if (attempts >= 3) {
+                    localStorage.setItem("blockedUntil", new Date().getTime() + 3600000);
+                }
+                alert("❌ كلمة سر خاطئة");
+            }
+        };
+    </script>
 
 </body>
 </html>
-```
