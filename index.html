@@ -8,7 +8,7 @@
 <meta name="viewport"
 content="width=device-width, initial-scale=1.0">
 
-<title>مطعم الفنان</title>
+<title>قائمة مطعم الفنان</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
 
@@ -25,9 +25,10 @@ body{
 font-family:'Cairo',sans-serif;
 
 background:
+
 linear-gradient(
-rgba(0,0,0,.72),
-rgba(0,0,0,.72)
+rgba(0,0,0,.82),
+rgba(0,0,0,.82)
 ),
 
 url('unnamed (2).jpg');
@@ -39,25 +40,20 @@ background-attachment:fixed;
 
 min-height:100vh;
 
-display:flex;
-justify-content:center;
-align-items:center;
+padding:30px 15px;
 
 overflow-x:hidden;
-
-padding:30px 15px;
 }
 
 /* CONTAINER */
 
 .container{
 
-width:100%;
-max-width:400px;
+max-width:500px;
 
-text-align:center;
+margin:auto;
 
-animation:fade .7s ease;
+animation:fade .8s ease;
 }
 
 @keyframes fade{
@@ -78,21 +74,21 @@ transform:translateY(0);
 
 .logo{
 
-width:170px;
-height:170px;
+width:160px;
+height:160px;
 
 border-radius:50%;
+
+overflow:hidden;
 
 border:4px solid #ffcc33;
 
 margin:auto;
 margin-bottom:20px;
 
-overflow:hidden;
-
 box-shadow:
 0 0 20px #ffcc33,
-0 0 60px rgba(255,204,51,.6);
+0 0 50px rgba(255,204,51,.5);
 
 animation:pulse 3s infinite;
 }
@@ -112,7 +108,7 @@ transform:scale(1);
 }
 
 50%{
-transform:scale(1.04);
+transform:scale(1.05);
 }
 
 100%{
@@ -125,176 +121,164 @@ transform:scale(1);
 
 .title{
 
+text-align:center;
+
 font-size:42px;
+
 font-weight:900;
 
 color:#ffcc33;
 
 text-shadow:
-0 0 15px rgba(255,204,51,.8);
+0 0 15px rgba(255,204,51,.7);
 
-margin-bottom:8px;
+margin-bottom:10px;
 }
 
 .subtitle{
 
+text-align:center;
+
 color:white;
 
-font-size:14px;
+margin-bottom:30px;
+
+font-size:15px;
 
 letter-spacing:2px;
-
-margin-bottom:25px;
 }
 
 /* CARD */
 
 .card{
 
-width:100%;
+background:
+rgba(0,0,0,.65);
 
 padding:25px;
 
-border-radius:25px;
-
-background:
-rgba(0,0,0,.60);
-
-backdrop-filter:blur(8px);
+border-radius:30px;
 
 border:2px solid #ffcc33;
 
-box-shadow:
-0 0 35px rgba(255,204,51,.25);
-}
-
-/* BUTTON */
-
-.btn{
-
-width:100%;
-
-padding:17px;
-
-margin:10px 0;
-
-border:none;
-
-border-radius:15px;
-
-font-size:20px;
-font-weight:700;
-
-cursor:pointer;
-
-background:
-linear-gradient(
-180deg,
-#ffcc33,
-#e6b800
-);
-
-color:black;
-
-transition:.3s;
-
-font-family:'Cairo',sans-serif;
+backdrop-filter:blur(8px);
 
 box-shadow:
-0 6px 18px rgba(255,204,51,.35);
+0 0 40px rgba(255,204,51,.2);
 }
 
-.btn:hover{
+/* MENU ITEM */
 
-transform:scale(1.03);
-}
+.item{
 
-/* MENU */
+display:flex;
 
-#menu-wrapper{
+justify-content:space-between;
 
-display:none;
-
-margin-top:18px;
+align-items:center;
 
 padding:18px;
+
+margin:12px 0;
 
 border-radius:18px;
 
 background:
 rgba(255,255,255,.05);
 
-border:1px solid #ffcc33;
-
-color:white;
-
-font-size:18px;
-
-line-height:2;
-}
-
-/* FOOTER */
-
-.footer{
-
-margin-top:25px;
-
-color:white;
-
-font-size:14px;
-}
-
-.footer span{
-
-color:#ffcc33;
-font-weight:bold;
-}
-
-/* SOCIAL */
-
-.social-links{
-
-margin-top:15px;
-
-display:flex;
-justify-content:center;
-gap:20px;
-}
-
-.social-links a{
-
-color:#ffcc33;
-
-font-size:24px;
-
-text-decoration:none;
+border:
+1px solid rgba(255,204,51,.2);
 
 transition:.3s;
 }
 
-.social-links a:hover{
+.item:hover{
 
-transform:scale(1.2);
+transform:scale(1.03);
+
+background:
+rgba(255,204,51,.1);
+
+border-color:#ffcc33;
+}
+
+.left{
+
+display:flex;
+align-items:center;
+gap:15px;
+}
+
+.emoji{
+
+font-size:28px;
+}
+
+.name{
+
+color:white;
+
+font-size:20px;
+
+font-weight:700;
+}
+
+.price{
+
+color:#ffcc33;
+
+font-size:20px;
+
+font-weight:900;
+}
+
+/* BACK */
+
+.back{
+
+display:block;
+
+margin-top:25px;
+
+text-align:center;
+
+text-decoration:none;
+
+color:#ffcc33;
+
+font-size:18px;
+
+transition:.3s;
+}
+
+.back:hover{
+
+transform:scale(1.05);
 }
 
 /* MOBILE */
 
 @media(max-width:500px){
 
-.logo{
-
-width:145px;
-height:145px;
-}
-
 .title{
 
 font-size:34px;
 }
 
-.btn{
+.name{
 
 font-size:17px;
+}
+
+.price{
+
+font-size:17px;
+}
+
+.logo{
+
+width:135px;
+height:135px;
 }
 
 }
@@ -315,51 +299,189 @@ font-size:17px;
 
 <div class="title">
 
-مطعم الفنان
+قائمة الفنان
 
 </div>
 
 <div class="subtitle">
 
-Good Food • Good Mood • Good People
+🔥 أكلاتنا اليومية 🔥
 
 </div>
 
 <div class="card">
 
-<button class="btn"
-onclick="toggleMenu()">
+<div class="item">
 
-🍽️ قائمة اليوم
+<div class="left">
 
-</button>
+<div class="emoji">🥙</div>
 
-<button class="btn"
-onclick="window.location.href='wheel.html'">
+<div class="name">
 
-🎡 عجلة الحظ
+ملوي
 
-</button>
+</div>
 
-<button class="btn"
-onclick="window.location.href='contact.html'">
+</div>
 
-📞 اتصل بنا
+<div class="price">
 
-</button>
+5 د
 
-<button class="btn"
-onclick="openAdmin()">
+</div>
 
-👨‍🍳 لوحة الشيف
+</div>
 
-</button>
+<div class="item">
 
-<div id="menu-wrapper">
+<div class="left">
 
-<div id="menu-content">
+<div class="emoji">🌮</div>
 
-جاري تحميل القائمة...
+<div class="name">
+
+تاكوس
+
+</div>
+
+</div>
+
+<div class="price">
+
+12 د
+
+</div>
+
+</div>
+
+<div class="item">
+
+<div class="left">
+
+<div class="emoji">🍕</div>
+
+<div class="name">
+
+بيتزا
+
+</div>
+
+</div>
+
+<div class="price">
+
+10 د
+
+</div>
+
+</div>
+
+<div class="item">
+
+<div class="left">
+
+<div class="emoji">🥪</div>
+
+<div class="name">
+
+سندويتش
+
+</div>
+
+</div>
+
+<div class="price">
+
+7 د
+
+</div>
+
+</div>
+
+<div class="item">
+
+<div class="left">
+
+<div class="emoji">🌯</div>
+
+<div class="name">
+
+مقلوب
+
+</div>
+
+</div>
+
+<div class="price">
+
+8 د
+
+</div>
+
+</div>
+
+<div class="item">
+
+<div class="left">
+
+<div class="emoji">🍝</div>
+
+<div class="name">
+
+مقرونة
+
+</div>
+
+</div>
+
+<div class="price">
+
+9 د
+
+</div>
+
+</div>
+
+<div class="item">
+
+<div class="left">
+
+<div class="emoji">🥚</div>
+
+<div class="name">
+
+عجة
+
+</div>
+
+</div>
+
+<div class="price">
+
+6 د
+
+</div>
+
+</div>
+
+<div class="item">
+
+<div class="left">
+
+<div class="emoji">🥖</div>
+
+<div class="name">
+
+باقات فارسي
+
+</div>
+
+</div>
+
+<div class="price">
+
+8 د
 
 </div>
 
@@ -367,131 +489,15 @@ onclick="openAdmin()">
 
 </div>
 
-<div class="footer">
+<a
+href="index.html"
+class="back">
 
-مطعم الفنان ✨ <br>
+⬅️ الرجوع للرئيسية
 
-بحب من <span>الفنان</span> 🧡
-
-<div class="social-links">
-
-<a href="#">📷</a>
-
-<a href="#">👥</a>
-
-<a href="#">🎵</a>
+</a>
 
 </div>
-
-</div>
-
-</div>
-
-<script type="module">
-
-import {
-doc,
-onSnapshot
-}
-
-from
-"https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
-
-import { db }
-from "./firebase.js";
-
-/* MENU */
-
-window.toggleMenu = ()=>{
-
-let menu =
-document.getElementById(
-"menu-wrapper"
-);
-
-menu.style.display =
-
-menu.style.display === "block"
-
-? "none"
-
-: "block";
-
-};
-
-/* ADMIN PASSWORD */
-
-window.openAdmin = ()=>{
-
-let pass = prompt(
-"🔐 دخل كلمة سر الشيف"
-);
-
-if(pass === "0000omar1234"){
-
-window.location.href =
-"admin.html";
-
-}
-
-else if(pass !== null){
-
-alert(
-"❌ كلمة السر خاطئة"
-);
-
-}
-
-};
-
-/* LOAD MENU */
-
-onSnapshot(
-
-doc(
-db,
-"menu",
-"today"
-),
-
-(docSnap)=>{
-
-let content =
-document.getElementById(
-"menu-content"
-);
-
-if(docSnap.exists()){
-
-let d =
-docSnap.data();
-
-content.innerHTML = `
-
-🍕 ${d.food1}
-— ${d.price1} د
-
-<br><br>
-
-🥘 ${d.food2}
-— ${d.price2} د
-
-`;
-
-}
-
-else{
-
-content.innerHTML =
-"❌ لا توجد قائمة اليوم";
-
-}
-
-}
-
-);
-
-</script>
 
 </body>
 </html>
