@@ -1,115 +1,457 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مطعم الفنان</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap');
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+<title>مطعم الفنان</title>
 
-        body {
-            font-family: 'Cairo', sans-serif;
-            /* استخدم صورة واجهة المطعم كخلفية */
-            background: linear-gradient(rgba(0,0,0,.7), rgba(0,0,0,.7)), 
-                        url('unnamed (2).jpg');
-            background-size: cover;
-            background-position: center;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
 
-        .container { width: 90%; max-width: 380px; text-align: center; }
+<style>
 
-        .logo {
-            width: 150px; height: 150px; border-radius: 50%;
-            border: 4px solid #ffcc33; margin-bottom: 20px;
-            overflow: hidden; box-shadow: 0 0 15px #ffcc33;
-        }
-        .logo img { width: 100%; height: 100%; object-fit: cover; }
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
 
-        .card {
-            width: 100%; padding: 20px; border-radius: 20px;
-            background: rgba(0, 0, 0, 0.6);
-            border: 2px solid #ffcc33;
-        }
+body{
 
-        .btn {
-            width: 100%; padding: 15px; margin: 10px 0;
-            border: none; border-radius: 12px;
-            font-size: 18px; font-weight: 700; cursor: pointer;
-            background: linear-gradient(180deg, #ffcc33, #e6b800);
-            color: black; transition: 0.3s;
-        }
-        .btn:hover { transform: scale(1.02); }
+font-family:'Cairo',sans-serif;
 
-        #menu-wrapper { display: none; margin-top: 15px; color: #fff; padding: 10px; border-top: 1px solid #ffcc33; }
+background-image:url('restaurant.jpg');
+background-size:cover;
+background-position:center;
+background-repeat:no-repeat;
+background-attachment:fixed;
 
-        .footer { margin-top: 20px; color: white; font-size: 14px; }
-        .footer span { color: #ffcc33; font-weight: bold; }
+min-height:100vh;
 
-        .social-links { margin-top: 15px; display: flex; justify-content: center; gap: 20px; }
-        .social-links a { color: #ffcc33; font-size: 24px; text-decoration: none; }
-    </style>
+display:flex;
+justify-content:center;
+align-items:center;
+
+overflow:hidden;
+position:relative;
+}
+
+/* dark overlay */
+
+body::before{
+
+content:"";
+
+position:absolute;
+inset:0;
+
+background:
+rgba(0,0,0,.65);
+
+backdrop-filter:blur(2px);
+
+z-index:0;
+}
+
+/* glow background */
+
+body::after{
+
+content:"";
+
+position:absolute;
+
+width:700px;
+height:700px;
+
+background:
+radial-gradient(
+circle,
+rgba(255,204,51,.25),
+transparent 70%
+);
+
+top:50%;
+left:50%;
+
+transform:
+translate(-50%,-50%);
+
+z-index:1;
+
+animation:glow 5s infinite alternate;
+}
+
+@keyframes glow{
+
+0%{
+transform:
+translate(-50%,-50%)
+scale(1);
+}
+
+100%{
+transform:
+translate(-50%,-50%)
+scale(1.15);
+}
+
+}
+
+.container{
+
+position:relative;
+z-index:5;
+
+width:90%;
+max-width:420px;
+
+text-align:center;
+
+animation:fadeUp 1s ease;
+}
+
+@keyframes fadeUp{
+
+from{
+
+opacity:0;
+transform:translateY(40px);
+
+}
+
+to{
+
+opacity:1;
+transform:translateY(0);
+
+}
+
+}
+
+/* logo */
+
+.logo{
+
+width:190px;
+height:190px;
+
+border-radius:50%;
+
+overflow:hidden;
+
+margin:auto;
+
+border:4px solid #ffcc33;
+
+box-shadow:
+
+0 0 20px #ffcc33,
+0 0 50px rgba(255,204,51,.7),
+0 0 100px rgba(255,204,51,.4);
+
+animation:pulse 3s infinite;
+}
+
+.logo img{
+
+width:100%;
+height:100%;
+
+object-fit:cover;
+}
+
+@keyframes pulse{
+
+0%{
+
+transform:scale(1);
+
+box-shadow:
+
+0 0 20px #ffcc33,
+0 0 50px rgba(255,204,51,.7);
+
+}
+
+50%{
+
+transform:scale(1.03);
+
+box-shadow:
+
+0 0 35px #ffcc33,
+0 0 100px rgba(255,204,51,1);
+
+}
+
+100%{
+
+transform:scale(1);
+
+box-shadow:
+
+0 0 20px #ffcc33,
+0 0 50px rgba(255,204,51,.7);
+
+}
+
+}
+
+/* title */
+
+.title{
+
+font-size:42px;
+font-weight:900;
+
+margin-top:22px;
+
+color:#ffcc33;
+
+text-shadow:
+0 0 10px rgba(255,204,51,.8);
+}
+
+.subtitle{
+
+margin-top:8px;
+
+font-size:15px;
+
+color:white;
+
+letter-spacing:2px;
+
+opacity:.9;
+}
+
+/* card */
+
+.card{
+
+margin-top:30px;
+
+padding:28px;
+
+border-radius:35px;
+
+background:
+rgba(0,0,0,.72);
+
+backdrop-filter:blur(10px);
+
+border:
+2px solid rgba(255,204,51,.7);
+
+box-shadow:
+
+0 0 40px rgba(255,204,51,.25),
+0 15px 40px rgba(0,0,0,.5);
+}
+
+/* buttons */
+
+.btn{
+
+width:100%;
+
+padding:18px;
+
+margin:12px 0;
+
+border:none;
+
+border-radius:50px;
+
+cursor:pointer;
+
+font-size:22px;
+font-weight:900;
+
+font-family:'Cairo',sans-serif;
+
+background:
+linear-gradient(
+180deg,
+#ffd84d,
+#ffb300
+);
+
+color:black;
+
+transition:.3s;
+
+position:relative;
+
+overflow:hidden;
+
+box-shadow:
+
+0 8px 20px rgba(255,204,51,.35);
+}
+
+.btn::before{
+
+content:"";
+
+position:absolute;
+
+top:0;
+left:-100%;
+
+width:60%;
+height:100%;
+
+background:
+linear-gradient(
+120deg,
+transparent,
+rgba(255,255,255,.6),
+transparent
+);
+
+transform:skewX(-25deg);
+
+animation:shine 3s infinite;
+}
+
+@keyframes shine{
+
+0%{
+left:-100%;
+}
+
+60%{
+left:140%;
+}
+
+100%{
+left:140%;
+}
+
+}
+
+.btn:hover{
+
+transform:
+translateY(-3px)
+scale(1.03);
+
+box-shadow:
+
+0 12px 28px rgba(255,204,51,.6);
+}
+
+/* footer */
+
+.footer{
+
+margin-top:28px;
+
+font-size:15px;
+
+color:white;
+}
+
+.footer span{
+
+color:#ffcc33;
+font-weight:bold;
+}
+
+/* responsive */
+
+@media(max-width:500px){
+
+.logo{
+
+width:160px;
+height:160px;
+
+}
+
+.title{
+
+font-size:34px;
+
+}
+
+.btn{
+
+font-size:19px;
+padding:16px;
+
+}
+
+}
+
+</style>
+
 </head>
+
 <body>
 
 <div class="container">
-    <div class="logo">
-        <img src="https://i.ibb.co/svszNHtx/448924350-122100516512380788-8402045732983525719-n.jpg" alt="Logo">
-    </div>
 
-    <div class="card">
-        <button class="btn" onclick="toggleMenu()">🍽️ قائمة اليوم</button>
-        <button class="btn" onclick="window.location.href='wheel.html'">🎡 عجلة الحظ</button>
-        <button class="btn" onclick="window.location.href='contact.html'">📞 اتصل بنا</button>
-        <button class="btn" onclick="openAdmin()">👨‍🍳 لوحة الشيف</button>
+<div class="logo">
 
-        <div id="menu-wrapper">
-            <div id="menu-content">⏳ جاري تحميل القائمة...</div>
-        </div>
-    </div>
+<img src="restaurant.jpg">
 
-    <div class="footer">
-        <span>مطعم الفنان</span><br>
-        Good Food • Good Mood • Good People
-        <div class="social-links">
-            <a href="#">📷</a>
-            <a href="#">👥</a>
-            <a href="#">🎵</a>
-        </div>
-    </div>
 </div>
 
-<script type="module">
-    import { doc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
-    import { db } from "./firebase.js";
+<div class="title">
 
-    window.toggleMenu = () => {
-        const menu = document.getElementById("menu-wrapper");
-        menu.style.display = menu.style.display === "block" ? "none" : "block";
-    };
+مطعم الفنان
 
-    window.openAdmin = () => {
-        const pass = prompt("🔐 دخل كلمة سر الشيف");
-        if(pass === "0000omar1234") { window.location.href = "admin.html"; }
-        else if(pass !== null) { alert("❌ كلمة السر خاطئة"); }
-    };
+</div>
 
-    onSnapshot(doc(db, "menu", "today"), (docSnap) => {
-        const content = document.getElementById("menu-content");
-        if(docSnap.exists()){
-            const d = docSnap.data();
-            content.innerHTML = `🍕 ${d.food1} — ${d.price1} د<br><br>🥘 ${d.food2} — ${d.price2} د`;
-        } else {
-            content.innerHTML = "❌ لا توجد قائمة اليوم";
-        }
-    });
-</script>
+<div class="subtitle">
+
+Good Food • Good Mood • Good People
+
+</div>
+
+<div class="card">
+
+<button class="btn"
+onclick="window.location.href='menu.html'">
+
+🍽️ قائمة اليوم
+
+</button>
+
+<button class="btn"
+onclick="window.location.href='wheel.html'">
+
+🎡 عجلة الحظ
+
+</button>
+
+<button class="btn"
+onclick="window.location.href='contact.html'">
+
+📞 اتصل بنا
+
+</button>
+
+<button class="btn"
+onclick="window.location.href='admin.html'">
+
+👨‍🍳 لوحة الشيف
+
+</button>
+
+</div>
+
+<div class="footer">
+
+بحب من <span>الفنان</span> 🧡
+
+</div>
+
+</div>
 
 </body>
 </html>
