@@ -56,6 +56,22 @@ width:100%;
 max-width:400px;
 
 text-align:center;
+
+animation:fade .7s ease;
+}
+
+@keyframes fade{
+
+from{
+opacity:0;
+transform:translateY(20px);
+}
+
+to{
+opacity:1;
+transform:translateY(0);
+}
+
 }
 
 /* LOGO */
@@ -75,8 +91,8 @@ margin-bottom:20px;
 overflow:hidden;
 
 box-shadow:
-0 0 15px #ffcc33,
-0 0 50px rgba(255,204,51,.6);
+0 0 20px #ffcc33,
+0 0 60px rgba(255,204,51,.6);
 
 animation:pulse 3s infinite;
 }
@@ -96,7 +112,7 @@ transform:scale(1);
 }
 
 50%{
-transform:scale(1.03);
+transform:scale(1.04);
 }
 
 100%{
@@ -105,7 +121,7 @@ transform:scale(1);
 
 }
 
-/* TITLE */
+/* TITLES */
 
 .title{
 
@@ -142,23 +158,23 @@ padding:25px;
 border-radius:25px;
 
 background:
-rgba(0,0,0,.6);
-
-border:2px solid #ffcc33;
+rgba(0,0,0,.60);
 
 backdrop-filter:blur(8px);
 
+border:2px solid #ffcc33;
+
 box-shadow:
-0 0 35px rgba(255,204,51,.2);
+0 0 35px rgba(255,204,51,.25);
 }
 
-/* BUTTONS */
+/* BUTTON */
 
 .btn{
 
 width:100%;
 
-padding:16px;
+padding:17px;
 
 margin:10px 0;
 
@@ -166,7 +182,7 @@ border:none;
 
 border-radius:15px;
 
-font-size:19px;
+font-size:20px;
 font-weight:700;
 
 cursor:pointer;
@@ -183,6 +199,9 @@ color:black;
 transition:.3s;
 
 font-family:'Cairo',sans-serif;
+
+box-shadow:
+0 6px 18px rgba(255,204,51,.35);
 }
 
 .btn:hover{
@@ -219,7 +238,7 @@ line-height:2;
 
 .footer{
 
-margin-top:22px;
+margin-top:25px;
 
 color:white;
 
@@ -259,6 +278,8 @@ transition:.3s;
 transform:scale(1.2);
 }
 
+/* MOBILE */
+
 @media(max-width:500px){
 
 .logo{
@@ -289,7 +310,7 @@ font-size:17px;
 
 <div class="logo">
 
-<img src="restaurant.jpg">
+<img src="735043823_12223245893638078.jpg">
 
 </div>
 
