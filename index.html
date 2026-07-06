@@ -4,7 +4,9 @@
 <head>
 
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
 
 <title>مطعم الفنان</title>
 
@@ -18,56 +20,83 @@ padding:0;
 box-sizing:border-box;
 }
 
+html,
 body{
 
-font-family:'Cairo',sans-serif;
-
-background-image:url('restaurant.jpg');
-background-size:cover;
-background-position:center;
-background-repeat:no-repeat;
-background-attachment:fixed;
-
-min-height:100vh;
-
-display:flex;
-justify-content:center;
-align-items:center;
+width:100%;
+min-height:100%;
 
 overflow-x:hidden;
 overflow-y:auto;
 
--webkit-overflow-scrolling:touch;
+scroll-behavior:smooth;
+
+font-family:'Cairo',sans-serif;
+
+background:black;
+}
+
+body{
 
 position:relative;
 
 padding:40px 15px;
+
+display:block;
+}
+
+/* BACKGROUND */
+
+.bg{
+
+position:fixed;
+
+top:0;
+left:0;
+
+width:100%;
+height:100%;
+
+background-image:url('restaurant.jpg');
+
+background-size:cover;
+background-position:center;
+background-repeat:no-repeat;
+
+z-index:-3;
+
+transform:scale(1.05);
 }
 
 /* DARK OVERLAY */
 
-body::before{
-
-content:"";
+.overlay{
 
 position:fixed;
-inset:0;
+
+top:0;
+left:0;
+
+width:100%;
+height:100%;
 
 background:
-rgba(0,0,0,.68);
+rgba(0,0,0,.72);
 
-backdrop-filter:blur(2px);
-
-z-index:0;
+z-index:-2;
 }
 
 /* GOLD LIGHT */
 
-body::after{
-
-content:"";
+.light{
 
 position:fixed;
+
+top:50%;
+left:50%;
+
+transform:
+translate(-50%,-50%);
 
 width:700px;
 height:700px;
@@ -79,13 +108,7 @@ rgba(255,204,51,.18),
 transparent 70%
 );
 
-top:50%;
-left:50%;
-
-transform:
-translate(-50%,-50%);
-
-z-index:1;
+z-index:-1;
 
 animation:glow 5s infinite alternate;
 }
@@ -101,7 +124,7 @@ scale(1);
 100%{
 transform:
 translate(-50%,-50%)
-scale(1.12);
+scale(1.15);
 }
 
 }
@@ -110,33 +133,14 @@ scale(1.12);
 
 .container{
 
-position:relative;
-z-index:5;
-
 width:100%;
 max-width:420px;
 
+margin:auto;
+
 text-align:center;
 
-animation:fadeUp 1s ease;
-}
-
-@keyframes fadeUp{
-
-from{
-
-opacity:0;
-transform:translateY(40px);
-
-}
-
-to{
-
-opacity:1;
-transform:translateY(0);
-
-}
-
+padding-bottom:60px;
 }
 
 /* LOGO */
@@ -146,19 +150,18 @@ transform:translateY(0);
 width:190px;
 height:190px;
 
+margin:auto;
+
 border-radius:50%;
 
 overflow:hidden;
-
-margin:auto;
 
 border:4px solid #ffcc33;
 
 box-shadow:
 
-0 0 20px #ffcc33,
-0 0 50px rgba(255,204,51,.7),
-0 0 100px rgba(255,204,51,.35);
+0 0 25px #ffcc33,
+0 0 80px rgba(255,204,51,.7);
 
 animation:pulse 3s infinite;
 }
@@ -177,29 +180,17 @@ object-fit:cover;
 
 transform:scale(1);
 
-box-shadow:
-0 0 20px #ffcc33,
-0 0 50px rgba(255,204,51,.7);
-
 }
 
 50%{
 
 transform:scale(1.03);
 
-box-shadow:
-0 0 35px #ffcc33,
-0 0 100px rgba(255,204,51,1);
-
 }
 
 100%{
 
 transform:scale(1);
-
-box-shadow:
-0 0 20px #ffcc33,
-0 0 50px rgba(255,204,51,.7);
 
 }
 
@@ -212,12 +203,12 @@ box-shadow:
 font-size:42px;
 font-weight:900;
 
-margin-top:22px;
+margin-top:25px;
 
 color:#ffcc33;
 
 text-shadow:
-0 0 10px rgba(255,204,51,.8);
+0 0 15px rgba(255,204,51,.8);
 }
 
 .subtitle{
@@ -229,8 +220,6 @@ font-size:15px;
 color:white;
 
 letter-spacing:2px;
-
-opacity:.9;
 }
 
 /* CARD */
@@ -252,9 +241,7 @@ border:
 2px solid rgba(255,204,51,.7);
 
 box-shadow:
-
-0 0 40px rgba(255,204,51,.25),
-0 15px 40px rgba(0,0,0,.5);
+0 0 40px rgba(255,204,51,.25);
 }
 
 /* BUTTONS */
@@ -288,77 +275,26 @@ linear-gradient(
 color:black;
 
 transition:.3s;
-
-position:relative;
-
-overflow:hidden;
-
-box-shadow:
-0 8px 20px rgba(255,204,51,.35);
-}
-
-.btn::before{
-
-content:"";
-
-position:absolute;
-
-top:0;
-left:-100%;
-
-width:60%;
-height:100%;
-
-background:
-linear-gradient(
-120deg,
-transparent,
-rgba(255,255,255,.6),
-transparent
-);
-
-transform:skewX(-25deg);
-
-animation:shine 3s infinite;
-}
-
-@keyframes shine{
-
-0%{
-left:-100%;
-}
-
-60%{
-left:140%;
-}
-
-100%{
-left:140%;
-}
-
 }
 
 .btn:hover{
 
 transform:
-translateY(-3px)
 scale(1.03);
 
-box-shadow:
-0 12px 28px rgba(255,204,51,.6);
 }
 
 /* FOOTER */
 
 .footer{
 
-margin-top:28px;
-
-font-size:15px;
+margin-top:30px;
 
 color:white;
 
-padding-bottom:20px;
+font-size:15px;
+
+padding-bottom:40px;
 }
 
 .footer span{
@@ -386,14 +322,8 @@ font-size:34px;
 
 .btn{
 
-font-size:19px;
+font-size:18px;
 padding:16px;
-
-}
-
-.card{
-
-padding:22px;
 
 }
 
@@ -404,6 +334,12 @@ padding:22px;
 </head>
 
 <body>
+
+<div class="bg"></div>
+
+<div class="overlay"></div>
+
+<div class="light"></div>
 
 <div class="container">
 
@@ -428,7 +364,7 @@ Good Food • Good Mood • Good People
 <div class="card">
 
 <button class="btn"
-onclick="window.location.href='menu.html'">
+onclick="showMenu()">
 
 🍽️ قائمة اليوم
 
@@ -449,7 +385,7 @@ onclick="window.location.href='contact.html'">
 </button>
 
 <button class="btn"
-onclick="window.location.href='admin.html'">
+onclick="openAdmin()">
 
 👨‍🍳 لوحة الشيف
 
@@ -464,6 +400,41 @@ onclick="window.location.href='admin.html'">
 </div>
 
 </div>
+
+<script>
+
+function showMenu(){
+
+alert(
+"🍽️ Menu de jour bientôt disponible"
+);
+
+}
+
+function openAdmin(){
+
+let pass = prompt(
+"🔐 دخل كلمة سر الشيف"
+);
+
+if(pass === "0000omar1234"){
+
+alert(
+"✅ مرحباً بالشيف"
+);
+
+}
+else if(pass !== null){
+
+alert(
+"❌ كلمة السر خاطئة"
+);
+
+}
+
+}
+
+</script>
 
 </body>
 </html>
