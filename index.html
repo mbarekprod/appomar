@@ -2,11 +2,14 @@
 <html lang="ar" dir="rtl">
 
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>مطعم الفنان</title>
 
 <style>
+
 @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap');
 
 *{
@@ -19,13 +22,14 @@ body{
 
 font-family:'Cairo',sans-serif;
 
-/* الخلفية */
-background-image:url('bg.png');
+background:
+linear-gradient(rgba(0,0,0,.65),rgba(0,0,0,.65)),
+url('./bg.png');
+
 background-size:cover;
 background-position:center;
 background-repeat:no-repeat;
-background-attachment:scroll;
-background-color:black;
+background-attachment:fixed;
 
 min-height:100vh;
 
@@ -33,131 +37,188 @@ display:flex;
 justify-content:center;
 align-items:center;
 
-overflow-x:hidden;
-position:relative;
+overflow:hidden;
 }
 
-/* طبقة شفافة فوق الخلفية */
-body::before{
-content:"";
-position:absolute;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.55);
-z-index:0;
-}
+/* CONTAINER */
 
 .container{
-position:relative;
-z-index:2;
 
 width:90%;
-max-width:350px;
+max-width:370px;
 
 display:flex;
 flex-direction:column;
 align-items:center;
+
+animation:fade .8s ease;
 }
 
-.logo-container{
+@keyframes fade{
 
-width:160px;
-height:160px;
+from{
+opacity:0;
+transform:translateY(20px);
+}
+
+to{
+opacity:1;
+transform:translateY(0);
+}
+
+}
+
+/* LOGO */
+
+.logo{
+
+width:170px;
+height:170px;
 
 border-radius:50%;
 overflow:hidden;
 
 border:4px solid #ffcc33;
 
-margin-bottom:20px;
-
 box-shadow:
-0 0 10px #ffcc33,
-0 0 30px rgba(255,204,51,.5);
+0 0 15px #ffcc33,
+0 0 35px rgba(255,204,51,.7);
+
+margin-bottom:25px;
 }
 
-.logo-container img{
+.logo img{
+
 width:100%;
 height:100%;
 object-fit:cover;
+
 }
 
-.buttons-cadre{
+/* CARD */
+
+.card{
 
 width:100%;
 
 padding:25px;
 
-background:rgba(0,0,0,.7);
+border-radius:30px;
 
-border:2px solid #ffcc33;
+background:rgba(0,0,0,.72);
 
-border-radius:25px;
+backdrop-filter:blur(8px);
 
-backdrop-filter:blur(6px);
+border:2px solid rgba(255,204,51,.7);
+
+box-shadow:
+0 0 20px rgba(255,204,51,.2);
+
 }
+
+/* BUTTONS */
 
 .btn{
 
 width:100%;
 
-padding:14px;
+padding:15px;
 
 margin:10px 0;
 
-background:rgba(255,204,51,.08);
-
-border:2px solid #ffcc33;
-
+border:none;
 border-radius:50px;
 
 font-size:18px;
-font-weight:bold;
-font-family:'Cairo',sans-serif;
+font-weight:700;
 
-color:#ffcc33;
+font-family:'Cairo',sans-serif;
 
 cursor:pointer;
 
-transition:.4s;
+transition:.35s;
+
+background:linear-gradient(45deg,#ffcc33,#ff9900);
+
+color:black;
+
+box-shadow:
+0 5px 15px rgba(255,153,0,.3);
+
 }
 
 .btn:hover{
 
-background:#ffcc33;
-color:black;
-transform:scale(1.03);
+transform:translateY(-3px) scale(1.02);
+
+box-shadow:
+0 10px 25px rgba(255,153,0,.5);
 
 }
+
+/* MENU */
 
 #menu-wrapper{
 
 display:none;
 
-margin-top:15px;
+margin-top:18px;
 
-padding:15px;
+padding:18px;
 
-border-radius:15px;
+border-radius:20px;
 
-background:rgba(0,0,0,.9);
+background:rgba(255,255,255,.06);
 
-border:1px solid #ffcc33;
+border:1px solid rgba(255,204,51,.5);
 
-color:#ffcc33;
+color:#fff;
+
+font-size:18px;
+
+line-height:2;
 
 text-align:center;
 }
 
+/* FOOTER */
+
 .footer{
 
-margin-top:20px;
-color:white;
-font-size:14px;
+margin-top:22px;
+
 text-align:center;
-text-shadow:0 0 5px black;
+
+color:white;
+
+font-size:14px;
+
+text-shadow:0 0 10px black;
+}
+
+.footer span{
+
+color:#ffcc33;
+font-weight:bold;
+
+}
+
+@media(max-width:500px){
+
+.logo{
+
+width:140px;
+height:140px;
+
+}
+
+.btn{
+
+font-size:16px;
+padding:13px;
+
+}
+
 }
 
 </style>
@@ -168,36 +229,46 @@ text-shadow:0 0 5px black;
 
 <div class="container">
 
-<div class="logo-container">
+<div class="logo">
+
 <img src="https://i.ibb.co/svszNHtx/448924350-122100516512380788-8402045732983525719-n.jpg">
+
 </div>
 
-<div class="buttons-cadre">
+<div class="card">
 
 <button class="btn" onclick="toggleMenu()">
+
 🍽️ قائمة اليوم
+
 </button>
 
 <button class="btn"
 onclick="window.location.href='wheel.html'">
+
 🎡 عجلة الحظ
+
 </button>
 
 <button class="btn"
 onclick="window.location.href='contact.html'">
+
 📞 اتصل بنا
+
 </button>
 
 <button class="btn"
 onclick="openAdmin()">
+
 👨‍🍳 لوحة الشيف
+
 </button>
 
 <div id="menu-wrapper">
 
 <div id="menu-content">
 
-جاري التحميل...
+⏳ جاري تحميل القائمة...
 
 </div>
 
@@ -207,7 +278,8 @@ onclick="openAdmin()">
 
 <div class="footer">
 
-مطعم الفنان ✨ <br>
+<span>مطعم الفنان</span><br>
+
 Good Food • Good Mood • Good People
 
 </div>
@@ -226,7 +298,8 @@ from "./firebase.js";
 
 window.toggleMenu=()=>{
 
-let menu=document.getElementById(
+const menu=
+document.getElementById(
 "menu-wrapper"
 );
 
@@ -240,8 +313,8 @@ menu.style.display==="block"
 
 window.openAdmin=()=>{
 
-let pass=prompt(
-"🔐 دخل كلمة سر الشيف:"
+const pass=prompt(
+"🔐 دخل كلمة سر الشيف"
 );
 
 if(pass==="0000omar1234"){
@@ -272,14 +345,14 @@ db,
 
 (docSnap)=>{
 
-let content=
+const content=
 document.getElementById(
 "menu-content"
 );
 
 if(docSnap.exists()){
 
-let d=
+const d=
 docSnap.data();
 
 content.innerHTML=`
@@ -299,7 +372,7 @@ content.innerHTML=`
 else{
 
 content.innerHTML=
-"❌ لا توجد قائمة";
+"❌ لا توجد قائمة اليوم";
 
 }
 
