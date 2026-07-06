@@ -1,246 +1,477 @@
 <!DOCTYPE html>
-
 <html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>لوحة تحكم الشيف 🔐</title>
 
-```
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>مطعم الفنان</title>
+
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
 
 <style>
-    body {
-        font-family: 'Cairo', sans-serif;
-        background: #1a0a00;
-        color: white;
-        padding: 20px;
-        text-align: center;
-    }
 
-    .box {
-        background: rgba(255,255,255,0.05);
-        padding: 20px;
-        border-radius: 15px;
-        border: 1px solid #f5c842;
-        max-width: 420px;
-        margin: 20px auto;
-    }
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
 
-    input {
-        width: 90%;
-        padding: 10px;
-        margin: 10px 0;
-        border-radius: 10px;
-        border: 1px solid #ccc;
-        font-family: 'Cairo';
-        text-align: center;
-        font-size: 16px;
-        color: #000;
-    }
+body{
 
-    button {
-        background: linear-gradient(135deg, #ff9800, #e65100);
-        color: white;
-        border: none;
-        padding: 12px 30px;
-        border-radius: 25px;
-        font-weight: bold;
-        cursor: pointer;
-        width: 100%;
-        margin-top: 15px;
-        font-size: 16px;
-    }
+font-family:'Cairo',sans-serif;
 
-    .notify-btn {
-        background: linear-gradient(135deg, #2196f3, #0d47a1);
-    }
+background:
+linear-gradient(
+rgba(0,0,0,.72),
+rgba(0,0,0,.72)
+),
 
-    .lucky-btn {
-        background: linear-gradient(135deg, #4caf50, #2e7d32);
-    }
+url('restaurant.jpg');
 
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 10px;
-        color: white;
-    }
+background-size:cover;
+background-position:center;
+background-repeat:no-repeat;
+background-attachment:fixed;
 
-    th, td {
-        padding: 8px;
-        border: 1px solid #444;
-        text-align: center;
-    }
+min-height:100vh;
+
+display:flex;
+justify-content:center;
+align-items:center;
+
+overflow-x:hidden;
+
+padding:30px 15px;
+}
+
+/* CONTAINER */
+
+.container{
+
+width:100%;
+max-width:400px;
+
+text-align:center;
+}
+
+/* LOGO */
+
+.logo{
+
+width:170px;
+height:170px;
+
+border-radius:50%;
+
+border:4px solid #ffcc33;
+
+margin:auto;
+margin-bottom:20px;
+
+overflow:hidden;
+
+box-shadow:
+0 0 15px #ffcc33,
+0 0 50px rgba(255,204,51,.6);
+
+animation:pulse 3s infinite;
+}
+
+.logo img{
+
+width:100%;
+height:100%;
+
+object-fit:cover;
+}
+
+@keyframes pulse{
+
+0%{
+transform:scale(1);
+}
+
+50%{
+transform:scale(1.03);
+}
+
+100%{
+transform:scale(1);
+}
+
+}
+
+/* TITLE */
+
+.title{
+
+font-size:42px;
+font-weight:900;
+
+color:#ffcc33;
+
+text-shadow:
+0 0 15px rgba(255,204,51,.8);
+
+margin-bottom:8px;
+}
+
+.subtitle{
+
+color:white;
+
+font-size:14px;
+
+letter-spacing:2px;
+
+margin-bottom:25px;
+}
+
+/* CARD */
+
+.card{
+
+width:100%;
+
+padding:25px;
+
+border-radius:25px;
+
+background:
+rgba(0,0,0,.6);
+
+border:2px solid #ffcc33;
+
+backdrop-filter:blur(8px);
+
+box-shadow:
+0 0 35px rgba(255,204,51,.2);
+}
+
+/* BUTTONS */
+
+.btn{
+
+width:100%;
+
+padding:16px;
+
+margin:10px 0;
+
+border:none;
+
+border-radius:15px;
+
+font-size:19px;
+font-weight:700;
+
+cursor:pointer;
+
+background:
+linear-gradient(
+180deg,
+#ffcc33,
+#e6b800
+);
+
+color:black;
+
+transition:.3s;
+
+font-family:'Cairo',sans-serif;
+}
+
+.btn:hover{
+
+transform:scale(1.03);
+
+}
+
+/* MENU */
+
+#menu-wrapper{
+
+display:none;
+
+margin-top:18px;
+
+padding:18px;
+
+border-radius:18px;
+
+background:
+rgba(255,255,255,.05);
+
+border:1px solid #ffcc33;
+
+color:white;
+
+font-size:18px;
+
+line-height:2;
+}
+
+/* FOOTER */
+
+.footer{
+
+margin-top:22px;
+
+color:white;
+
+font-size:14px;
+}
+
+.footer span{
+
+color:#ffcc33;
+font-weight:bold;
+}
+
+/* SOCIAL */
+
+.social-links{
+
+margin-top:15px;
+
+display:flex;
+justify-content:center;
+gap:20px;
+}
+
+.social-links a{
+
+color:#ffcc33;
+
+font-size:24px;
+
+text-decoration:none;
+
+transition:.3s;
+}
+
+.social-links a:hover{
+
+transform:scale(1.2);
+}
+
+@media(max-width:500px){
+
+.logo{
+
+width:145px;
+height:145px;
+}
+
+.title{
+
+font-size:34px;
+}
+
+.btn{
+
+font-size:17px;
+}
+
+}
+
 </style>
-```
 
 </head>
 
 <body>
 
-<div id="content">
+<div class="container">
 
-```
-<h1>👨‍🍳 لوحة تحكم الشيف الفنان</h1>
+<div class="logo">
 
-<div class="box">
-    <h3>🍽️ تحديث قائمة اليوم</h3>
+<img src="restaurant.jpg">
 
-    <input type="text" id="food1" placeholder="أكلة 1">
-    <input type="text" id="price1" placeholder="السوم">
-
-    <input type="text" id="food2" placeholder="أكلة 2">
-    <input type="text" id="price2" placeholder="السوم">
-
-    <button onclick="saveMenu()">🚀 تحديث المنيو</button>
-
-    <button class="notify-btn" onclick="openNotificationPanel()">
-        📢 إرسال إشعار للزبائن
-    </button>
 </div>
 
-<div class="box">
-    <h3>🎡 توقيت عمل عجلة الحظ</h3>
+<div class="title">
 
-    <input type="time" id="startHour">
-    <input type="time" id="endHour">
+مطعم الفنان
 
-    <button class="lucky-btn" onclick="saveHappyHour()">
-        ⏰ حفظ توقيت العجلة
-    </button>
 </div>
 
-<div class="box">
-    <h3>📊 سجل نتائج العجلات (مباشر)</h3>
+<div class="subtitle">
 
-    <table>
-        <thead>
-            <tr>
-                <th>الوقت</th>
-                <th>النتيجة</th>
-            </tr>
-        </thead>
+Good Food • Good Mood • Good People
 
-        <tbody id="wheel-results-body">
-            <tr>
-                <td colspan="2">جارِ تحميل البيانات...</td>
-            </tr>
-        </tbody>
-    </table>
 </div>
 
-<a href="index.html" style="color:gold;">
-    ⬅️ رجوع للموقع
-</a>
-```
+<div class="card">
+
+<button class="btn"
+onclick="toggleMenu()">
+
+🍽️ قائمة اليوم
+
+</button>
+
+<button class="btn"
+onclick="window.location.href='wheel.html'">
+
+🎡 عجلة الحظ
+
+</button>
+
+<button class="btn"
+onclick="window.location.href='contact.html'">
+
+📞 اتصل بنا
+
+</button>
+
+<button class="btn"
+onclick="openAdmin()">
+
+👨‍🍳 لوحة الشيف
+
+</button>
+
+<div id="menu-wrapper">
+
+<div id="menu-content">
+
+جاري تحميل القائمة...
+
+</div>
+
+</div>
+
+</div>
+
+<div class="footer">
+
+مطعم الفنان ✨ <br>
+
+بحب من <span>الفنان</span> 🧡
+
+<div class="social-links">
+
+<a href="#">📷</a>
+
+<a href="#">👥</a>
+
+<a href="#">🎵</a>
+
+</div>
+
+</div>
 
 </div>
 
 <script type="module">
 
 import {
-    doc,
-    setDoc,
-    collection,
-    onSnapshot,
-    query,
-    orderBy
 
-} from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
+doc,
+onSnapshot
 
-import { db } from "./firebase.js";
-
-
-window.saveMenu = async function () {
-
-    await setDoc(doc(db, "menu", "today"), {
-
-        food1: document.getElementById("food1").value,
-        price1: document.getElementById("price1").value,
-
-        food2: document.getElementById("food2").value,
-        price2: document.getElementById("price2").value
-
-    });
-
-    alert("✅ تم تحديث المنيو!");
-};
-
-
-
-// حفظ توقيت بداية ونهاية عجلة الحظ
-window.saveHappyHour = async function () {
-
-    const start = document.getElementById("startHour").value;
-    const end = document.getElementById("endHour").value;
-
-    if (!start || !end) {
-
-        alert("⚠️ حدد وقت البداية والنهاية");
-        return;
-    }
-
-    await setDoc(
-
-        doc(db, "wheel_settings", "config"),
-
-        {
-            startHour: start,
-            endHour: end
-        },
-
-        { merge: true }
-
-    );
-
-    alert("✅ تم ضبط توقيت العجلة من " + start + " إلى " + end);
-};
-
-
-
-// فتح Firebase Notifications
-window.openNotificationPanel = function () {
-
-    window.open(
-        'https://console.firebase.google.com/project/base-resto-3d1e8/notification',
-        '_blank'
-    );
-};
-
-
-
-// تحميل النتائج مباشرة
-function loadData() {
-
-    const q = query(
-        collection(db, "prizes"),
-        orderBy("time", "desc")
-    );
-
-    onSnapshot(q, (snapshot) => {
-
-        const tbody = document.getElementById('wheel-results-body');
-
-        tbody.innerHTML = "";
-
-        snapshot.forEach((docSnap) => {
-
-            const res = docSnap.data();
-
-            tbody.innerHTML += `
-                <tr>
-                    <td>${res.time}</td>
-                    <td style="color:gold; font-weight:bold;">
-                        ${res.prize}
-                    </td>
-                </tr>
-            `;
-        });
-    });
 }
 
-loadData();
+from
+"https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
+
+import { db }
+from "./firebase.js";
+
+/* MENU */
+
+window.toggleMenu = ()=>{
+
+let menu =
+document.getElementById(
+"menu-wrapper"
+);
+
+menu.style.display =
+
+menu.style.display === "block"
+
+? "none"
+
+: "block";
+
+};
+
+/* ADMIN */
+
+window.openAdmin = ()=>{
+
+let pass = prompt(
+"🔐 دخل كلمة سر الشيف"
+);
+
+if(pass === "0000omar1234"){
+
+window.location.href =
+"admin.html";
+
+}
+
+else if(pass !== null){
+
+alert(
+"❌ كلمة السر خاطئة"
+);
+
+}
+
+};
+
+/* LOAD MENU */
+
+onSnapshot(
+
+doc(
+db,
+"menu",
+"today"
+),
+
+(docSnap)=>{
+
+let content =
+document.getElementById(
+"menu-content"
+);
+
+if(docSnap.exists()){
+
+let d =
+docSnap.data();
+
+content.innerHTML = `
+
+🍕 ${d.food1}
+— ${d.price1} د
+
+<br><br>
+
+🥘 ${d.food2}
+— ${d.price2} د
+
+`;
+
+}
+
+else{
+
+content.innerHTML =
+"❌ لا توجد قائمة اليوم";
+
+}
+
+}
+
+);
 
 </script>
 
