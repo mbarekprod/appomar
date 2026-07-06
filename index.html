@@ -4,7 +4,9 @@
 <head>
 
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
 
 <title>مطعم الفنان</title>
 
@@ -18,107 +20,32 @@ padding:0;
 box-sizing:border-box;
 }
 
-html,
 body{
 
 font-family:'Cairo',sans-serif;
 
-background:black;
+background:
+linear-gradient(
+rgba(0,0,0,.7),
+rgba(0,0,0,.7)
+),
 
-overflow-x:hidden;
-}
-
-body{
-
-min-height:100vh;
-
-padding:40px 15px;
-
-position:relative;
-}
-
-/* BACKGROUND */
-
-.bg{
-
-position:fixed;
-
-top:0;
-left:0;
-
-width:100%;
-height:100%;
-
-background-image:url('restaurant.jpg');
+url('unnamed (2).jpg');
 
 background-size:cover;
 background-position:center;
 background-repeat:no-repeat;
+background-attachment:fixed;
 
-z-index:-3;
+min-height:100vh;
 
-transform:scale(1.05);
-}
+display:flex;
+justify-content:center;
+align-items:center;
 
-/* OVERLAY */
+overflow-x:hidden;
 
-.overlay{
-
-position:fixed;
-
-top:0;
-left:0;
-
-width:100%;
-height:100%;
-
-background:
-rgba(0,0,0,.72);
-
-z-index:-2;
-}
-
-/* GOLD LIGHT */
-
-.light{
-
-position:fixed;
-
-top:50%;
-left:50%;
-
-transform:
-translate(-50%,-50%);
-
-width:700px;
-height:700px;
-
-background:
-radial-gradient(
-circle,
-rgba(255,204,51,.18),
-transparent 70%
-);
-
-z-index:-1;
-
-animation:glow 5s infinite alternate;
-}
-
-@keyframes glow{
-
-0%{
-transform:
-translate(-50%,-50%)
-scale(1);
-}
-
-100%{
-transform:
-translate(-50%,-50%)
-scale(1.15);
-}
-
+padding:30px 15px;
 }
 
 /* CONTAINER */
@@ -126,34 +53,30 @@ scale(1.15);
 .container{
 
 width:100%;
-max-width:420px;
-
-margin:auto;
+max-width:380px;
 
 text-align:center;
-
-padding-bottom:60px;
 }
 
 /* LOGO */
 
 .logo{
 
-width:190px;
-height:190px;
-
-margin:auto;
+width:160px;
+height:160px;
 
 border-radius:50%;
 
-overflow:hidden;
-
 border:4px solid #ffcc33;
 
-box-shadow:
+margin:auto;
+margin-bottom:20px;
 
-0 0 25px #ffcc33,
-0 0 80px rgba(255,204,51,.7);
+overflow:hidden;
+
+box-shadow:
+0 0 15px #ffcc33,
+0 0 40px rgba(255,204,51,.5);
 
 animation:pulse 3s infinite;
 }
@@ -182,52 +105,25 @@ transform:scale(1);
 
 }
 
-/* TITLE */
-
-.title{
-
-font-size:42px;
-font-weight:900;
-
-margin-top:25px;
-
-color:#ffcc33;
-
-text-shadow:
-0 0 15px rgba(255,204,51,.8);
-}
-
-.subtitle{
-
-margin-top:8px;
-
-font-size:15px;
-
-color:white;
-
-letter-spacing:2px;
-}
-
 /* CARD */
 
 .card{
 
-margin-top:30px;
+width:100%;
 
-padding:28px;
+padding:22px;
 
-border-radius:35px;
+border-radius:25px;
 
 background:
-rgba(0,0,0,.72);
+rgba(0,0,0,.6);
 
-backdrop-filter:blur(10px);
+border:2px solid #ffcc33;
 
-border:
-2px solid rgba(255,204,51,.7);
+backdrop-filter:blur(8px);
 
 box-shadow:
-0 0 40px rgba(255,204,51,.25);
+0 0 35px rgba(255,204,51,.2);
 }
 
 /* BUTTONS */
@@ -236,59 +132,54 @@ box-shadow:
 
 width:100%;
 
-padding:18px;
+padding:16px;
 
-margin:12px 0;
+margin:10px 0;
 
 border:none;
 
-border-radius:50px;
+border-radius:14px;
+
+font-size:18px;
+font-weight:700;
 
 cursor:pointer;
-
-font-size:22px;
-font-weight:900;
-
-font-family:'Cairo',sans-serif;
 
 background:
 linear-gradient(
 180deg,
-#ffd84d,
-#ffb300
+#ffcc33,
+#e6b800
 );
 
 color:black;
 
 transition:.3s;
+
+font-family:'Cairo',sans-serif;
 }
 
 .btn:hover{
 
 transform:scale(1.03);
+
 }
 
 /* MENU */
 
-#menu{
+#menu-wrapper{
 
 display:none;
 
-margin-top:20px;
+margin-top:15px;
 
-padding:20px;
+color:#fff;
 
-border-radius:25px;
+padding:15px;
 
-background:
-rgba(0,0,0,.85);
+border-top:1px solid #ffcc33;
 
-border:
-2px solid #ffcc33;
-
-color:white;
-
-font-size:20px;
+font-size:18px;
 
 line-height:2;
 }
@@ -297,13 +188,11 @@ line-height:2;
 
 .footer{
 
-margin-top:30px;
+margin-top:20px;
 
 color:white;
 
-font-size:15px;
-
-padding-bottom:40px;
+font-size:14px;
 }
 
 .footer span{
@@ -312,23 +201,46 @@ color:#ffcc33;
 font-weight:bold;
 }
 
+/* SOCIAL */
+
+.social-links{
+
+margin-top:15px;
+
+display:flex;
+justify-content:center;
+gap:20px;
+}
+
+.social-links a{
+
+color:#ffcc33;
+
+font-size:24px;
+
+text-decoration:none;
+
+transition:.3s;
+}
+
+.social-links a:hover{
+
+transform:scale(1.2);
+}
+
+/* RESPONSIVE */
+
 @media(max-width:500px){
 
 .logo{
 
-width:160px;
-height:160px;
-}
-
-.title{
-
-font-size:34px;
+width:140px;
+height:140px;
 }
 
 .btn{
 
-font-size:18px;
-padding:16px;
+font-size:17px;
 }
 
 }
@@ -339,27 +251,11 @@ padding:16px;
 
 <body>
 
-<div class="bg"></div>
-<div class="overlay"></div>
-<div class="light"></div>
-
 <div class="container">
 
 <div class="logo">
 
 <img src="restaurant.jpg">
-
-</div>
-
-<div class="title">
-
-مطعم الفنان
-
-</div>
-
-<div class="subtitle">
-
-Good Food • Good Mood • Good People
 
 </div>
 
@@ -395,7 +291,9 @@ onclick="openAdmin()">
 
 <!-- MENU -->
 
-<div id="menu">
+<div id="menu-wrapper">
+
+<div id="menu-content">
 
 🍕 لا توجد قائمة اليوم
 
@@ -403,9 +301,22 @@ onclick="openAdmin()">
 
 </div>
 
+</div>
+
 <div class="footer">
 
+مطعم الفنان ✨ <br>
 بحب من <span>الفنان</span> 🧡
+
+<div class="social-links">
+
+<a href="#">📷</a>
+
+<a href="#">👥</a>
+
+<a href="#">🎵</a>
+
+</div>
 
 </div>
 
@@ -418,7 +329,9 @@ onclick="openAdmin()">
 function toggleMenu(){
 
 let menu =
-document.getElementById("menu");
+document.getElementById(
+"menu-wrapper"
+);
 
 if(menu.style.display==="block"){
 
@@ -433,7 +346,7 @@ menu.style.display="block";
 
 }
 
-/* ADMIN */
+/* ADMIN PANEL */
 
 function openAdmin(){
 
@@ -443,24 +356,34 @@ let pass = prompt(
 
 if(pass === "0000omar1234"){
 
-let plat =
-prompt("🍕 أدخل اسم الطبق");
+let plat1 =
+prompt("🍕 الطبق الأول");
 
-let prix =
-prompt("💰 أدخل السعر");
+let prix1 =
+prompt("💰 سعر الطبق الأول");
 
-if(plat && prix){
+let plat2 =
+prompt("🥘 الطبق الثاني");
+
+let prix2 =
+prompt("💰 سعر الطبق الثاني");
+
+if(plat1 && prix1){
 
 document.getElementById(
-"menu"
+"menu-content"
 ).innerHTML =
 
-"🍽️ " + plat +
+"🍕 " + plat1 +
+" — " + prix1 + " د" +
+
 "<br><br>" +
-"💰 السعر : " + prix + " د";
+
+"🥘 " + plat2 +
+" — " + prix2 + " د";
 
 document.getElementById(
-"menu"
+"menu-wrapper"
 ).style.display="block";
 
 alert(
