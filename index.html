@@ -1,126 +1,313 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مطعم الفنان</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap');
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>مطعم الفنان</title>
 
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Cairo', sans-serif;
-            /* الخلفية المباشرة والمضمونة */
-            background-image: url('https://i.ibb.co/3s6q4fN/735043823-122232458936380788-691619389420209673-n.jpg');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            background-repeat: no-repeat;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap');
 
-        .logo-container {
-            width: 150px;
-            height: 150px;
-            margin-bottom: 20px;
-            border-radius: 50%;
-            border: 4px solid #ffcc33;
-            overflow: hidden;
-            box-shadow: 0 0 20px rgba(0,0,0,0.5);
-        }
-        .logo-container img { width: 100%; height: 100%; object-fit: cover; }
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
 
-        .buttons-cadre {
-            background: rgba(0, 0, 0, 0.7);
-            padding: 30px 20px;
-            border: 2px solid #ffcc33;
-            border-radius: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 80%;
-            max-width: 300px;
-            box-sizing: border-box;
-        }
+body{
 
-        .btn {
-            display: block;
-            width: 100%;
-            padding: 15px;
-            margin: 8px 0;
-            background: rgba(255, 204, 51, 0.1);
-            border: 2px solid #ffcc33;
-            border-radius: 50px;
-            color: #ffcc33;
-            text-align: center;
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 18px;
-            transition: 0.4s;
-        }
-        .btn:hover { background: #ffcc33; color: black; cursor: pointer; }
+font-family:'Cairo',sans-serif;
 
-        #menu-wrapper {
-            display: none;
-            width: 80%;
-            max-width: 300px;
-            margin-top: 20px;
-            background: rgba(0,0,0,0.9);
-            padding: 15px;
-            border-radius: 15px;
-            border: 1px solid #ffcc33;
-            color: #ffcc33;
-            text-align: center;
-        }
-    </style>
+/* الخلفية */
+background-image:url('bg.jpg');
+background-size:cover;
+background-position:center;
+background-repeat:no-repeat;
+background-attachment:scroll;
+background-color:black;
+
+min-height:100vh;
+
+display:flex;
+justify-content:center;
+align-items:center;
+
+overflow-x:hidden;
+position:relative;
+}
+
+/* طبقة شفافة فوق الخلفية */
+body::before{
+content:"";
+position:absolute;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.55);
+z-index:0;
+}
+
+.container{
+position:relative;
+z-index:2;
+
+width:90%;
+max-width:350px;
+
+display:flex;
+flex-direction:column;
+align-items:center;
+}
+
+.logo-container{
+
+width:160px;
+height:160px;
+
+border-radius:50%;
+overflow:hidden;
+
+border:4px solid #ffcc33;
+
+margin-bottom:20px;
+
+box-shadow:
+0 0 10px #ffcc33,
+0 0 30px rgba(255,204,51,.5);
+}
+
+.logo-container img{
+width:100%;
+height:100%;
+object-fit:cover;
+}
+
+.buttons-cadre{
+
+width:100%;
+
+padding:25px;
+
+background:rgba(0,0,0,.7);
+
+border:2px solid #ffcc33;
+
+border-radius:25px;
+
+backdrop-filter:blur(6px);
+}
+
+.btn{
+
+width:100%;
+
+padding:14px;
+
+margin:10px 0;
+
+background:rgba(255,204,51,.08);
+
+border:2px solid #ffcc33;
+
+border-radius:50px;
+
+font-size:18px;
+font-weight:bold;
+font-family:'Cairo',sans-serif;
+
+color:#ffcc33;
+
+cursor:pointer;
+
+transition:.4s;
+}
+
+.btn:hover{
+
+background:#ffcc33;
+color:black;
+transform:scale(1.03);
+
+}
+
+#menu-wrapper{
+
+display:none;
+
+margin-top:15px;
+
+padding:15px;
+
+border-radius:15px;
+
+background:rgba(0,0,0,.9);
+
+border:1px solid #ffcc33;
+
+color:#ffcc33;
+
+text-align:center;
+}
+
+.footer{
+
+margin-top:20px;
+color:white;
+font-size:14px;
+text-align:center;
+text-shadow:0 0 5px black;
+}
+
+</style>
+
 </head>
+
 <body>
 
-    <div class="logo-container">
-        <img src="https://i.ibb.co/svszNHtx/448924350-122100516512380788-8402045732983525719-n.jpg" alt="Logo">
-    </div>
+<div class="container">
 
-    <div class="buttons-cadre">
-        <button class="btn" onclick="toggleMenu()">🍽️ قائمة اليوم</button>
-        <button class="btn" onclick="window.location.href='wheel.html'">🎡 عجلة الحظ</button>
-        <button class="btn" onclick="window.location.href='contact.html'">📞 اتصل بنا</button>
-        <button class="btn" onclick="openAdmin()">👨‍🍳 لوحة الشيف</button>
-    </div>
+<div class="logo-container">
+<img src="https://i.ibb.co/svszNHtx/448924350-122100516512380788-8402045732983525719-n.jpg">
+</div>
 
-    <div id="menu-wrapper">
-        <div id="menu-content">جاري التحميل...</div>
-    </div>
+<div class="buttons-cadre">
 
-    <script type="module">
-        import { doc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
-        import { db } from "./firebase.js";
+<button class="btn" onclick="toggleMenu()">
+🍽️ قائمة اليوم
+</button>
 
-        window.toggleMenu = () => {
-            const m = document.getElementById("menu-wrapper");
-            m.style.display = (m.style.display === "block") ? "none" : "block";
-        };
+<button class="btn"
+onclick="window.location.href='wheel.html'">
+🎡 عجلة الحظ
+</button>
 
-        window.openAdmin = () => {
-            const pass = prompt("🔐 دخل كلمة سر الشيف:");
-            if (pass === "0000omar1234") {
-                window.location.href = "admin.html";
-            } else if (pass !== null) {
-                alert("❌ كلمة السر خاطئة!");
-            }
-        };
+<button class="btn"
+onclick="window.location.href='contact.html'">
+📞 اتصل بنا
+</button>
 
-        onSnapshot(doc(db, "menu", "today"), (docSnap) => {
-            const content = document.getElementById("menu-content");
-            if (docSnap.exists()) {
-                const d = docSnap.data();
-                content.innerHTML = `🍕 ${d.food1} — ${d.price1} د <br> 🥘 ${d.food2} — ${d.price2} د`;
-            }
-        });
-    </script>
+<button class="btn"
+onclick="openAdmin()">
+👨‍🍳 لوحة الشيف
+</button>
+
+<div id="menu-wrapper">
+
+<div id="menu-content">
+
+جاري التحميل...
+
+</div>
+
+</div>
+
+</div>
+
+<div class="footer">
+
+مطعم الفنان ✨ <br>
+Good Food • Good Mood • Good People
+
+</div>
+
+</div>
+
+
+<script type="module">
+
+import { doc,onSnapshot }
+from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
+
+import { db }
+from "./firebase.js";
+
+
+window.toggleMenu=()=>{
+
+let menu=document.getElementById(
+"menu-wrapper"
+);
+
+menu.style.display=
+menu.style.display==="block"
+?"none"
+:"block";
+
+};
+
+
+window.openAdmin=()=>{
+
+let pass=prompt(
+"🔐 دخل كلمة سر الشيف:"
+);
+
+if(pass==="0000omar1234"){
+
+window.location.href=
+"admin.html";
+
+}
+
+else if(pass!==null){
+
+alert(
+"❌ كلمة السر خاطئة"
+);
+
+}
+
+};
+
+
+onSnapshot(
+
+doc(
+db,
+"menu",
+"today"
+),
+
+(docSnap)=>{
+
+let content=
+document.getElementById(
+"menu-content"
+);
+
+if(docSnap.exists()){
+
+let d=
+docSnap.data();
+
+content.innerHTML=`
+
+🍕 ${d.food1}
+— ${d.price1} د
+
+<br><br>
+
+🥘 ${d.food2}
+— ${d.price2} د
+
+`;
+
+}
+
+else{
+
+content.innerHTML=
+"❌ لا توجد قائمة";
+
+}
+
+}
+
+);
+
+</script>
+
 </body>
 </html>
