@@ -26,11 +26,11 @@ font-family:'Cairo',sans-serif;
 
 background:
 linear-gradient(
-rgba(0,0,0,.7),
-rgba(0,0,0,.7)
+rgba(0,0,0,.72),
+rgba(0,0,0,.72)
 ),
 
-url('unnamed (2).jpg');
+url('restaurant.jpg');
 
 background-size:cover;
 background-position:center;
@@ -53,7 +53,7 @@ padding:30px 15px;
 .container{
 
 width:100%;
-max-width:380px;
+max-width:400px;
 
 text-align:center;
 }
@@ -62,8 +62,8 @@ text-align:center;
 
 .logo{
 
-width:160px;
-height:160px;
+width:170px;
+height:170px;
 
 border-radius:50%;
 
@@ -76,7 +76,7 @@ overflow:hidden;
 
 box-shadow:
 0 0 15px #ffcc33,
-0 0 40px rgba(255,204,51,.5);
+0 0 50px rgba(255,204,51,.6);
 
 animation:pulse 3s infinite;
 }
@@ -105,13 +105,39 @@ transform:scale(1);
 
 }
 
+/* TITLE */
+
+.title{
+
+font-size:42px;
+font-weight:900;
+
+color:#ffcc33;
+
+text-shadow:
+0 0 15px rgba(255,204,51,.8);
+
+margin-bottom:8px;
+}
+
+.subtitle{
+
+color:white;
+
+font-size:14px;
+
+letter-spacing:2px;
+
+margin-bottom:25px;
+}
+
 /* CARD */
 
 .card{
 
 width:100%;
 
-padding:22px;
+padding:25px;
 
 border-radius:25px;
 
@@ -138,9 +164,9 @@ margin:10px 0;
 
 border:none;
 
-border-radius:14px;
+border-radius:15px;
 
-font-size:18px;
+font-size:19px;
 font-weight:700;
 
 cursor:pointer;
@@ -171,13 +197,18 @@ transform:scale(1.03);
 
 display:none;
 
-margin-top:15px;
+margin-top:18px;
 
-color:#fff;
+padding:18px;
 
-padding:15px;
+border-radius:18px;
 
-border-top:1px solid #ffcc33;
+background:
+rgba(255,255,255,.05);
+
+border:1px solid #ffcc33;
+
+color:white;
 
 font-size:18px;
 
@@ -188,7 +219,7 @@ line-height:2;
 
 .footer{
 
-margin-top:20px;
+margin-top:22px;
 
 color:white;
 
@@ -228,14 +259,17 @@ transition:.3s;
 transform:scale(1.2);
 }
 
-/* RESPONSIVE */
-
 @media(max-width:500px){
 
 .logo{
 
-width:140px;
-height:140px;
+width:145px;
+height:145px;
+}
+
+.title{
+
+font-size:34px;
 }
 
 .btn{
@@ -256,6 +290,18 @@ font-size:17px;
 <div class="logo">
 
 <img src="restaurant.jpg">
+
+</div>
+
+<div class="title">
+
+مطعم الفنان
+
+</div>
+
+<div class="subtitle">
+
+Good Food • Good Mood • Good People
 
 </div>
 
@@ -289,13 +335,11 @@ onclick="openAdmin()">
 
 </button>
 
-<!-- MENU -->
-
 <div id="menu-wrapper">
 
 <div id="menu-content">
 
-🍕 لا توجد قائمة اليوم
+جاري تحميل القائمة...
 
 </div>
 
@@ -306,6 +350,7 @@ onclick="openAdmin()">
 <div class="footer">
 
 مطعم الفنان ✨ <br>
+
 بحب من <span>الفنان</span> 🧡
 
 <div class="social-links">
@@ -322,33 +367,43 @@ onclick="openAdmin()">
 
 </div>
 
-<script>
+<script type="module">
+
+import {
+
+doc,
+onSnapshot
+
+}
+
+from
+"https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
+
+import { db }
+from "./firebase.js";
 
 /* MENU */
 
-function toggleMenu(){
+window.toggleMenu = ()=>{
 
 let menu =
 document.getElementById(
 "menu-wrapper"
 );
 
-if(menu.style.display==="block"){
+menu.style.display =
 
-menu.style.display="none";
+menu.style.display === "block"
 
-}
-else{
+? "none"
 
-menu.style.display="block";
+: "block";
 
-}
+};
 
-}
+/* ADMIN */
 
-/* ADMIN PANEL */
-
-function openAdmin(){
+window.openAdmin = ()=>{
 
 let pass = prompt(
 "🔐 دخل كلمة سر الشيف"
@@ -356,41 +411,8 @@ let pass = prompt(
 
 if(pass === "0000omar1234"){
 
-let plat1 =
-prompt("🍕 الطبق الأول");
-
-let prix1 =
-prompt("💰 سعر الطبق الأول");
-
-let plat2 =
-prompt("🥘 الطبق الثاني");
-
-let prix2 =
-prompt("💰 سعر الطبق الثاني");
-
-if(plat1 && prix1){
-
-document.getElementById(
-"menu-content"
-).innerHTML =
-
-"🍕 " + plat1 +
-" — " + prix1 + " د" +
-
-"<br><br>" +
-
-"🥘 " + plat2 +
-" — " + prix2 + " د";
-
-document.getElementById(
-"menu-wrapper"
-).style.display="block";
-
-alert(
-"✅ تم تحديث قائمة اليوم"
-);
-
-}
+window.location.href =
+"admin.html";
 
 }
 
@@ -402,7 +424,54 @@ alert(
 
 }
 
+};
+
+/* LOAD MENU */
+
+onSnapshot(
+
+doc(
+db,
+"menu",
+"today"
+),
+
+(docSnap)=>{
+
+let content =
+document.getElementById(
+"menu-content"
+);
+
+if(docSnap.exists()){
+
+let d =
+docSnap.data();
+
+content.innerHTML = `
+
+🍕 ${d.food1}
+— ${d.price1} د
+
+<br><br>
+
+🥘 ${d.food2}
+— ${d.price2} د
+
+`;
+
 }
+
+else{
+
+content.innerHTML =
+"❌ لا توجد قائمة اليوم";
+
+}
+
+}
+
+);
 
 </script>
 
