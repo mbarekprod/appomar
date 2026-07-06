@@ -4,9 +4,7 @@
 <head>
 
 <meta charset="UTF-8">
-
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>مطعم الفنان</title>
 
@@ -23,26 +21,20 @@ box-sizing:border-box;
 html,
 body{
 
-width:100%;
-min-height:100%;
-
-overflow-x:hidden;
-overflow-y:auto;
-
-scroll-behavior:smooth;
-
 font-family:'Cairo',sans-serif;
 
 background:black;
+
+overflow-x:hidden;
 }
 
 body{
 
-position:relative;
+min-height:100vh;
 
 padding:40px 15px;
 
-display:block;
+position:relative;
 }
 
 /* BACKGROUND */
@@ -68,7 +60,7 @@ z-index:-3;
 transform:scale(1.05);
 }
 
-/* DARK OVERLAY */
+/* OVERLAY */
 
 .overlay{
 
@@ -177,21 +169,15 @@ object-fit:cover;
 @keyframes pulse{
 
 0%{
-
 transform:scale(1);
-
 }
 
 50%{
-
 transform:scale(1.03);
-
 }
 
 100%{
-
 transform:scale(1);
-
 }
 
 }
@@ -279,9 +265,32 @@ transition:.3s;
 
 .btn:hover{
 
-transform:
-scale(1.03);
+transform:scale(1.03);
+}
 
+/* MENU */
+
+#menu{
+
+display:none;
+
+margin-top:20px;
+
+padding:20px;
+
+border-radius:25px;
+
+background:
+rgba(0,0,0,.85);
+
+border:
+2px solid #ffcc33;
+
+color:white;
+
+font-size:20px;
+
+line-height:2;
 }
 
 /* FOOTER */
@@ -303,28 +312,23 @@ color:#ffcc33;
 font-weight:bold;
 }
 
-/* RESPONSIVE */
-
 @media(max-width:500px){
 
 .logo{
 
 width:160px;
 height:160px;
-
 }
 
 .title{
 
 font-size:34px;
-
 }
 
 .btn{
 
 font-size:18px;
 padding:16px;
-
 }
 
 }
@@ -336,9 +340,7 @@ padding:16px;
 <body>
 
 <div class="bg"></div>
-
 <div class="overlay"></div>
-
 <div class="light"></div>
 
 <div class="container">
@@ -364,7 +366,7 @@ Good Food • Good Mood • Good People
 <div class="card">
 
 <button class="btn"
-onclick="showMenu()">
+onclick="toggleMenu()">
 
 🍽️ قائمة اليوم
 
@@ -391,6 +393,14 @@ onclick="openAdmin()">
 
 </button>
 
+<!-- MENU -->
+
+<div id="menu">
+
+🍕 لا توجد قائمة اليوم
+
+</div>
+
 </div>
 
 <div class="footer">
@@ -403,13 +413,27 @@ onclick="openAdmin()">
 
 <script>
 
-function showMenu(){
+/* MENU */
 
-alert(
-"🍽️ Menu de jour bientôt disponible"
-);
+function toggleMenu(){
+
+let menu =
+document.getElementById("menu");
+
+if(menu.style.display==="block"){
+
+menu.style.display="none";
 
 }
+else{
+
+menu.style.display="block";
+
+}
+
+}
+
+/* ADMIN */
 
 function openAdmin(){
 
@@ -419,11 +443,34 @@ let pass = prompt(
 
 if(pass === "0000omar1234"){
 
+let plat =
+prompt("🍕 أدخل اسم الطبق");
+
+let prix =
+prompt("💰 أدخل السعر");
+
+if(plat && prix){
+
+document.getElementById(
+"menu"
+).innerHTML =
+
+"🍽️ " + plat +
+"<br><br>" +
+"💰 السعر : " + prix + " د";
+
+document.getElementById(
+"menu"
+).style.display="block";
+
 alert(
-"✅ مرحباً بالشيف"
+"✅ تم تحديث قائمة اليوم"
 );
 
 }
+
+}
+
 else if(pass !== null){
 
 alert(
