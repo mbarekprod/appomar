@@ -1,489 +1,150 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>فعاليات مطعم الفنان</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;700;900&display=swap" rel="stylesheet">
-
-<style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Cairo',sans-serif;
-}
-
-body{
-
-background:
-linear-gradient(rgba(0,0,0,.88),rgba(0,0,0,.92)),
-url("images/bg.jpg") center/cover fixed;
-
-color:white;
-overflow-x:hidden;
-
-}
-
-/* Scroll */
-
-::-webkit-scrollbar{
-width:10px;
-}
-
-::-webkit-scrollbar-thumb{
-
-background:#d4af37;
-border-radius:50px;
-
-}
-
-/* Navbar */
-
-nav{
-
-position:fixed;
-top:0;
-right:0;
-left:0;
-
-height:80px;
-
-display:flex;
-justify-content:space-between;
-align-items:center;
-
-padding:0 45px;
-
-background:rgba(0,0,0,.75);
-
-backdrop-filter:blur(12px);
-
-z-index:999;
-
-border-bottom:1px solid rgba(212,175,55,.35);
-
-}
-
-.logo{
-
-display:flex;
-align-items:center;
-gap:15px;
-
-}
-
-.logo img{
-
-width:58px;
-height:58px;
-border-radius:50%;
-border:2px solid #d4af37;
-
-}
-
-.logo h2{
-
-font-size:28px;
-color:#d4af37;
-
-}
-
-nav ul{
-
-display:flex;
-list-style:none;
-gap:18px;
-
-}
-
-nav ul li a{
-
-text-decoration:none;
-color:white;
-
-padding:10px 18px;
-
-border-radius:40px;
-
-transition:.35s;
-
-}
-
-nav ul li a:hover{
-
-background:#d4af37;
-color:#111;
-
-}
-
-/* Hero */
-
-.hero{
-
-height:55vh;
-
-display:flex;
-justify-content:center;
-align-items:center;
-flex-direction:column;
-
-text-align:center;
-
-padding-top:90px;
-
-}
-
-.hero h1{
-
-font-size:58px;
-color:#d4af37;
-
-animation:fadeDown 1s;
-
-}
-
-.hero p{
-
-margin-top:20px;
-
-font-size:22px;
-
-color:#ddd;
-
-max-width:700px;
-
-line-height:1.8;
-
-animation:fadeUp 1.3s;
-
-}
-
-/* Section */
-
-.section{
-
-width:90%;
-max-width:1400px;
-
-margin:auto;
-
-padding:70px 0;
-
-}
-
-.section-title{
-
-font-size:38px;
-
-color:#d4af37;
-
-margin-bottom:35px;
-
-text-align:center;
-
-position:relative;
-
-}
-
-.section-title::after{
-
-content:"";
-
-width:120px;
-height:4px;
-
-background:#d4af37;
-
-display:block;
-
-margin:18px auto;
-
-border-radius:50px;
-
-}
-
-/* Cards */
-
-.events{
-
-display:grid;
-
-grid-template-columns:
-repeat(auto-fit,minmax(320px,1fr));
-
-gap:30px;
-
-}
-
-.card{
-
-background:rgba(255,255,255,.05);
-
-border:1px solid rgba(212,175,55,.25);
-
-border-radius:22px;
-
-overflow:hidden;
-
-transition:.4s;
-
-backdrop-filter:blur(12px);
-
-cursor:pointer;
-
-}
-
-.card:hover{
-
-transform:translateY(-12px);
-
-box-shadow:0 0 30px rgba(212,175,55,.35);
-
-}
-
-.card img{
-
-width:100%;
-height:420px;
-
-object-fit:cover;
-
-transition:.5s;
-
-}
-
-.card:hover img{
-
-transform:scale(1.05);
-
-}
-
-.card-content{
-
-padding:22px;
-
-}
-
-.card-content h3{
-
-color:#d4af37;
-
-font-size:27px;
-
-margin-bottom:10px;
-
-}
-
-.card-content p{
-
-line-height:1.9;
-color:#ddd;
-
-margin-bottom:15px;
-
-}
-
-.badge{
-
-display:inline-block;
-
-padding:8px 16px;
-
-background:#d4af37;
-
-color:#111;
-
-font-weight:bold;
-
-border-radius:40px;
-
-}
-
-/* Popup */
-
-.popup{
-
-position:fixed;
-
-inset:0;
-
-background:rgba(0,0,0,.93);
-
-display:none;
-
-justify-content:center;
-align-items:center;
-
-z-index:5000;
-
-padding:30px;
-
-}
-
-.popup img{
-
-width:90%;
-max-width:700px;
-
-border-radius:20px;
-
-border:4px solid #d4af37;
-
-box-shadow:0 0 50px rgba(212,175,55,.4);
-
-}
-
-.close{
-
-position:absolute;
-
-top:25px;
-left:25px;
-
-font-size:45px;
-
-cursor:pointer;
-
-color:white;
-
-}
-
-/* Footer */
-
-footer{
-
-padding:35px;
-
-text-align:center;
-
-background:#000;
-
-margin-top:60px;
-
-color:#999;
-
-border-top:1px solid rgba(212,175,55,.2);
-
-}
-
-/* Animation */
-
-@keyframes fadeDown{
-
-from{
-
-opacity:0;
-transform:translateY(-40px);
-
-}
-
-to{
-
-opacity:1;
-transform:none;
-
-}
-
-}
-
-@keyframes fadeUp{
-
-from{
-
-opacity:0;
-transform:translateY(40px);
-
-}
-
-to{
-
-opacity:1;
-transform:none;
-
-}
-
-}
-
-@media(max-width:768px){
-
-.hero h1{
-
-font-size:38px;
-
-}
-
-.hero p{
-
-font-size:18px;
-
-}
-
-nav{
-
-padding:0 15px;
-
-}
-
-nav ul{
-
-display:none;
-
-}
-
-}
-
-</style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>🎉 الإيفينمونات</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: #1a0a00;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            margin: 0;
+        }
+
+        h1 {
+            color: #f5c842;
+            margin-bottom: 30px;
+        }
+
+        .events-wrapper {
+            max-width: 500px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .event-card {
+            background: rgba(255,255,255,0.06);
+            border: 1px solid #f5c842;
+            border-radius: 15px;
+            padding: 15px;
+            text-align: right;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+        }
+
+        .event-card img {
+            width: 100%;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            max-height: 220px;
+            object-fit: cover;
+        }
+
+        .event-card h3 {
+            margin: 0 0 8px 0;
+            color: #ff9800;
+            font-size: 20px;
+        }
+
+        .event-card p.desc {
+            margin: 5px 0 10px 0;
+            line-height: 1.6;
+            font-size: 15px;
+            color: #eee;
+        }
+
+        .event-date {
+            display: inline-block;
+            background: linear-gradient(135deg, #ff9800, #e65100);
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .empty-msg {
+            color: #ccc;
+            margin-top: 40px;
+        }
+
+        a.back-link {
+            display: inline-block;
+            margin-top: 30px;
+            color: gold;
+            text-decoration: none;
+        }
+    </style>
 </head>
 
 <body>
 
-<nav>
+    <h1>🎉 الإيفينمونات الجايين</h1>
 
-<div class="logo">
+    <div class="events-wrapper" id="events-wrapper">
+        <p class="empty-msg">جارِ تحميل الإيفينمونات...</p>
+    </div>
 
-<img src="images/logo.png">
+    <a href="index.html" class="back-link">⬅️ رجوع للموقع</a>
 
-<h2>مطعم الفنان</h2>
+    <script type="module">
+        import {
+            collection,
+            onSnapshot,
+            query,
+            orderBy
+        } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
 
-</div>
+        import { db } from "./firebase.js";
 
-<ul>
+        function formatDate(dateStr) {
+            if (!dateStr) return "";
+            const d = new Date(dateStr);
+            if (isNaN(d)) return dateStr;
+            return d.toLocaleDateString("ar-TN", { year: "numeric", month: "long", day: "numeric" });
+        }
 
-<li><a href="index.html">الرئيسية</a></li>
-<li><a href="menu.html">القائمة</a></li>
-<li><a href="wheel.html">عجلة الحظ</a></li>
-<li><a href="loyalty.html">بطاقة الوفاء</a></li>
-<li><a href="animations.html">الفعاليات</a></li>
-<li><a href="contact.html">اتصل بنا</a></li>
+        function loadEvents() {
+            const q = query(
+                collection(db, "events"),
+                orderBy("date", "asc")
+            );
 
-</ul>
+            onSnapshot(q, (snapshot) => {
 
-</nav>
+                const wrapper = document.getElementById("events-wrapper");
 
-<section class="hero">
+                if (snapshot.empty) {
+                    wrapper.innerHTML = '<p class="empty-msg">مفماش إيفينمونات حالياً، تابعونا قريب! 🎈</p>';
+                    return;
+                }
 
-<h1>فعاليات مطعم الفنان</h1>
+                wrapper.innerHTML = "";
 
-<p>
+                snapshot.forEach((docSnap) => {
 
-كل جديد، كل مناسبة، وكل عرض خاص ستجده هنا.
-تابع فعاليات مطعم الفنان أولاً بأول.
+                    const ev = docSnap.data();
 
-</p>
+                    wrapper.innerHTML += `
+                        <div class="event-card">
+                            ${ev.image ? `<img src="${ev.image}" alt="${ev.title}">` : ""}
+                            <h3>${ev.title}</h3>
+                            ${ev.description ? `<p class="desc">${ev.description}</p>` : ""}
+                            <span class="event-date">📅 ${formatDate(ev.date)}${ev.time ? " - ⏰ " + ev.time : ""}</span>
+                        </div>
+                    `;
+                });
+            });
+        }
 
-</section>
+        loadEvents();
+    </script>
 
-<section class="section">
-
-<h2 class="section-title">
-
-آخر الفعاليات
-
-</h2>
-
-<div class="events">
+</body>
+</html>
