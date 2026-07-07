@@ -515,6 +515,86 @@ content.innerHTML =
 );
 
 </script>
+<script>
 
+// ================= INTRO =================
+
+const intro = document.getElementById("intro");
+const introMusic = document.getElementById("introMusic");
+const skipBtn = document.getElementById("skipIntro");
+const introText = document.getElementById("introText");
+
+// Les textes
+const texts = [
+"🍕 أشهى أنواع البيتزا",
+"🥪 سندويتشات بطعم لا يقاوم",
+"🍟 جودة... سرعة... نظافة",
+"❤️ أهلاً وسهلاً بكم في مطعم الفنان"
+];
+
+let index = 0;
+
+// Changement texte
+setInterval(() => {
+
+index++;
+
+if(index >= texts.length){
+index = 0;
+}
+
+introText.style.opacity = 0;
+
+setTimeout(() => {
+
+introText.innerHTML = texts[index];
+introText.style.opacity = 1;
+
+},300);
+
+},2000);
+
+// Musique
+window.addEventListener("load",()=>{
+
+introMusic.volume = 0.25;
+
+introMusic.play().catch(()=>{
+
+console.log("Browser bloque autoplay");
+
+});
+
+});
+
+// Fermer intro automatiquement
+setTimeout(()=>{
+
+intro.style.opacity="0";
+
+setTimeout(()=>{
+
+intro.style.display="none";
+
+},1000);
+
+},6000);
+
+// Bouton Skip
+skipBtn.onclick=()=>{
+
+intro.style.opacity="0";
+
+setTimeout(()=>{
+
+intro.style.display="none";
+
+},600);
+
+introMusic.pause();
+
+};
+
+</script>
 </body>
 </html>
