@@ -420,7 +420,7 @@ padding:16px 14px;
 
 <body>
 
-<audio id="bgMusic" loop>
+<audio id="bgMusic" loop autoplay playsinline>
 <source src="sanfara.mp3" type="audio/mpeg">
 Votre navigateur ne supporte pas l'audio.
 </audio>
@@ -623,15 +623,46 @@ content.innerHTML =
 
 <script>
 const music = document.getElementById("bgMusic");
+music.volume = 0.5;
 
-function startMusic() {
-    music.play().catch(err => console.log(err));
-    document.removeEventListener("click", startMusic);
-    document.removeEventListener("touchstart", startMusic);
+/* resume from where the last page left off */
+const savedTime = localStorage.getItem("musicTime");
+if (savedTime) {
+    music.currentTime = parseFloat(savedTime);
 }
 
-document.addEventListener("click", startMusic);
-document.addEventListener("touchstart", startMusic);
+setInterval(() => {
+    localStorage.setItem("musicTime", music.currentTime);
+}, 1000);
+
+const muted = localStorage.getItem("musicMuted");
+if (muted === "true") {
+    music.muted = true;
+}
+
+function startMusic() {
+    music.play().catch(() => {});
+}
+
+/* try to play immediately when the page loads */
+window.addEventListener("load", startMusic);
+startMusic();
+
+/* browsers that block autoplay will need a first interaction —
+   this catches the very first click/touch/scroll/key anywhere
+   on the page, then stops listening */
+function unlockOnce() {
+    startMusic();
+    document.removeEventListener("click", unlockOnce);
+    document.removeEventListener("touchstart", unlockOnce);
+    document.removeEventListener("scroll", unlockOnce);
+    document.removeEventListener("keydown", unlockOnce);
+}
+
+document.addEventListener("click", unlockOnce);
+document.addEventListener("touchstart", unlockOnce);
+document.addEventListener("scroll", unlockOnce);
+document.addEventListener("keydown", unlockOnce);
 </script>
 
 </body>
