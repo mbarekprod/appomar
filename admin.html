@@ -25,7 +25,7 @@
             margin: 20px auto;
         }
 
-        input {
+        input, textarea {
             width: 90%;
             padding: 10px;
             margin: 10px 0;
@@ -35,6 +35,11 @@
             text-align: center;
             font-size: 16px;
             color: #000;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 60px;
         }
 
         button {
@@ -58,6 +63,10 @@
             background: linear-gradient(135deg, #4caf50, #2e7d32);
         }
 
+        .event-btn {
+            background: linear-gradient(135deg, #9c27b0, #4a148c);
+        }
+
         table {
             width: 100%;
             border-collapse: collapse;
@@ -69,6 +78,38 @@
             padding: 8px;
             border: 1px solid #444;
             text-align: center;
+        }
+
+        .event-card {
+            background: rgba(255,255,255,0.07);
+            border: 1px solid #9c27b0;
+            border-radius: 10px;
+            padding: 10px;
+            margin: 10px 0;
+            text-align: right;
+            position: relative;
+        }
+
+        .event-card h4 {
+            margin: 0 0 5px 0;
+            color: #f5c842;
+        }
+
+        .event-card p {
+            margin: 3px 0;
+            font-size: 14px;
+        }
+
+        .delete-event-btn {
+            background: #d32f2f;
+            border: none;
+            color: white;
+            padding: 6px 16px;
+            border-radius: 15px;
+            font-size: 13px;
+            width: auto;
+            margin-top: 8px;
+            cursor: pointer;
         }
     </style>
 </head>
@@ -110,6 +151,30 @@
         </button>
     </div>
 
+    <!-- ===================== قسم الإيفينمونات الجديد ===================== -->
+    <div class="box">
+        <h3>🎉 إضافة إيفينمون جديد</h3>
+
+        <input type="text" id="eventTitle" placeholder="عنوان الإيفينمون (مثال: سهرة أورجانتينو)">
+        <textarea id="eventDesc" placeholder="تفاصيل الإيفينمون"></textarea>
+
+        <input type="date" id="eventDate">
+        <input type="time" id="eventTime">
+
+        <input type="text" id="eventImage" placeholder="رابط صورة (اختياري)">
+
+        <button class="event-btn" onclick="addEvent()">
+            ✨ نشر الإيفينمون
+        </button>
+    </div>
+
+    <div class="box">
+        <h3>📅 الإيفينمونات المنشورة</h3>
+        <div id="events-list">
+            <p>جارِ تحميل البيانات...</p>
+        </div>
+    </div>
+
     <div class="box">
         <h3>📊 سجل نتائج العجلات (مباشر)</h3>
 
@@ -139,6 +204,8 @@
 import {
     doc,
     setDoc,
+    addDoc,
+    deleteDoc,
     collection,
     onSnapshot,
     query,
@@ -205,6 +272,86 @@ window.openNotificationPanel = function () {
     );
 };
 
+
+
+// ===================== إضافة إيفينمون =====================
+window.addEvent = async function () {
+
+    const title = document.getElementById("eventTitle").value.trim();
+    const desc  = document.getElementById("eventDesc").value.trim();
+    const date  = document.getElementById("eventDate").value;
+    const time  = document.getElementById("eventTime").value;
+    const image = document.getElementById("eventImage").value.trim();
+
+    if (!title || !date) {
+        alert("⚠️ لازم تحط عنوان وتاريخ للإيفينمون");
+        return;
+    }
+
+    await addDoc(collection(db, "events"), {
+        title: title,
+        description: desc,
+        date: date,
+        time: time,
+        image: image,
+        createdAt: Date.now()
+    });
+
+    // فراغ الحقول بعد النشر
+    document.getElementById("eventTitle").value = "";
+    document.getElementById("eventDesc").value = "";
+    document.getElementById("eventDate").value = "";
+    document.getElementById("eventTime").value = "";
+    document.getElementById("eventImage").value = "";
+
+    alert("✅ تم نشر الإيفينمون!");
+};
+
+
+// حذف إيفينمون
+window.deleteEvent = async function (id) {
+    if (!confirm("متأكد تحب تحذف هاد الإيفينمون؟")) return;
+    await deleteDoc(doc(db, "events", id));
+};
+
+
+// تحميل الإيفينمونات مباشرة فالوحة الأدمين
+function loadEvents() {
+
+    const q = query(
+        collection(db, "events"),
+        orderBy("date", "asc")
+    );
+
+    onSnapshot(q, (snapshot) => {
+
+        const list = document.getElementById("events-list");
+
+        if (snapshot.empty) {
+            list.innerHTML = "<p>مفماش إيفينمونات حالياً</p>";
+            return;
+        }
+
+        list.innerHTML = "";
+
+        snapshot.forEach((docSnap) => {
+
+            const ev = docSnap.data();
+
+            list.innerHTML += `
+                <div class="event-card">
+                    ${ev.image ? `<img src="${ev.image}" style="width:100%;border-radius:8px;margin-bottom:8px;">` : ""}
+                    <h4>${ev.title}</h4>
+                    <p>${ev.description || ""}</p>
+                    <p>📅 ${ev.date} ${ev.time ? " - ⏰ " + ev.time : ""}</p>
+                    <button class="delete-event-btn" onclick="deleteEvent('${docSnap.id}')">🗑️ حذف</button>
+                </div>
+            `;
+        });
+    });
+}
+
+loadEvents();
 
 
 // تحميل النتائج مباشرة
