@@ -383,5 +383,32 @@ function startMusic() {
 document.addEventListener("click", startMusic);
 document.addEventListener("touchstart", startMusic);
 </script>
+    <script>
+const music = document.getElementById("bgMusic");
+
+// Volume
+music.volume = 0.5;
+
+// Nraj3ou lwa9t
+const savedTime = localStorage.getItem("musicTime");
+if (savedTime) {
+    music.currentTime = parseFloat(savedTime);
+}
+
+// N7afdhou lwa9t
+setInterval(() => {
+    localStorage.setItem("musicTime", music.currentTime);
+}, 1000);
+
+// Start music
+function startMusic() {
+    music.play().catch(() => {});
+    document.removeEventListener("click", startMusic);
+    document.removeEventListener("touchstart", startMusic);
+}
+
+document.addEventListener("click", startMusic);
+document.addEventListener("touchstart", startMusic);
+</script>
 </body>
 </html>
