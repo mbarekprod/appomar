@@ -1,38 +1,17 @@
-const CACHE_NAME = "elfanen-v2";
-
-const urlsToCache = [
-    "./",
-    "./index.html",
-    "./style.css",
-    "./script.js",
-    "./manifest.json",
-    "./logo.png",
-    "./wheel.html",
-    "./icons/icon-192.png",
-    "./icons/icon-512.png"
-];
+const CACHE_NAME = "fannen-v1";
 
 self.addEventListener("install", (event) => {
-    event.waitUntil(
-        caches.open(CACHE_NAME).then(cache => {
-            console.log("📦 Cache en cours...");
-            return cache.addAll(urlsToCache);
-        })
-    );
-    self.skipWaiting();
-});
-
-self.addEventListener("fetch", (event) => {
-    event.respondWith(
-        caches.match(event.request).then(response => response || fetch(event.request))
-    );
+  self.skipWaiting();
 });
 
 self.addEventListener("activate", (event) => {
-    event.waitUntil(
-        caches.keys().then(keys =>
-            Promise.all(keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k)))
-        )
-    );
-    self.clients.claim();
+  event.waitUntil(self.clients.claim());
+});
+
+/* pass-through fetch handler — required by Chrome/Android
+   for the install (beforeinstallprompt) criteria to be met */
+self.addEventListener("fetch", (event) => {
+  event.respondWith(
+    fetch(event.request).catch(() => caches.match(event.request))
+  );
 });
