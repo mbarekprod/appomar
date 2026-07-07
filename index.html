@@ -21,9 +21,7 @@ box-sizing:border-box;
 }
 
 body{
-<audio id="bgMusic" autoplay loop>
-    <source src="sanfara.mp3" type="audio/mpeg">
-</audio>
+
 font-family:'Cairo',sans-serif;
 
 background:
@@ -308,6 +306,10 @@ font-size:17px;
 </head>
 
 <body>
+    <audio id="bgMusic" loop>
+    <source src="sanfara.mp3" type="audio/mpeg">
+    Votre navigateur ne supporte pas l'audio.
+</audio>
 
 <div class="container">
 
@@ -517,6 +519,17 @@ content.innerHTML =
 );
 
 </script>
+  <script>
+const music = document.getElementById("bgMusic");
 
+function startMusic() {
+    music.play().catch(err => console.log(err));
+    document.removeEventListener("click", startMusic);
+    document.removeEventListener("touchstart", startMusic);
+}
+
+document.addEventListener("click", startMusic);
+document.addEventListener("touchstart", startMusic);
+</script>
 </body>
 </html>
