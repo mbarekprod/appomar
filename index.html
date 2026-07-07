@@ -625,32 +625,37 @@ content.innerHTML =
 const music = document.getElementById("bgMusic");
 music.volume = 0.5;
 
-/* resume from where the last page left off */
-const savedTime = localStorage.getItem("musicTime");
-if (savedTime) {
-    music.currentTime = parseFloat(savedTime);
+function applySavedTime(){
+    try{
+        const savedTime = localStorage.getItem("musicTime");
+        if (savedTime && music.readyState > 0) {
+            music.currentTime = parseFloat(savedTime);
+        }
+    } catch(e){}
+}
+
+if (music.readyState > 0) {
+    applySavedTime();
+} else {
+    music.addEventListener("loadedmetadata", applySavedTime);
 }
 
 setInterval(() => {
-    localStorage.setItem("musicTime", music.currentTime);
+    try { localStorage.setItem("musicTime", music.currentTime); } catch(e){}
 }, 1000);
 
-const muted = localStorage.getItem("musicMuted");
-if (muted === "true") {
-    music.muted = true;
-}
+try {
+    const muted = localStorage.getItem("musicMuted");
+    if (muted === "true") { music.muted = true; }
+} catch(e){}
 
 function startMusic() {
     music.play().catch(() => {});
 }
 
-/* try to play immediately when the page loads */
 window.addEventListener("load", startMusic);
 startMusic();
 
-/* browsers that block autoplay will need a first interaction —
-   this catches the very first click/touch/scroll/key anywhere
-   on the page, then stops listening */
 function unlockOnce() {
     startMusic();
     document.removeEventListener("click", unlockOnce);
