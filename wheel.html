@@ -329,41 +329,51 @@
 
   <script>
     const music = document.getElementById("bgMusic");
-    music.volume = 0.5;
+music.volume = 0.5;
 
-    const savedTime = localStorage.getItem("musicTime");
-    if (savedTime) {
-        music.currentTime = parseFloat(savedTime);
-    }
+function applySavedTime(){
+    try{
+        const savedTime = localStorage.getItem("musicTime");
+        if (savedTime && music.readyState > 0) {
+            music.currentTime = parseFloat(savedTime);
+        }
+    } catch(e){}
+}
 
-    setInterval(() => {
-        localStorage.setItem("musicTime", music.currentTime);
-    }, 1000);
+if (music.readyState > 0) {
+    applySavedTime();
+} else {
+    music.addEventListener("loadedmetadata", applySavedTime);
+}
 
+setInterval(() => {
+    try { localStorage.setItem("musicTime", music.currentTime); } catch(e){}
+}, 1000);
+
+try {
     const muted = localStorage.getItem("musicMuted");
-    if (muted === "true") {
-        music.muted = true;
-    }
+    if (muted === "true") { music.muted = true; }
+} catch(e){}
 
-    function startMusic() {
-        music.play().catch(() => {});
-    }
+function startMusic() {
+    music.play().catch(() => {});
+}
 
-    window.addEventListener("load", startMusic);
+window.addEventListener("load", startMusic);
+startMusic();
+
+function unlockOnce() {
     startMusic();
+    document.removeEventListener("click", unlockOnce);
+    document.removeEventListener("touchstart", unlockOnce);
+    document.removeEventListener("scroll", unlockOnce);
+    document.removeEventListener("keydown", unlockOnce);
+}
 
-    function unlockOnce() {
-        startMusic();
-        document.removeEventListener("click", unlockOnce);
-        document.removeEventListener("touchstart", unlockOnce);
-        document.removeEventListener("scroll", unlockOnce);
-        document.removeEventListener("keydown", unlockOnce);
-    }
-
-    document.addEventListener("click", unlockOnce);
-    document.addEventListener("touchstart", unlockOnce);
-    document.addEventListener("scroll", unlockOnce);
-    document.addEventListener("keydown", unlockOnce);
+document.addEventListener("click", unlockOnce);
+document.addEventListener("touchstart", unlockOnce);
+document.addEventListener("scroll", unlockOnce);
+document.addEventListener("keydown", unlockOnce);
   </script>
 </body>
 </html>
