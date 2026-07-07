@@ -1,148 +1,137 @@
 <!DOCTYPE html>
-
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>لوحة تحكم الشيف 🔐</title>
 
-```
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
 
-<style>
-    body {
-        <button id="muteBtn">🔊</button>
-        <audio id="bgMusic" loop>
-    <source src="sanfara.mp3" type="audio/mpeg">
-</audio>
-        font-family: 'Cairo', sans-serif;
-        background: #1a0a00;
-        color: white;
-        padding: 20px;
-        text-align: center;
-    }
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: #1a0a00;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
 
-    .box {
-        background: rgba(255,255,255,0.05);
-        padding: 20px;
-        border-radius: 15px;
-        border: 1px solid #f5c842;
-        max-width: 420px;
-        margin: 20px auto;
-    }
+        .box {
+            background: rgba(255,255,255,0.05);
+            padding: 20px;
+            border-radius: 15px;
+            border: 1px solid #f5c842;
+            max-width: 420px;
+            margin: 20px auto;
+        }
 
-    input {
-        width: 90%;
-        padding: 10px;
-        margin: 10px 0;
-        border-radius: 10px;
-        border: 1px solid #ccc;
-        font-family: 'Cairo';
-        text-align: center;
-        font-size: 16px;
-        color: #000;
-    }
+        input {
+            width: 90%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+            font-family: 'Cairo';
+            text-align: center;
+            font-size: 16px;
+            color: #000;
+        }
 
-    button {
-        background: linear-gradient(135deg, #ff9800, #e65100);
-        color: white;
-        border: none;
-        padding: 12px 30px;
-        border-radius: 25px;
-        font-weight: bold;
-        cursor: pointer;
-        width: 100%;
-        margin-top: 15px;
-        font-size: 16px;
-    }
+        button {
+            background: linear-gradient(135deg, #ff9800, #e65100);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 15px;
+            font-size: 16px;
+        }
 
-    .notify-btn {
-        background: linear-gradient(135deg, #2196f3, #0d47a1);
-    }
+        .notify-btn {
+            background: linear-gradient(135deg, #2196f3, #0d47a1);
+        }
 
-    .lucky-btn {
-        background: linear-gradient(135deg, #4caf50, #2e7d32);
-    }
+        .lucky-btn {
+            background: linear-gradient(135deg, #4caf50, #2e7d32);
+        }
 
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 10px;
-        color: white;
-    }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            color: white;
+        }
 
-    th, td {
-        padding: 8px;
-        border: 1px solid #444;
-        text-align: center;
-    }
-</style>
-```
-
+        th, td {
+            padding: 8px;
+            border: 1px solid #444;
+            text-align: center;
+        }
+    </style>
 </head>
 
 <body>
-    
+
     <audio id="bgMusic" loop>
-    <source src="sanfara.mp3" type="audio/mpeg">
-</audio>
+        <source src="sanfara.mp3" type="audio/mpeg">
+    </audio>
 
 <div id="content">
 
-```
-<h1>👨‍🍳 لوحة تحكم الشيف الفنان</h1>
+    <h1>👨‍🍳 لوحة تحكم الشيف الفنان</h1>
 
-<div class="box">
-    <h3>🍽️ تحديث قائمة اليوم</h3>
+    <div class="box">
+        <h3>🍽️ تحديث قائمة اليوم</h3>
 
-    <input type="text" id="food1" placeholder="أكلة 1">
-    <input type="text" id="price1" placeholder="السوم">
+        <input type="text" id="food1" placeholder="أكلة 1">
+        <input type="text" id="price1" placeholder="السوم">
 
-    <input type="text" id="food2" placeholder="أكلة 2">
-    <input type="text" id="price2" placeholder="السوم">
+        <input type="text" id="food2" placeholder="أكلة 2">
+        <input type="text" id="price2" placeholder="السوم">
 
-    <button onclick="saveMenu()">🚀 تحديث المنيو</button>
+        <button onclick="saveMenu()">🚀 تحديث المنيو</button>
 
-    <button class="notify-btn" onclick="openNotificationPanel()">
-        📢 إرسال إشعار للزبائن
-    </button>
-</div>
+        <button class="notify-btn" onclick="openNotificationPanel()">
+            📢 إرسال إشعار للزبائن
+        </button>
+    </div>
 
-<div class="box">
-    <h3>🎡 توقيت عمل عجلة الحظ</h3>
+    <div class="box">
+        <h3>🎡 توقيت عمل عجلة الحظ</h3>
 
-    <input type="time" id="startHour">
-    <input type="time" id="endHour">
+        <input type="time" id="startHour">
+        <input type="time" id="endHour">
 
-    <button class="lucky-btn" onclick="saveHappyHour()">
-        ⏰ حفظ توقيت العجلة
-    </button>
-</div>
+        <button class="lucky-btn" onclick="saveHappyHour()">
+            ⏰ حفظ توقيت العجلة
+        </button>
+    </div>
 
-<div class="box">
-    <h3>📊 سجل نتائج العجلات (مباشر)</h3>
+    <div class="box">
+        <h3>📊 سجل نتائج العجلات (مباشر)</h3>
 
-    <table>
-        <thead>
-            <tr>
-                <th>الوقت</th>
-                <th>النتيجة</th>
-            </tr>
-        </thead>
+        <table>
+            <thead>
+                <tr>
+                    <th>الوقت</th>
+                    <th>النتيجة</th>
+                </tr>
+            </thead>
 
-        <tbody id="wheel-results-body">
-            <tr>
-                <td colspan="2">جارِ تحميل البيانات...</td>
-            </tr>
-        </tbody>
-    </table>
-</div>
+            <tbody id="wheel-results-body">
+                <tr>
+                    <td colspan="2">جارِ تحميل البيانات...</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
-<a href="index.html" style="color:gold;">
-    ⬅️ رجوع للموقع
-</a>
-```
-
+    <a href="index.html" style="color:gold;">
+        ⬅️ رجوع للموقع
+    </a>
 </div>
 
 <script type="module">
@@ -251,168 +240,55 @@ function loadData() {
 loadData();
 
 </script>
+
 <script>
 const music = document.getElementById("bgMusic");
-
-// Volume
 music.volume = 0.5;
 
-// Nraj3ou wa9t lmusic
-const savedTime = localStorage.getItem("musicTime");
-if (savedTime) {
-    music.currentTime = parseFloat(savedTime);
+function applySavedTime(){
+    try{
+        const savedTime = localStorage.getItem("musicTime");
+        if (savedTime && music.readyState > 0) {
+            music.currentTime = parseFloat(savedTime);
+        }
+    } catch(e){}
 }
 
-// N7afdhou wa9tha kol seconde
+if (music.readyState > 0) {
+    applySavedTime();
+} else {
+    music.addEventListener("loadedmetadata", applySavedTime);
+}
+
 setInterval(() => {
-    localStorage.setItem("musicTime", music.currentTime);
+    try { localStorage.setItem("musicTime", music.currentTime); } catch(e){}
 }, 1000);
 
-// N7afdhou mute
-const muted = localStorage.getItem("musicMuted");
-if (muted === "true") {
-    music.muted = true;
-}
+try {
+    const muted = localStorage.getItem("musicMuted");
+    if (muted === "true") { music.muted = true; }
+} catch(e){}
 
-// Start music
 function startMusic() {
     music.play().catch(() => {});
-    document.removeEventListener("click", startMusic);
-    document.removeEventListener("touchstart", startMusic);
 }
 
-document.addEventListener("click", startMusic);
-document.addEventListener("touchstart", startMusic);
+window.addEventListener("load", startMusic);
+startMusic();
+
+function unlockOnce() {
+    startMusic();
+    document.removeEventListener("click", unlockOnce);
+    document.removeEventListener("touchstart", unlockOnce);
+    document.removeEventListener("scroll", unlockOnce);
+    document.removeEventListener("keydown", unlockOnce);
+}
+
+document.addEventListener("click", unlockOnce);
+document.addEventListener("touchstart", unlockOnce);
+document.addEventListener("scroll", unlockOnce);
+document.addEventListener("keydown", unlockOnce);
 </script>
-    <script>
-const music = document.getElementById("bgMusic");
 
-// Volume
-music.volume = 0.5;
-
-// Nraj3ou wa9t lmusic
-const savedTime = localStorage.getItem("musicTime");
-if (savedTime) {
-    music.currentTime = parseFloat(savedTime);
-}
-
-// N7afdhou wa9tha kol seconde
-setInterval(() => {
-    localStorage.setItem("musicTime", music.currentTime);
-}, 1000);
-
-// N7afdhou mute
-const muted = localStorage.getItem("musicMuted");
-if (muted === "true") {
-    music.muted = true;
-}
-
-// Start music
-function startMusic() {
-    music.play().catch(() => {});
-    document.removeEventListener("click", startMusic);
-    document.removeEventListener("touchstart", startMusic);
-}
-
-document.addEventListener("click", startMusic);
-document.addEventListener("touchstart", startMusic);
-</script>
-    <script>
-const music = document.getElementById("bgMusic");
-
-// Volume
-music.volume = 0.5;
-
-// Nraj3ou wa9t lmusic
-const savedTime = localStorage.getItem("musicTime");
-if (savedTime) {
-    music.currentTime = parseFloat(savedTime);
-}
-
-// N7afdhou wa9tha kol seconde
-setInterval(() => {
-    localStorage.setItem("musicTime", music.currentTime);
-}, 1000);
-
-// N7afdhou mute
-const muted = localStorage.getItem("musicMuted");
-if (muted === "true") {
-    music.muted = true;
-}
-
-// Start music
-function startMusic() {
-    music.play().catch(() => {});
-    document.removeEventListener("click", startMusic);
-    document.removeEventListener("touchstart", startMusic);
-}
-
-document.addEventListener("click", startMusic);
-document.addEventListener("touchstart", startMusic);
-</script>
-    <script>
-const music = document.getElementById("bgMusic");
-
-// Volume
-music.volume = 0.5;
-
-// Nraj3ou wa9t lmusic
-const savedTime = localStorage.getItem("musicTime");
-if (savedTime) {
-    music.currentTime = parseFloat(savedTime);
-}
-
-// N7afdhou wa9tha kol seconde
-setInterval(() => {
-    localStorage.setItem("musicTime", music.currentTime);
-}, 1000);
-
-// N7afdhou mute
-const muted = localStorage.getItem("musicMuted");
-if (muted === "true") {
-    music.muted = true;
-}
-
-// Start music
-function startMusic() {
-    music.play().catch(() => {});
-    document.removeEventListener("click", startMusic);
-    document.removeEventListener("touchstart", startMusic);
-}
-
-document.addEventListener("click", startMusic);
-document.addEventListener("touchstart", startMusic);
-</script>
-    <script>
-const music = document.getElementById("bgMusic");
-
-// Volume
-music.volume = 0.5;
-
-// Nraj3ou lwa9t
-const savedTime = localStorage.getItem("musicTime");
-if (savedTime) {
-    music.currentTime = parseFloat(savedTime);
-}
-
-// N7afdhou lwa9t
-setInterval(() => {
-    localStorage.setItem("musicTime", music.currentTime);
-}, 1000);
-
-// Start music
-function startMusic() {
-    music.play().catch(() => {});
-    document.removeEventListener("click", startMusic);
-    document.removeEventListener("touchstart", startMusic);
-}
-
-document.addEventListener("click", startMusic);
-document.addEventListener("touchstart", startMusic);
-</script>
-    const savedTime = localStorage.getItem("musicTime");
-if (savedTime) {
-    music.currentTime = parseFloat(savedTime);
-}
 </body>
 </html>
