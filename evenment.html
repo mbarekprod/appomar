@@ -1,150 +1,371 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>🎉 الإيفينمونات</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
 
-    <style>
-        body {
-            font-family: 'Cairo', sans-serif;
-            background: #1a0a00;
-            color: white;
-            padding: 20px;
-            text-align: center;
-            margin: 0;
-        }
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
 
-        h1 {
-            color: #f5c842;
-            margin-bottom: 30px;
-        }
+<title>مطعم الفنان — الإيفينمونات</title>
 
-        .events-wrapper {
-            max-width: 500px;
-            margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Amiri:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 
-        .event-card {
-            background: rgba(255,255,255,0.06);
-            border: 1px solid #f5c842;
-            border-radius: 15px;
-            padding: 15px;
-            text-align: right;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
-        }
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#c99a3d">
+<link rel="apple-touch-icon" href="735043823_122232458936380788_691619389420209673_n (3).jpg">
 
-        .event-card img {
-            width: 100%;
-            border-radius: 10px;
-            margin-bottom: 10px;
-            max-height: 220px;
-            object-fit: cover;
-        }
+<style>
 
-        .event-card h3 {
-            margin: 0 0 8px 0;
-            color: #ff9800;
-            font-size: 20px;
-        }
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
 
-        .event-card p.desc {
-            margin: 5px 0 10px 0;
-            line-height: 1.6;
-            font-size: 15px;
-            color: #eee;
-        }
+:root{
+  --ink:#0f0c09;
+  --panel:rgba(24,18,13,.68);
+  --panel-solid:#1b140e;
+  --gold:#c99a3d;
+  --gold-light:#e8c874;
+  --gold-dim:rgba(201,154,61,.35);
+  --cream:#f3ead9;
+  --cream-dim:rgba(243,234,217,.6);
+  --burgundy:#5f2323;
+}
 
-        .event-date {
-            display: inline-block;
-            background: linear-gradient(135deg, #ff9800, #e65100);
-            padding: 6px 15px;
-            border-radius: 20px;
-            font-weight: bold;
-            font-size: 14px;
-        }
+body{
 
-        .empty-msg {
-            color: #ccc;
-            margin-top: 40px;
-        }
+font-family:'Cairo',sans-serif;
 
-        a.back-link {
-            display: inline-block;
-            margin-top: 30px;
-            color: gold;
-            text-decoration: none;
-        }
-    </style>
+background:
+
+linear-gradient(
+180deg,
+rgba(10,7,5,.88),
+rgba(10,7,5,.78) 40%,
+rgba(10,7,5,.92)
+),
+
+url('unnamed (2).jpg');
+
+background-size:cover;
+background-position:center;
+background-repeat:no-repeat;
+background-attachment:fixed;
+
+min-height:100vh;
+color:var(--cream);
+
+display:flex;
+justify-content:center;
+align-items:flex-start;
+
+overflow-y:auto;
+overflow-x:hidden;
+
+padding:40px 16px;
+}
+
+body::before{
+content:"";
+position:fixed;
+inset:0;
+pointer-events:none;
+background-image:
+radial-gradient(circle at 20% 15%, rgba(201,154,61,.06), transparent 40%),
+radial-gradient(circle at 85% 80%, rgba(201,154,61,.05), transparent 45%);
+z-index:0;
+}
+
+.container{
+width:100%;
+max-width:460px;
+text-align:center;
+position:relative;
+z-index:1;
+animation:fade .8s ease;
+}
+
+@keyframes fade{
+from{ opacity:0; transform:translateY(16px); }
+to{ opacity:1; transform:translateY(0); }
+}
+
+.title{
+font-family:'Amiri', serif;
+font-size:38px;
+font-weight:700;
+color:var(--gold-light);
+text-shadow:0 0 22px rgba(201,154,61,.55);
+margin-top:6px;
+margin-bottom:2px;
+letter-spacing:1px;
+}
+
+.subtitle{
+color:var(--cream-dim);
+font-size:12px;
+font-family:'Cairo',sans-serif;
+font-weight:600;
+letter-spacing:3px;
+text-transform:uppercase;
+margin-bottom:26px;
+}
+
+.swash{
+width:220px;
+height:26px;
+margin:2px auto 20px;
+display:block;
+}
+
+.swash path{
+fill:none;
+stroke:url(#swashGrad);
+stroke-width:4;
+stroke-linecap:round;
+stroke-dasharray:340;
+stroke-dashoffset:340;
+animation:draw 1.4s .3s ease forwards;
+}
+
+@keyframes draw{
+to{ stroke-dashoffset:0; }
+}
+
+/* EVENT CARDS */
+
+.events-wrapper{
+display:flex;
+flex-direction:column;
+gap:18px;
+}
+
+.event-card{
+
+border-radius:22px;
+
+background:var(--panel);
+
+backdrop-filter:blur(10px);
+
+border:1px solid var(--gold-dim);
+
+box-shadow:0 20px 45px rgba(0,0,0,.45);
+
+padding:18px;
+text-align:right;
+
+transition:.3s ease;
+}
+
+.event-card:hover{
+border-color:var(--gold);
+transform:translateY(-2px);
+}
+
+.event-card img{
+width:100%;
+max-height:220px;
+object-fit:cover;
+border-radius:14px;
+margin-bottom:14px;
+border:1px solid var(--gold-dim);
+}
+
+.event-card h3{
+font-family:'Amiri', serif;
+font-size:23px;
+color:var(--gold-light);
+margin-bottom:8px;
+}
+
+.event-card p.desc{
+color:var(--cream-dim);
+font-size:15px;
+line-height:1.9;
+margin-bottom:14px;
+}
+
+.event-date{
+
+display:inline-flex;
+align-items:center;
+gap:6px;
+
+background:linear-gradient(135deg, var(--gold), #a87c2c);
+color:var(--ink);
+
+padding:6px 16px;
+border-radius:20px;
+
+font-weight:700;
+font-size:13px;
+}
+
+.empty-box{
+
+border-radius:22px;
+background:var(--panel);
+backdrop-filter:blur(10px);
+border:1px solid var(--gold-dim);
+padding:40px 20px;
+color:var(--cream-dim);
+font-size:15px;
+}
+
+/* FOOTER */
+
+.footer{
+margin-top:30px;
+color:var(--cream-dim);
+font-size:13px;
+letter-spacing:.5px;
+}
+
+.footer span{
+color:var(--gold-light);
+font-weight:bold;
+}
+
+.foot-swash{
+width:120px;
+height:14px;
+margin:14px auto 10px;
+opacity:.7;
+}
+
+.foot-swash path{
+fill:none;
+stroke:var(--gold);
+stroke-width:2.5;
+stroke-linecap:round;
+}
+
+.back-link{
+display:inline-block;
+margin-top:6px;
+color:var(--gold);
+text-decoration:none;
+font-weight:700;
+font-size:14px;
+}
+
+.back-link:hover{
+color:var(--gold-light);
+}
+
+@media(max-width:500px){
+.title{
+font-size:32px;
+}
+.event-card h3{
+font-size:20px;
+}
+}
+
+</style>
+
 </head>
 
 <body>
 
-    <h1>🎉 الإيفينمونات الجايين</h1>
+<div class="container">
 
-    <div class="events-wrapper" id="events-wrapper">
-        <p class="empty-msg">جارِ تحميل الإيفينمونات...</p>
-    </div>
+<div class="title">🎉 الإيفينمونات</div>
 
-    <a href="index.html" class="back-link">⬅️ رجوع للموقع</a>
+<svg class="swash" viewBox="0 0 220 26" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<linearGradient id="swashGrad" x1="0" y1="0" x2="1" y2="0">
+<stop offset="0%" stop-color="#c99a3d" stop-opacity="0"/>
+<stop offset="15%" stop-color="#e8c874"/>
+<stop offset="85%" stop-color="#e8c874"/>
+<stop offset="100%" stop-color="#c99a3d" stop-opacity="0"/>
+</linearGradient>
+</defs>
+<path d="M6,14 C55,2 90,24 110,13 C130,3 165,22 214,10"/>
+</svg>
 
-    <script type="module">
-        import {
-            collection,
-            onSnapshot,
-            query,
-            orderBy
-        } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
+<div class="subtitle">Ce qui se passe chez nous</div>
 
-        import { db } from "./firebase.js";
+<div class="events-wrapper" id="events-wrapper">
+<div class="empty-box">جارِ تحميل الإيفينمونات...</div>
+</div>
 
-        function formatDate(dateStr) {
-            if (!dateStr) return "";
-            const d = new Date(dateStr);
-            if (isNaN(d)) return dateStr;
-            return d.toLocaleDateString("ar-TN", { year: "numeric", month: "long", day: "numeric" });
-        }
+<div class="footer">
 
-        function loadEvents() {
-            const q = query(
-                collection(db, "events"),
-                orderBy("date", "asc")
-            );
+مطعم الفنان ✨
 
-            onSnapshot(q, (snapshot) => {
+<svg class="foot-swash" viewBox="0 0 120 14" xmlns="http://www.w3.org/2000/svg">
+<path d="M4,7 C30,1 45,13 60,7 C75,1 90,13 116,7"/>
+</svg>
 
-                const wrapper = document.getElementById("events-wrapper");
+<a href="index.html" class="back-link">⬅️ رجوع للموقع</a>
 
-                if (snapshot.empty) {
-                    wrapper.innerHTML = '<p class="empty-msg">مفماش إيفينمونات حالياً، تابعونا قريب! 🎈</p>';
-                    return;
-                }
+</div>
 
-                wrapper.innerHTML = "";
+</div>
 
-                snapshot.forEach((docSnap) => {
+<script type="module">
 
-                    const ev = docSnap.data();
+import {
+collection,
+onSnapshot,
+query,
+orderBy
+}
+from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
 
-                    wrapper.innerHTML += `
-                        <div class="event-card">
-                            ${ev.image ? `<img src="${ev.image}" alt="${ev.title}">` : ""}
-                            <h3>${ev.title}</h3>
-                            ${ev.description ? `<p class="desc">${ev.description}</p>` : ""}
-                            <span class="event-date">📅 ${formatDate(ev.date)}${ev.time ? " - ⏰ " + ev.time : ""}</span>
-                        </div>
-                    `;
-                });
-            });
-        }
+import { db } from "./firebase.js";
 
-        loadEvents();
-    </script>
+function formatDate(dateStr){
+if(!dateStr) return "";
+const d = new Date(dateStr);
+if(isNaN(d)) return dateStr;
+return d.toLocaleDateString("ar-TN", { year:"numeric", month:"long", day:"numeric" });
+}
+
+function loadEvents(){
+
+const q = query(
+collection(db, "events"),
+orderBy("date", "asc")
+);
+
+onSnapshot(q, (snapshot)=>{
+
+const wrapper = document.getElementById("events-wrapper");
+
+if(snapshot.empty){
+wrapper.innerHTML = '<div class="empty-box">مفماش إيفينمونات حالياً، تابعونا قريب 🎈</div>';
+return;
+}
+
+wrapper.innerHTML = "";
+
+snapshot.forEach((docSnap)=>{
+
+const ev = docSnap.data();
+
+wrapper.innerHTML += `
+<div class="event-card">
+${ev.image ? `<img src="${ev.image}" alt="${ev.title}">` : ""}
+<h3>${ev.title}</h3>
+${ev.description ? `<p class="desc">${ev.description}</p>` : ""}
+<span class="event-date">📅 ${formatDate(ev.date)}${ev.time ? " • ⏰ " + ev.time : ""}</span>
+</div>
+`;
+});
+
+});
+}
+
+loadEvents();
+
+</script>
 
 </body>
 </html>
