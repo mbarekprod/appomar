@@ -82,6 +82,9 @@
 </head>
 
 <body>
+    <audio id="bgMusic" loop>
+    <source src="sanfara.mp3" type="audio/mpeg">
+</audio>
 
 <div id="content">
 
@@ -248,6 +251,39 @@ loadData();
 
 </script>
 <script>
+const music = document.getElementById("bgMusic");
+
+// Volume
+music.volume = 0.5;
+
+// Nraj3ou wa9t lmusic
+const savedTime = localStorage.getItem("musicTime");
+if (savedTime) {
+    music.currentTime = parseFloat(savedTime);
+}
+
+// N7afdhou wa9tha kol seconde
+setInterval(() => {
+    localStorage.setItem("musicTime", music.currentTime);
+}, 1000);
+
+// N7afdhou mute
+const muted = localStorage.getItem("musicMuted");
+if (muted === "true") {
+    music.muted = true;
+}
+
+// Start music
+function startMusic() {
+    music.play().catch(() => {});
+    document.removeEventListener("click", startMusic);
+    document.removeEventListener("touchstart", startMusic);
+}
+
+document.addEventListener("click", startMusic);
+document.addEventListener("touchstart", startMusic);
+</script>
+    <script>
 const music = document.getElementById("bgMusic");
 
 // Volume
