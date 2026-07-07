@@ -12,6 +12,10 @@ content="width=device-width, initial-scale=1.0">
 
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Amiri:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#c99a3d">
+<link rel="apple-touch-icon" href="735043823_122232458936380788_691619389420209673_n (3).jpg">
+
 <style>
 
 *{
@@ -487,6 +491,11 @@ Votre navigateur ne supporte pas l'audio.
 <span class="arrow">‹</span>
 </button>
 
+<button class="btn" id="installBtn" onclick="installApp()" style="display:none">
+<span class="label"><span class="ic">⬇️</span>حمّل التطبيق</span>
+<span class="arrow">‹</span>
+</button>
+
 <div id="menu-wrapper">
 <div id="menu-content">
 جاري تحميل القائمة...
@@ -668,6 +677,54 @@ document.addEventListener("click", unlockOnce);
 document.addEventListener("touchstart", unlockOnce);
 document.addEventListener("scroll", unlockOnce);
 document.addEventListener("keydown", unlockOnce);
+</script>
+
+<script>
+/* register service worker so the site qualifies as an installable app */
+if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("service-worker.js").catch(() => {});
+}
+
+let deferredPrompt = null;
+const installBtn = document.getElementById("installBtn");
+
+const isIOS = /iphone|ipad|ipod/.test(navigator.userAgent.toLowerCase());
+const isStandalone = window.matchMedia("(display-mode: standalone)").matches
+    || window.navigator.standalone === true;
+
+/* Android/Chrome fires this when the site is installable */
+window.addEventListener("beforeinstallprompt", (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    if (!isStandalone) installBtn.style.display = "flex";
+});
+
+/* iOS never fires beforeinstallprompt — show the button anyway
+   and give manual instructions when tapped */
+if (isIOS && !isStandalone) {
+    installBtn.style.display = "flex";
+}
+
+window.installApp = async function () {
+    if (deferredPrompt) {
+        deferredPrompt.prompt();
+        await deferredPrompt.userChoice;
+        deferredPrompt = null;
+        installBtn.style.display = "none";
+        return;
+    }
+
+    if (isIOS) {
+        alert("باش تثبت التطبيق فالآيفون:\n\n1) دوس على زر المشاركة 📤 تحت فـ Safari\n2) اختار \"إضافة إلى الشاشة الرئيسية\" (Add to Home Screen)\n3) دوس \"إضافة\"");
+    } else {
+        alert("باش تثبت التطبيق:\n\nدوس على قائمة المتصفح ⋮ فوق فالزاوية، واختار \"تثبيت التطبيق\" أو \"إضافة إلى الشاشة الرئيسية\"");
+    }
+};
+
+window.addEventListener("appinstalled", () => {
+    installBtn.style.display = "none";
+    deferredPrompt = null;
+});
 </script>
 
 </body>
