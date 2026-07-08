@@ -2,377 +2,326 @@
 <html lang="fr">
 <head>
   <!-- Firebase -->
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Carte Fidélité</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
-
-<style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Cairo',sans-serif;
-}
-
-body{
-
-min-height:100vh;
-
-display:flex;
-justify-content:center;
-align-items:center;
-
-background:
-linear-gradient(rgba(0,0,0,.85),rgba(0,0,0,.85)),
-url("unnamed (2).jpg");
-
-background-size:cover;
-background-position:center;
-
-overflow:hidden;
-
-}
-
-.card{
-
-width:370px;
-max-width:92%;
-
-background:rgba(20,20,20,.75);
-
-backdrop-filter:blur(12px);
-
-border:2px solid #d4af37;
-
-border-radius:25px;
-
-padding:30px;
-
-box-shadow:
-0 0 35px rgba(212,175,55,.35);
-
-animation:up .8s ease;
-
-}
-
-@keyframes up{
-
-from{
-
-opacity:0;
-transform:translateY(40px);
-
-}
-
-to{
-
-opacity:1;
-transform:translateY(0);
-
-}
-
-}
-
-.logo{
-
-width:110px;
-height:110px;
-
-margin:auto;
-
-border-radius:50%;
-
-overflow:hidden;
-
-border:4px solid gold;
-
-box-shadow:0 0 20px gold;
-
-}
-
-.logo img{
-
-width:100%;
-height:100%;
-object-fit:cover;
-
-}
-
-.title{
-
-text-align:center;
-
-color:#FFD700;
-
-font-size:30px;
-
-font-weight:900;
-
-margin-top:18px;
-
-}
-
-.line{
-
-height:2px;
-
-background:linear-gradient(to right,transparent,gold,transparent);
-
-margin:20px 0;
-
-}
-
-.info{
-
-color:white;
-
-font-size:18px;
-
-margin:12px 0;
-
-}
-
-.info span{
-
-color:#FFD700;
-
-font-weight:bold;
-
-}
-
-.stars{
-
-display:grid;
-
-grid-template-columns:repeat(5,1fr);
-
-gap:12px;
-
-margin-top:25px;
-
-}
-
-.star{
-
-height:55px;
-
-display:flex;
-
-justify-content:center;
-align-items:center;
-
-border-radius:15px;
-
-background:#2b2b2b;
-
-border:2px solid #444;
-
-font-size:30px;
-
-color:#555;
-
-transition:.4s;
-
-}
-
-.star.active{
-
-background:gold;
-
-color:#111;
-
-border-color:#FFD700;
-
-box-shadow:0 0 18px gold;
-
-}
-
-.progress{
-
-margin-top:30px;
-
-height:15px;
-
-background:#333;
-
-border-radius:50px;
-
-overflow:hidden;
-
-}
-
-.progress div{
-
-height:100%;
-
-width:0%;
-
-background:linear-gradient(to right,#FFD700,#ffeb8a);
-
-border-radius:50px;
-
-transition:.5s;
-
-}
-
-.points{
-
-margin-top:15px;
-
-text-align:center;
-
-font-size:22px;
-
-color:white;
-
-}
-
-.points span{
-
-color:#FFD700;
-
-font-weight:bold;
-
-}
-
-.reward{
-
-margin-top:25px;
-
-background:#1b1b1b;
-
-border:1px solid gold;
-
-padding:15px;
-
-border-radius:15px;
-
-text-align:center;
-
-color:#FFD700;
-
-font-weight:bold;
-
-}
-
-.back{
-
-margin-top:30px;
-
-display:block;
-
-text-align:center;
-
-padding:15px;
-
-border-radius:15px;
-
-background:gold;
-
-color:black;
-
-font-weight:bold;
-
-font-size:18px;
-
-text-decoration:none;
-
-transition:.3s;
-
-}
-
-.back:hover{
-
-transform:scale(1.05);
-
-}
-
-</style>
-
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carte Fidélité</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Cairo', sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background:
+        linear-gradient(rgba(0, 0, 0, .85), rgba(0, 0, 0, .85)),
+        url("unnamed (2).jpg");
+      background-size: cover;
+      background-position: center;
+      overflow: hidden;
+    }
+
+    .card {
+      width: 370px;
+      max-width: 92%;
+      background: rgba(20, 20, 20, .75);
+      backdrop-filter: blur(12px);
+      border: 2px solid #d4af37;
+      border-radius: 25px;
+      padding: 30px;
+      box-shadow: 0 0 35px rgba(212, 175, 55, .35);
+      animation: up .8s ease;
+    }
+
+    @keyframes up {
+      from {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .logo {
+      width: 110px;
+      height: 110px;
+      margin: auto;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 4px solid gold;
+      box-shadow: 0 0 20px gold;
+    }
+
+    .logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .title {
+      text-align: center;
+      color: #FFD700;
+      font-size: 30px;
+      font-weight: 900;
+      margin-top: 18px;
+    }
+
+    .line {
+      height: 2px;
+      background: linear-gradient(to right, transparent, gold, transparent);
+      margin: 20px 0;
+    }
+
+    .info {
+      color: white;
+      font-size: 18px;
+      margin: 12px 0;
+    }
+
+    .info span {
+      color: #FFD700;
+      font-weight: bold;
+    }
+
+    .stars {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 12px;
+      margin-top: 25px;
+    }
+
+    .star {
+      height: 55px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 15px;
+      background: #2b2b2b;
+      border: 2px solid #444;
+      font-size: 30px;
+      color: #555;
+      transition: .4s;
+    }
+
+    .star.active {
+      background: gold;
+      color: #111;
+      border-color: #FFD700;
+      box-shadow: 0 0 18px gold;
+    }
+
+    .progress {
+      margin-top: 30px;
+      height: 15px;
+      background: #333;
+      border-radius: 50px;
+      overflow: hidden;
+    }
+
+    .progress div {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(to right, #FFD700, #ffeb8a);
+      border-radius: 50px;
+      transition: .5s;
+    }
+
+    .points {
+      margin-top: 15px;
+      text-align: center;
+      font-size: 22px;
+      color: white;
+    }
+
+    .points span {
+      color: #FFD700;
+      font-weight: bold;
+    }
+
+    .reward {
+      margin-top: 25px;
+      background: #1b1b1b;
+      border: 1px solid gold;
+      padding: 15px;
+      border-radius: 15px;
+      text-align: center;
+      color: #FFD700;
+      font-weight: bold;
+    }
+
+    .back {
+      margin-top: 30px;
+      display: block;
+      text-align: center;
+      padding: 15px;
+      border-radius: 15px;
+      background: gold;
+      color: black;
+      font-weight: bold;
+      font-size: 18px;
+      text-decoration: none;
+      transition: .3s;
+    }
+
+    .back:hover {
+      transform: scale(1.05);
+    }
+
+    /* تحميل */
+    .loading {
+      text-align: center;
+      color: gold;
+      font-size: 18px;
+      padding: 20px;
+    }
+  </style>
 </head>
 
 <body>
 
-<div class="card">
+  <div class="card">
+    <div class="logo">
+      <img src="735043823_122232458936380788_691619389420209673_n (3).jpg" alt="Logo">
+    </div>
 
-<div class="logo">
-<img src="735043823_122232458936380788_691619389420209673_n (3).jpg">
-</div>
+    <div class="title">💳 Carte Fidélité</div>
 
-<div class="title">
-💳 Carte Fidélité
-</div>
+    <div class="line"></div>
 
-<div class="line"></div>
+    <div class="info">👤 <span id="nom">Nom du client</span></div>
+    <div class="info">📧 <span id="email">email@gmail.com</span></div>
 
-<div class="info">
-👤 <span id="nom">Nom du client</span>
-</div>
+    <div class="line"></div>
 
-<div class="info">
-📧 <span id="email">email@gmail.com</span>
-</div>
+    <div class="stars">
+      <div class="star">★</div>
+      <div class="star">★</div>
+      <div class="star">★</div>
+      <div class="star">★</div>
+      <div class="star">★</div>
+      <div class="star">★</div>
+      <div class="star">★</div>
+      <div class="star">★</div>
+      <div class="star">★</div>
+      <div class="star">★</div>
+    </div>
 
-<div class="line"></div>
+    <div class="progress">
+      <div id="bar"></div>
+    </div>
 
-<div class="stars">
+    <div class="points">
+      <span id="pts">0</span> / 10 Points
+    </div>
 
-<div class="star active">★</div>
-<div class="star active">★</div>
-<div class="star">★</div>
-<div class="star">★</div>
-<div class="star">★</div>
+    <div class="reward" id="rewardMessage">
+      🎁 À partir de 10 points vous gagnez un repas gratuit.
+    </div>
 
-<div class="star">★</div>
-<div class="star">★</div>
-<div class="star">★</div>
-<div class="star">★</div>
-<div class="star">★</div>
+    <a href="index.html" class="back">🏠 Retour</a>
+  </div>
 
-</div>
+  <script>
+    // === إعدادات Firebase (خاصة بمشروعك) ===
+    const firebaseConfig = {
+      apiKey: "AIzaSyClwbk9bCyY5YZO5jBMbjo4IWCqGfYcDCw",
+      authDomain: "base-resto-3d1e8.firebaseapp.com",
+      projectId: "base-resto-3d1e8",
+      storageBucket: "base-resto-3d1e8.firebasestorage.app",
+      messagingSenderId: "797391462536",
+      appId: "1:797391462536:web:631a9149d7e2b33d137f3d",
+      measurementId: "G-3H35HSFQ7S"
+    };
 
-<div class="progress">
+    // === تشغيل Firebase ===
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
 
-<div id="bar"></div>
+    // === نتحققو من المستخدم ===
+    auth.onAuthStateChanged(user => {
+      if (!user) {
+        // موش عامل Login → نرجعلو login.html
+        window.location.href = "login.html";
+        return;
+      }
 
-</div>
+      // عامل Login → نجيبو بياناتو من Firestore
+      const uid = user.uid;
+      const userRef = db.collection("users").doc(uid);
 
-<div class="points">
+      userRef.get()
+        .then(doc => {
+          if (doc.exists) {
+            const data = doc.data();
+            const name = data.name || "Client";
+            const email = data.email || user.email || "email@gmail.com";
+            const points = data.points || 0;
 
-<span id="pts">2</span> / 10 Points
+            // نعرضو البيانات
+            document.getElementById("nom").textContent = name;
+            document.getElementById("email").textContent = email;
+            document.getElementById("pts").textContent = points;
 
-</div>
+            // نحدثو شريط التقدم
+            const progress = Math.min(points * 10, 100);
+            document.getElementById("bar").style.width = progress + "%";
 
-<div class="reward">
+            // نحدثو النجوم
+            const stars = document.querySelectorAll(".star");
+            stars.forEach((star, index) => {
+              if (index < points) {
+                star.classList.add("active");
+              } else {
+                star.classList.remove("active");
+              }
+            });
 
-🎁 À partir de 10 points vous gagnez un repas gratuit.
-
-</div>
-
-<a href="index.html" class="back">
-
-🏠 Retour
-
-</a>
-
-</div>
-
-<script>
-
-let points=2;
-
-document.getElementById("pts").innerHTML=points;
-
-document.getElementById("bar").style.width=(points*10)+"%";
-
-</script>
+            // نحدثو رسالة المكافأة
+            const rewardDiv = document.getElementById("rewardMessage");
+            if (points >= 10) {
+              rewardDiv.innerHTML = "🎉 مبروك! ربحت وجبة مجانية! 🎉";
+              rewardDiv.style.background = "#FFD700";
+              rewardDiv.style.color = "black";
+              rewardDiv.style.border = "2px solid #FFD700";
+            } else {
+              rewardDiv.innerHTML = "🎁 عند 10 نقاط تربح وجبة مجانية.";
+              rewardDiv.style.background = "#1b1b1b";
+              rewardDiv.style.color = "#FFD700";
+              rewardDiv.style.border = "1px solid gold";
+            }
+          } else {
+            // المستخدم جدد وما عندوش Document → نصنعولو واحد
+            userRef.set({
+              name: "Client",
+              email: user.email,
+              points: 0,
+              reward: false,
+              createdAt: firebase.firestore.FieldValue.serverTimestamp()
+            }).then(() => {
+              window.location.reload();
+            });
+          }
+        })
+        .catch(error => {
+          console.error("مشكلة في جلب البيانات:", error);
+        });
+    });
+  </script>
 
 </body>
 </html>
