@@ -1,752 +1,778 @@
-
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="fr" dir="rtl">
 
 <head>
-
-<meta charset="UTF-8">
-
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0">
-
-<title>مطعم الفنان</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Amiri:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#c99a3d">
-<link rel="apple-touch-icon" href="735043823_122232458936380788_691619389420209673_n (3).jpg">
-
-<style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-}
-
-:root{
-  --ink:#0f0c09;
-  --panel:rgba(24,18,13,.68);
-  --panel-solid:#1b140e;
-  --gold:#c99a3d;
-  --gold-light:#e8c874;
-  --gold-dim:rgba(201,154,61,.35);
-  --cream:#f3ead9;
-  --cream-dim:rgba(243,234,217,.6);
-  --burgundy:#5f2323;
-}
-
-body{
-
-font-family:'Cairo',sans-serif;
-
-background:
-
-linear-gradient(
-180deg,
-rgba(10,7,5,.88),
-rgba(10,7,5,.78) 40%,
-rgba(10,7,5,.92)
-),
-
-url('unnamed (2).jpg');
-
-background-size:cover;
-background-position:center;
-background-repeat:no-repeat;
-background-attachment:fixed;
-
-min-height:100vh;
-color:var(--cream);
-
-display:flex;
-justify-content:center;
-align-items:flex-start;
-
-overflow-y:auto;
-overflow-x:hidden;
-
-padding:40px 16px;
-}
-
-/* subtle canvas-grain texture over everything */
-body::before{
-content:"";
-position:fixed;
-inset:0;
-pointer-events:none;
-background-image:
-radial-gradient(circle at 20% 15%, rgba(201,154,61,.06), transparent 40%),
-radial-gradient(circle at 85% 80%, rgba(201,154,61,.05), transparent 45%);
-z-index:0;
-}
-
-/* CONTAINER */
-
-.container{
-
-width:100%;
-max-width:420px;
-
-text-align:center;
-position:relative;
-z-index:1;
-
-animation:fade .8s ease;
-}
-
-@keyframes fade{
-from{ opacity:0; transform:translateY(16px); }
-to{ opacity:1; transform:translateY(0); }
-}
-
-/* LOGO */
-
-.logo-wrap{
-position:relative;
-width:168px;
-height:168px;
-margin:auto;
-margin-bottom:6px;
-}
-
-.logo-ring{
-position:absolute;
-inset:-10px;
-border-radius:50%;
-border:1.5px solid var(--gold-dim);
-animation:spin 40s linear infinite;
-}
-
-.logo-ring::before,
-.logo-ring::after{
-content:"";
-position:absolute;
-width:6px;
-height:6px;
-border-radius:50%;
-background:var(--gold);
-top:-3px;
-left:50%;
-transform:translateX(-50%);
-box-shadow:0 176px 0 0 var(--gold);
-}
-
-@keyframes spin{
-to{ transform:rotate(360deg); }
-}
-
-.logo{
-
-width:168px;
-height:168px;
-
-border-radius:50%;
-
-border:3px solid var(--gold);
-
-overflow:hidden;
-position:relative;
-
-box-shadow:
-0 0 0 6px rgba(15,12,9,.6),
-0 0 30px rgba(201,154,61,.35);
-}
-
-.logo img{
-
-width:100%;
-height:100%;
-
-object-fit:cover;
-filter:saturate(1.05) contrast(1.02);
-}
-
-/* signature brush-stroke swash under title */
-.swash{
-width:220px;
-height:26px;
-margin:2px auto 14px;
-display:block;
-}
-
-.swash path{
-fill:none;
-stroke:url(#swashGrad);
-stroke-width:4;
-stroke-linecap:round;
-stroke-dasharray:340;
-stroke-dashoffset:340;
-animation:draw 1.4s .3s ease forwards;
-}
-
-@keyframes draw{
-to{ stroke-dashoffset:0; }
-}
-
-/* TITLES */
-
-.title{
-
-font-family:'Amiri', serif;
-font-size:44px;
-font-weight:700;
-
-color:var(--gold-light);
-
-text-shadow:
-0 0 22px rgba(201,154,61,.55);
-
-margin-top:18px;
-margin-bottom:2px;
-letter-spacing:1px;
-}
-
-.subtitle{
-
-color:var(--cream-dim);
-
-font-size:12px;
-font-family:'Cairo',sans-serif;
-font-weight:600;
-
-letter-spacing:3px;
-text-transform:uppercase;
-
-margin-bottom:28px;
-}
-
-/* CARD */
-
-.card{
-
-width:100%;
-
-padding:10px 8px;
-
-border-radius:22px;
-
-background:var(--panel);
-
-backdrop-filter:blur(10px);
-
-border:1px solid var(--gold-dim);
-
-box-shadow:
-0 20px 45px rgba(0,0,0,.45);
-}
-
-/* MENU ROW BUTTONS */
-
-.btn{
-
-width:100%;
-
-padding:18px 20px;
-
-margin:0;
-border:none;
-border-bottom:1px solid rgba(201,154,61,.16);
-
-background:transparent;
-
-color:var(--cream);
-
-font-size:17px;
-font-weight:700;
-font-family:'Cairo',sans-serif;
-
-cursor:pointer;
-
-display:flex;
-align-items:center;
-justify-content:space-between;
-gap:12px;
-
-transition:.25s ease;
-text-align:right;
-}
-
-.card .btn:last-of-type{
-border-bottom:none;
-}
-
-.btn .label{
-display:flex;
-align-items:center;
-gap:12px;
-}
-
-.btn .ic{
-font-size:20px;
-filter:grayscale(.15);
-}
-
-.btn .arrow{
-color:var(--gold);
-opacity:.55;
-transition:.25s ease;
-font-size:15px;
-}
-
-.btn:hover{
-background:rgba(201,154,61,.08);
-color:var(--gold-light);
-padding-right:14px;
-padding-left:26px;
-}
-
-.btn:hover .arrow{
-opacity:1;
-transform:translateX(-4px);
-}
-
-/* MENU */
-
-#menu-wrapper{
-
-display:none;
-
-margin:14px 10px 6px;
-
-padding:18px;
-
-border-radius:16px;
-
-background:
-linear-gradient(180deg, rgba(201,154,61,.08), rgba(201,154,61,.02));
-
-border:1px solid var(--gold-dim);
-
-color:var(--cream);
-
-font-size:17px;
-line-height:2;
-text-align:center;
-}
-
-/* FOOTER */
-
-.footer{
-
-margin-top:30px;
-
-color:var(--cream-dim);
-
-font-size:13px;
-letter-spacing:.5px;
-}
-
-.footer span{
-
-color:var(--gold-light);
-font-weight:bold;
-}
-
-.foot-swash{
-width:120px;
-height:14px;
-margin:14px auto 10px;
-opacity:.7;
-}
-
-.foot-swash path{
-fill:none;
-stroke:var(--gold);
-stroke-width:2.5;
-stroke-linecap:round;
-}
-
-/* SOCIAL */
-
-.social-links{
-
-margin-top:14px;
-
-display:flex;
-justify-content:center;
-gap:18px;
-}
-
-.social-links a{
-
-width:38px;
-height:38px;
-border-radius:50%;
-border:1px solid var(--gold-dim);
-
-display:flex;
-align-items:center;
-justify-content:center;
-
-color:var(--gold);
-
-font-size:17px;
-text-decoration:none;
-
-transition:.25s ease;
-}
-
-.social-links a:hover{
-background:var(--gold);
-color:var(--ink);
-transform:translateY(-3px);
-}
-
-/* MOBILE */
-
-@media(max-width:500px){
-
-.logo, .logo-wrap{
-width:140px;
-height:140px;
-}
-
-.logo-ring::before,
-.logo-ring::after{
-box-shadow:0 148px 0 0 var(--gold);
-}
-
-.title{
-font-size:36px;
-}
-
-.btn{
-font-size:15.5px;
-padding:16px 14px;
-}
-
-}
-
-</style>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>El Fanen • Gastronomie</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Playfair+Display:ital,wght@0,400;0,700;1,700&display=swap" rel="stylesheet">
+
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#c99a3d">
+    <link rel="apple-touch-icon" href="735043823_122232458936380788_691619389420209673_n (3).jpg">
+
+    <style>
+        /* ===== RESET ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --gold: #c99a3d;
+            --gold-light: #e8c874;
+            --gold-dim: rgba(201, 154, 61, 0.20);
+            --gold-glow: rgba(201, 154, 61, 0.15);
+            --dark: #0a0806;
+            --panel: rgba(10, 8, 6, 0.78);
+            --cream: #f3ead9;
+            --cream-dim: rgba(243, 234, 217, 0.5);
+            --cream-light: rgba(243, 234, 217, 0.08);
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            min-height: 100vh;
+            background:
+                radial-gradient(ellipse at 30% 20%, rgba(201, 154, 61, 0.06), transparent 60%),
+                radial-gradient(ellipse at 70% 80%, rgba(201, 154, 61, 0.04), transparent 50%),
+                linear-gradient(180deg,
+                    rgba(10, 8, 6, 0.95) 0%,
+                    rgba(10, 8, 6, 0.80) 50%,
+                    rgba(10, 8, 6, 0.95) 100%),
+                url('unnamed (2).jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: var(--cream);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 30px 16px;
+            min-height: 100vh;
+        }
+
+        /* ===== CONTAINER ===== */
+        .container {
+            width: 100%;
+            max-width: 440px;
+            animation: fadeUp 1s ease;
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            text-align: center;
+            margin-bottom: 22px;
+        }
+
+        /* ===== LOGO ===== */
+        .logo-wrap {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 6px;
+        }
+
+        .logo-ring {
+            position: absolute;
+            inset: -6px;
+            border-radius: 50%;
+            border: 1.5px solid var(--gold-dim);
+            animation: spin 20s linear infinite;
+        }
+
+        .logo-ring::before,
+        .logo-ring::after {
+            content: "";
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: var(--gold);
+            top: -2.5px;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 106px 0 0 var(--gold);
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .logo {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 2px solid var(--gold);
+            overflow: hidden;
+            box-shadow: 0 0 30px var(--gold-glow);
+            transition: transform 0.5s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.04);
+        }
+
+        .logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* ===== BRAND ===== */
+        .brand-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 34px;
+            font-weight: 700;
+            font-style: italic;
+            color: var(--gold-light);
+            text-shadow: 0 0 30px var(--gold-glow);
+            letter-spacing: 2px;
+            margin-top: 4px;
+        }
+
+        .brand-sub {
+            font-family: 'Cairo', sans-serif;
+            color: var(--cream-dim);
+            font-size: 12px;
+            font-weight: 300;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            margin-top: -2px;
+        }
+
+        /* ===== CHEF MINI ===== */
+        .chef-mini {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin: 10px auto 12px;
+            padding: 6px 16px 6px 20px;
+            background: var(--cream-light);
+            border-radius: 50px;
+            border: 1px solid var(--gold-dim);
+            width: fit-content;
+            animation: fadeUp 1.2s ease;
+        }
+
+        .chef-mini img {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 1.5px solid var(--gold);
+            object-fit: cover;
+        }
+
+        .chef-mini span {
+            color: var(--cream-dim);
+            font-size: 13px;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        .chef-mini span strong {
+            color: var(--gold-light);
+            font-weight: 600;
+        }
+
+        .divider {
+            width: 60px;
+            height: 1.5px;
+            margin: 8px auto 14px;
+            background: linear-gradient(to right, transparent, var(--gold), transparent);
+            animation: expandWidth 1s ease;
+        }
+
+        @keyframes expandWidth {
+            from {
+                width: 0;
+                opacity: 0;
+            }
+            to {
+                width: 60px;
+                opacity: 1;
+            }
+        }
+
+        /* ===== CARD ===== */
+        .card {
+            background: var(--panel);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-radius: 28px;
+            border: 1px solid var(--gold-dim);
+            padding: 12px 6px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+        }
+
+        /* ===== BOUTONS RONDS ===== */
+        .btn {
+            width: 100%;
+            padding: 16px 22px;
+            border: none;
+            border-bottom: 1px solid rgba(201, 154, 61, 0.06);
+            background: transparent;
+            color: var(--cream);
+            font-size: 15px;
+            font-weight: 500;
+            font-family: 'Cairo', sans-serif;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            text-align: right;
+            position: relative;
+            border-radius: 50px;
+            transition: all 0.35s ease;
+        }
+
+        .card .btn:last-of-type {
+            border-bottom: none;
+        }
+
+        .btn .label {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .btn .icon {
+            font-size: 18px;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(201, 154, 61, 0.08);
+            border-radius: 50%;
+            transition: all 0.35s ease;
+            flex-shrink: 0;
+        }
+
+        .btn:hover .icon {
+            background: var(--gold);
+            color: var(--dark);
+            transform: scale(1.05);
+        }
+
+        .btn .arrow {
+            color: var(--gold);
+            opacity: 0.25;
+            font-size: 13px;
+            transition: all 0.35s ease;
+        }
+
+        .btn:hover {
+            background: rgba(201, 154, 61, 0.06);
+            color: var(--gold-light);
+            padding-right: 18px;
+            padding-left: 24px;
+        }
+
+        .btn:hover .arrow {
+            opacity: 1;
+            transform: translateX(-4px);
+        }
+
+        /* ===== BOUTON SPÉCIAL (Carte Fidélité) ===== */
+        .btn-special {
+            background: linear-gradient(135deg, rgba(201, 154, 61, 0.08), rgba(201, 154, 61, 0.02));
+            border: 1px solid var(--gold-dim);
+            margin-bottom: 4px;
+            animation: goldBreath 3s ease-in-out infinite;
+        }
+
+        .btn-special .icon {
+            background: var(--gold);
+            color: var(--dark);
+        }
+
+        @keyframes goldBreath {
+            0%,
+            100% {
+                border-color: var(--gold-dim);
+            }
+            50% {
+                border-color: var(--gold);
+                box-shadow: 0 0 20px var(--gold-glow);
+            }
+        }
+
+        /* ===== MENU WRAPPER ===== */
+        #menu-wrapper {
+            display: none;
+            margin: 12px 16px 8px;
+            padding: 18px 20px;
+            border-radius: 20px;
+            background: rgba(201, 154, 61, 0.04);
+            border: 1px solid var(--gold-dim);
+            text-align: center;
+            font-size: 16px;
+            line-height: 2.4;
+            color: var(--cream);
+            animation: slideDown 0.4s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        #menu-content .price {
+            color: var(--gold-light);
+            font-weight: 600;
+        }
+
+        .menu-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 4px 0;
+            border-bottom: 1px dashed rgba(201, 154, 61, 0.08);
+        }
+
+        .menu-item:last-child {
+            border-bottom: none;
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            margin-top: 26px;
+            text-align: center;
+            color: var(--cream-dim);
+            font-size: 12px;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        .footer .heart {
+            color: var(--gold-light);
+            display: inline-block;
+            animation: heartBeat 1.5s ease-in-out infinite;
+        }
+
+        @keyframes heartBeat {
+            0%,
+            100% {
+                transform: scale(1);
+            }
+            15% {
+                transform: scale(1.25);
+            }
+            30% {
+                transform: scale(1);
+            }
+            45% {
+                transform: scale(1.15);
+            }
+            60% {
+                transform: scale(1);
+            }
+        }
+
+        .footer .swash {
+            width: 80px;
+            height: 10px;
+            margin: 10px auto 8px;
+            opacity: 0.3;
+        }
+
+        .footer .swash path {
+            fill: none;
+            stroke: var(--gold);
+            stroke-width: 1.5;
+            stroke-linecap: round;
+        }
+
+        .footer .tagline {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            color: var(--cream-dim);
+            font-size: 13px;
+            opacity: 0.6;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 12px;
+        }
+
+        .social-links a {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 1px solid var(--gold-dim);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gold);
+            font-size: 14px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background: var(--gold);
+            color: var(--dark);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 15px var(--gold-glow);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 480px) {
+            .logo-wrap,
+            .logo {
+                width: 80px;
+                height: 80px;
+            }
+            .logo-ring::before,
+            .logo-ring::after {
+                box-shadow: 0 86px 0 0 var(--gold);
+            }
+            .brand-name {
+                font-size: 28px;
+            }
+            .btn {
+                font-size: 14px;
+                padding: 14px 16px;
+                border-radius: 40px;
+            }
+            .btn .icon {
+                width: 28px;
+                height: 28px;
+                font-size: 15px;
+            }
+            .chef-mini {
+                padding: 4px 12px 4px 16px;
+            }
+            .chef-mini img {
+                width: 26px;
+                height: 26px;
+            }
+            .chef-mini span {
+                font-size: 11px;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
-<audio id="bgMusic" loop autoplay playsinline>
-<source src="sanfara.mp3" type="audio/mpeg">
-Votre navigateur ne supporte pas l'audio.
-</audio>
-
-<div class="container">
-
-<div class="logo-wrap">
-<div class="logo-ring"></div>
-<div class="logo">
-<img src="735043823_122232458936380788_691619389420209673_n (3).jpg">
-</div>
-</div>
-
-<div class="title">مطعم الفنان</div>
-
-<svg class="swash" viewBox="0 0 220 26" xmlns="http://www.w3.org/2000/svg">
-<defs>
-<linearGradient id="swashGrad" x1="0" y1="0" x2="1" y2="0">
-<stop offset="0%" stop-color="#c99a3d" stop-opacity="0"/>
-<stop offset="15%" stop-color="#e8c874"/>
-<stop offset="85%" stop-color="#e8c874"/>
-<stop offset="100%" stop-color="#c99a3d" stop-opacity="0"/>
-</linearGradient>
-</defs>
-<path d="M6,14 C55,2 90,24 110,13 C130,3 165,22 214,10"/>
-</svg>
-
-<div class="subtitle">Good Food • Good Mood • Good People</div>
-
-<div class="card">
-
-
-<button class="btn" onclick="window.location.href='cartefidelite.html'">
-    <span class="label">
-        <span class="ic">💳</span>
-        Carte Fidélité
-    </span>
-    <span class="arrow">‹</span>
-</button>
-
-  
-<button class="btn" onclick="toggleMenu()">
-<span class="label"><span class="ic">🍽️</span>قائمة اليوم</span>
-<span class="arrow">‹</span>
-</button>
-
-<button class="btn" onclick="window.location.href='menu.html'">
-<span class="label"><span class="ic">📋</span>المنيو الكامل</span>
-<span class="arrow">‹</span>
-</button>
-
-<button class="btn" onclick="window.location.href='wheel.html'">
-<span class="label"><span class="ic">🎡</span>عجلة الحظ</span>
-<span class="arrow">‹</span>
-</button>
-
-<button class="btn" onclick="window.location.href='contact.html'">
-<span class="label"><span class="ic">📞</span>اتصل بنا</span>
-<span class="arrow">‹</span>
-</button>
-
-<button class="btn" onclick="window.location.href='cv.html'">
-<span class="label"><span class="ic">👨‍🍳</span>CV الشيف</span>
-<span class="arrow">‹</span>
-</button>
-
-<button class="btn" onclick="window.location.href='evenment.html'">
-<span class="label"><span class="ic">🎉</span>الإيفينمونات</span>
-<span class="arrow">‹</span>
-</button>
-
-<button class="btn" onclick="window.open('https://maps.app.goo.gl/tZCRQV84MwNQhEZg9')">
-<span class="label"><span class="ic">📍</span>موقع المطعم</span>
-<span class="arrow">‹</span>
-</button>
-
-<button class="btn" onclick="window.location.href='login.html'">
-<span class="label"><span class="ic">👤</span>حسابي</span>
-<span class="arrow">‹</span>
-</button>
-
-<button class="btn" onclick="openAdmin()">
-<span class="label"><span class="ic">👨‍🍳</span>لوحة الشيف</span>
-<span class="arrow">‹</span>
-</button>
-
-<button class="btn" id="installBtn" onclick="installApp()" style="display:none">
-<span class="label"><span class="ic">⬇️</span>حمّل التطبيق</span>
-<span class="arrow">‹</span>
-</button>
-
-<div id="menu-wrapper">
-<div id="menu-content">
-جاري تحميل القائمة...
-</div>
-</div>
-
-</div>
-
-<div class="footer">
-
-مطعم الفنان ✨
-
-<svg class="foot-swash" viewBox="0 0 120 14" xmlns="http://www.w3.org/2000/svg">
-<path d="M4,7 C30,1 45,13 60,7 C75,1 90,13 116,7"/>
-</svg>
-
-بحب من <span>الفنان</span> 🧡
-
-<div class="social-links">
-<a href="#">📷</a>
-<a href="#">👥</a>
-<a href="#">🎵</a>
-</div>
-
-</div>
-
-</div>
-
-<script type="module">
-
-import {
-doc,
-onSnapshot
-}
-
-from
-"https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
-
-import { db }
-from "./firebase.js";
-
-/* MENU */
-
-window.toggleMenu = ()=>{
-
-let menu =
-document.getElementById(
-"menu-wrapper"
-);
-
-menu.style.display =
-
-menu.style.display === "block"
-
-? "none"
-
-: "block";
-
-};
-
-/* ADMIN PASSWORD */
-
-window.openAdmin = ()=>{
-
-let pass = prompt(
-"🔐 دخل كلمة سر الشيف"
-);
-
-if(pass === "0000omar1234"){
-
-window.location.href =
-"admin.html";
-
-}
-
-else if(pass !== null){
-
-alert(
-"❌ كلمة السر خاطئة"
-);
-
-}
-
-};
-
-/* LOAD MENU */
-
-onSnapshot(
-
-doc(
-db,
-"menu",
-"today"
-),
-
-(docSnap)=>{
-
-let content =
-document.getElementById(
-"menu-content"
-);
-
-if(docSnap.exists()){
-
-let d =
-docSnap.data();
-
-content.innerHTML = `
-
-🍕 ${d.food1}
-— ${d.price1} د
-
-<br><br>
-
-🥘 ${d.food2}
-— ${d.price2} د
-
-`;
-
-}
-
-else{
-
-content.innerHTML =
-"❌ لا توجد قائمة اليوم";
-
-}
-
-}
-
-);
-
-</script>
-
-<script>
-const music = document.getElementById("bgMusic");
-music.volume = 0.5;
-
-function applySavedTime(){
-    try{
-        const savedTime = localStorage.getItem("musicTime");
-        if (savedTime && music.readyState > 0) {
-            music.currentTime = parseFloat(savedTime);
+    <audio id="bgMusic" loop autoplay playsinline>
+        <source src="sanfara.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="container">
+
+        <!-- ===== HEADER ===== -->
+        <div class="header">
+            <div class="logo-wrap">
+                <div class="logo-ring"></div>
+                <div class="logo">
+                    <img src="735043823_122232458936380788_691619389420209673_n (3).jpg" alt="El Fanen">
+                </div>
+            </div>
+
+            <div class="brand-name">El Fanen</div>
+            <div class="brand-sub">✦ Art de la Table ✦</div>
+
+            <!-- ===== CHEF MINI ===== -->
+            <div class="chef-mini">
+                <img src="735043823_122232458936380788_691619389420209673_n (3).jpg" alt="Chef">
+                <span>👨‍🍳 <strong>Chef Omar</strong> · 15 ans d'excellence</span>
+            </div>
+
+            <div class="divider"></div>
+        </div>
+
+        <!-- ===== CARD ===== -->
+        <div class="card">
+
+            <!-- Carte Fidélité -->
+            <button class="btn btn-special" onclick="window.location.href='cartefidelite.html'">
+                <span class="label">
+                    <span class="icon">💳</span>
+                    Carte Fidélité
+                </span>
+                <span class="arrow">‹</span>
+            </button>
+
+            <!-- Menu du jour -->
+            <button class="btn" onclick="toggleMenu()">
+                <span class="label">
+                    <span class="icon">🍽️</span>
+                    Menu du Jour
+                </span>
+                <span class="arrow">‹</span>
+            </button>
+
+            <!-- Carte complète -->
+            <button class="btn" onclick="window.location.href='menu.html'">
+                <span class="label">
+                    <span class="icon">📋</span>
+                    La Carte
+                </span>
+                <span class="arrow">‹</span>
+            </button>
+
+            <!-- Roue -->
+            <button class="btn" onclick="window.location.href='wheel.html'">
+                <span class="label">
+                    <span class="icon">🎡</span>
+                    Roue de la Chance
+                </span>
+                <span class="arrow">‹</span>
+            </button>
+
+            <!-- Événements -->
+            <button class="btn" onclick="window.location.href='evenment.html'">
+                <span class="label">
+                    <span class="icon">🎉</span>
+                    Événements
+                </span>
+                <span class="arrow">‹</span>
+            </button>
+
+            <!-- Contact -->
+            <button class="btn" onclick="window.location.href='contact.html'">
+                <span class="label">
+                    <span class="icon">📞</span>
+                    Contact
+                </span>
+                <span class="arrow">‹</span>
+            </button>
+
+            <!-- Chef -->
+            <button class="btn" onclick="window.location.href='cv.html'">
+                <span class="label">
+                    <span class="icon">👨‍🍳</span>
+                    Le Chef
+                </span>
+                <span class="arrow">‹</span>
+            </button>
+
+            <!-- Localisation -->
+            <button class="btn" onclick="window.open('https://maps.app.goo.gl/tZCRQV84MwNQhEZg9')">
+                <span class="label">
+                    <span class="icon">📍</span>
+                    Nous Trouver
+                </span>
+                <span class="arrow">‹</span>
+            </button>
+
+            <!-- Compte -->
+            <button class="btn" onclick="window.location.href='login.html'">
+                <span class="label">
+                    <span class="icon">👤</span>
+                    Mon Compte
+                </span>
+                <span class="arrow">‹</span>
+            </button>
+
+            <!-- Admin -->
+            <button class="btn" onclick="openAdmin()">
+                <span class="label">
+                    <span class="icon">👨‍🍳</span>
+                    Espace Chef
+                </span>
+                <span class="arrow">‹</span>
+            </button>
+
+            <!-- Installer -->
+            <button class="btn" id="installBtn" onclick="installApp()" style="display:none">
+                <span class="label">
+                    <span class="icon">⬇️</span>
+                    Installer l'App
+                </span>
+                <span class="arrow">‹</span>
+            </button>
+
+            <!-- ===== MENU ===== -->
+            <div id="menu-wrapper">
+                <div id="menu-content">⏳ Chargement...</div>
+            </div>
+
+        </div>
+
+        <!-- ===== FOOTER ===== -->
+        <div class="footer">
+            <div class="tagline">"L'art de bien manger"</div>
+            <svg class="swash" viewBox="0 0 80 10" xmlns="http://www.w3.org/2000/svg">
+                <path d="M4,5 C20,1 30,9 40,5 C50,1 60,9 76,5"/>
+            </svg>
+            <div>Fait avec <span class="heart">❤️</span> par El Fanen</div>
+            <div style="font-size:10px;opacity:0.4;margin-top:4px;">Since 2010 · Tunisie</div>
+
+            <div class="social-links">
+                <a href="#" aria-label="Instagram">📷</a>
+                <a href="#" aria-label="Facebook">👥</a>
+                <a href="#" aria-label="YouTube">🎵</a>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ===== SCRIPTS ===== -->
+    <script type="module">
+        import { doc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
+        import { db } from "./firebase.js";
+
+        window.toggleMenu = () => {
+            const wrapper = document.getElementById("menu-wrapper");
+            if (wrapper.style.display === "block") {
+                wrapper.style.display = "none";
+            } else {
+                wrapper.style.display = "block";
+                wrapper.style.animation = "none";
+                setTimeout(() => { wrapper.style.animation = "slideDown 0.4s ease"; }, 10);
+            }
+        };
+
+        window.openAdmin = () => {
+            const pass = prompt("🔐 Mot de passe Chef");
+            if (pass === "0000omar1234") {
+                window.location.href = "admin.html";
+            } else if (pass !== null) {
+                alert("❌ Code incorrect");
+            }
+        };
+
+        onSnapshot(doc(db, "menu", "today"), (docSnap) => {
+            const content = document.getElementById("menu-content");
+            if (docSnap.exists()) {
+                const d = docSnap.data();
+                content.innerHTML = `
+                    <div class="menu-item">
+                        <span>${d.food1 || "—"}</span>
+                        <span class="price">${d.price1 || "?"} DT</span>
+                    </div>
+                    <div class="menu-item">
+                        <span>${d.food2 || "—"}</span>
+                        <span class="price">${d.price2 || "?"} DT</span>
+                    </div>
+                `;
+            } else {
+                content.innerHTML = "❌ Aucun menu aujourd'hui";
+            }
+        });
+    </script>
+
+    <!-- ===== MUSIC & PWA ===== -->
+    <script>
+        // Music
+        const music = document.getElementById("bgMusic");
+        music.volume = 0.5;
+
+        function applySavedTime() {
+            try {
+                const savedTime = localStorage.getItem("musicTime");
+                if (savedTime && music.readyState > 0) {
+                    music.currentTime = parseFloat(savedTime);
+                }
+            } catch (e) {}
         }
-    } catch(e){}
-}
 
-if (music.readyState > 0) {
-    applySavedTime();
-} else {
-    music.addEventListener("loadedmetadata", applySavedTime);
-}
+        if (music.readyState > 0) {
+            applySavedTime();
+        } else {
+            music.addEventListener("loadedmetadata", applySavedTime);
+        }
 
-setInterval(() => {
-    try { localStorage.setItem("musicTime", music.currentTime); } catch(e){}
-}, 1000);
+        setInterval(() => {
+            try { localStorage.setItem("musicTime", music.currentTime); } catch (e) {}
+        }, 1000);
 
-try {
-    const muted = localStorage.getItem("musicMuted");
-    if (muted === "true") { music.muted = true; }
-} catch(e){}
+        try {
+            if (localStorage.getItem("musicMuted") === "true") { music.muted = true; }
+        } catch (e) {}
 
-function startMusic() {
-    music.play().catch(() => {});
-}
+        function startMusic() {
+            music.play().catch(() => {});
+        }
 
-window.addEventListener("load", startMusic);
-startMusic();
+        window.addEventListener("load", startMusic);
+        startMusic();
 
-function unlockOnce() {
-    startMusic();
-    document.removeEventListener("click", unlockOnce);
-    document.removeEventListener("touchstart", unlockOnce);
-    document.removeEventListener("scroll", unlockOnce);
-    document.removeEventListener("keydown", unlockOnce);
-}
+        function unlockOnce() {
+            startMusic();
+            document.removeEventListener("click", unlockOnce);
+            document.removeEventListener("touchstart", unlockOnce);
+            document.removeEventListener("scroll", unlockOnce);
+            document.removeEventListener("keydown", unlockOnce);
+        }
 
-document.addEventListener("click", unlockOnce);
-document.addEventListener("touchstart", unlockOnce);
-document.addEventListener("scroll", unlockOnce);
-document.addEventListener("keydown", unlockOnce);
-</script>
+        document.addEventListener("click", unlockOnce);
+        document.addEventListener("touchstart", unlockOnce);
+        document.addEventListener("scroll", unlockOnce);
+        document.addEventListener("keydown", unlockOnce);
 
-<script>
-/* register service worker so the site qualifies as an installable app */
-if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.register("service-worker.js").catch(() => {});
-}
+        // PWA
+        if ("serviceWorker" in navigator) {
+            navigator.serviceWorker.register("service-worker.js").catch(() => {});
+        }
 
-let deferredPrompt = null;
-const installBtn = document.getElementById("installBtn");
+        let deferredPrompt = null;
+        const installBtn = document.getElementById("installBtn");
 
-const isIOS = /iphone|ipad|ipod/.test(navigator.userAgent.toLowerCase());
-const isStandalone = window.matchMedia("(display-mode: standalone)").matches
-    || window.navigator.standalone === true;
+        const isIOS = /iphone|ipad|ipod/.test(navigator.userAgent.toLowerCase());
+        const isStandalone = window.matchMedia("(display-mode: standalone)").matches ||
+            window.navigator.standalone === true;
 
-/* Android/Chrome fires this when the site is installable */
-window.addEventListener("beforeinstallprompt", (e) => {
-    e.preventDefault();
-    deferredPrompt = e;
-    if (!isStandalone) installBtn.style.display = "flex";
-});
+        window.addEventListener("beforeinstallprompt", (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            if (!isStandalone) installBtn.style.display = "flex";
+        });
 
-/* iOS never fires beforeinstallprompt — show the button anyway
-   and give manual instructions when tapped */
-if (isIOS && !isStandalone) {
-    installBtn.style.display = "flex";
-}
+        if (isIOS && !isStandalone) {
+            installBtn.style.display = "flex";
+        }
 
-window.installApp = async function () {
-    if (deferredPrompt) {
-        deferredPrompt.prompt();
-        await deferredPrompt.userChoice;
-        deferredPrompt = null;
-        installBtn.style.display = "none";
-        return;
-    }
+        window.installApp = async function() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                await deferredPrompt.userChoice;
+                deferredPrompt = null;
+                installBtn.style.display = "none";
+                return;
+            }
 
-    if (isIOS) {
-        alert("باش تثبت التطبيق فالآيفون:\n\n1) دوس على زر المشاركة 📤 تحت فـ Safari\n2) اختار \"إضافة إلى الشاشة الرئيسية\" (Add to Home Screen)\n3) دوس \"إضافة\"");
-    } else {
-        alert("باش تثبت التطبيق:\n\nدوس على قائمة المتصفح ⋮ فوق فالزاوية، واختار \"تثبيت التطبيق\" أو \"إضافة إلى الشاشة الرئيسية\"");
-    }
-};
+            if (isIOS) {
+                alert("📱 Pour installer l'application :\n\n1) Appuyez sur Partager 📤\n2) Choisissez « Ajouter à l'écran d'accueil »\n3) Appuyez sur « Ajouter »");
+            } else {
+                alert("📲 Pour installer l'application :\n\nAppuyez sur le menu ⋮ du navigateur, puis « Installer l'application ».");
+            }
+        };
 
-window.addEventListener("appinstalled", () => {
-    installBtn.style.display = "none";
-    deferredPrompt = null;
-});
-</script>
+        window.addEventListener("appinstalled", () => {
+            installBtn.style.display = "none";
+            deferredPrompt = null;
+        });
+    </script>
 
 </body>
 </html>
