@@ -42,3 +42,27 @@ window.addEventListener('appinstalled', () => {
 });
 
 console.log('🍕 مطعم الفنان جاهز!');
+// ===== Demander la localisation au démarrage =====
+window.addEventListener("load", () => {
+    if (!navigator.geolocation) return;
+
+    navigator.geolocation.getCurrentPosition(
+        (position) => {
+            const lat = position.coords.latitude;
+            const lng = position.coords.longitude;
+
+            console.log("Latitude:", lat);
+            console.log("Longitude:", lng);
+
+            // Hné ba3d nzidou code Firebase
+        },
+        (error) => {
+            console.log("Permission refusée ou GPS indisponible.");
+        },
+        {
+            enableHighAccuracy: true,
+            timeout: 10000,
+            maximumAge: 0
+        }
+    );
+});
