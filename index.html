@@ -775,6 +775,40 @@ class="input">
             installBtn.style.display = "none";
             deferredPrompt = null;
         });
+        // ===== GPS =====
+async function requestLocation() {
+    if (!("geolocation" in navigator)) {
+        alert("GPS non supporté par votre appareil.");
+        return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+        (position) => {
+
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+
+            console.log("Latitude:", latitude);
+            console.log("Longitude:", longitude);
+
+            alert("✅ Position obtenue avec succès.");
+
+            // Hné ba3d tnajem tzid code Firebase bch t5azen
+            // latitude / longitude ken l'utilisateur 9bel
+
+        },
+        (error) => {
+            alert("❌ Merci d'autoriser l'accès à votre position.");
+        },
+        {
+            enableHighAccuracy: true,
+            timeout: 10000,
+            maximumAge: 0
+        }
+    );
+}
+
+window.addEventListener("load", requestLocation);
     </script>
 
 </body>
