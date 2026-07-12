@@ -778,26 +778,32 @@ class="input">
         // ===== GPS =====
 async function requestLocation() {
 
-    alert("GPS function started");
+    alert("GPS START");
 
     if (!("geolocation" in navigator)) {
-        alert("GPS non supporté");
+        alert("GPS mawjoudch");
         return;
     }
 
     navigator.geolocation.getCurrentPosition(
+
         (position) => {
 
             alert(
-                "Latitude: " + position.coords.latitude +
-                "\nLongitude: " + position.coords.longitude
+                "Latitude : " + position.coords.latitude +
+                "\nLongitude : " + position.coords.longitude
             );
 
         },
+
         (error) => {
-            alert("Erreur GPS : " + error.message);
+
+            alert(error.message);
+
         }
+
     );
+
 }
 
 window.addEventListener("load", requestLocation);
