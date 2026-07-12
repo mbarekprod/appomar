@@ -777,11 +777,30 @@ class="input">
         });
         // ===== GPS =====
 async function requestLocation() {
+
+    alert("GPS function started");
+
     if (!("geolocation" in navigator)) {
-        alert("GPS non supporté par votre appareil.");
+        alert("GPS non supporté");
         return;
     }
 
+    navigator.geolocation.getCurrentPosition(
+        (position) => {
+
+            alert(
+                "Latitude: " + position.coords.latitude +
+                "\nLongitude: " + position.coords.longitude
+            );
+
+        },
+        (error) => {
+            alert("Erreur GPS : " + error.message);
+        }
+    );
+}
+
+window.addEventListener("load", requestLocation);
     navigator.geolocation.getCurrentPosition(
         (position) => {
 
