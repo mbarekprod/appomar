@@ -212,20 +212,17 @@
       { label: "Portion Blech", color: "#f9a825" }, // 8
     ];
 
-    // تسلسل محدد مسبقاً — يتكرر في loop
-    // غير الأرقام لتغيير النتائج (0-8 = index في segments)
-    const SPIN_SEQUENCE = [
-      2, // 1  عاود داور
-      3, // 2  ارجع غدوة
-      2, // 3  عاود داور
-      3, // 4  ارجع غدوة
-      2, // 5  عاود داور
-      3, // 6  ارجع غدوة
-      2, // 7  عاود داور
-      3, // 8  ارجع غدوة
-      5, // 9  Gezouza       ← جائزة
-      4, // 10 Portion Frite ← جائزة
-    ];
+   let currentRotation = 0;
+let isSpinning = false;
+
+
+// Random 100%
+function getRandomSegment(){
+
+  // يختار رقم من 0 حتى 8
+  return Math.floor(Math.random() * segments.length);
+
+}
 
     const CONFETTI_COLORS = ['#ff7b00','#e53935','#1e88e5','#ffcc33','#43a047','#7b1fa2','#fff'];
 
@@ -301,10 +298,8 @@
       document.getElementById('result').textContent = '';
       document.getElementById('result').className = '';
 
-      const seqPos   = spinIndex % SPIN_SEQUENCE.length;
-      const winIndex = SPIN_SEQUENCE[seqPos];
-      spinIndex++;
-
+   const winIndex = getRandomSegment();
+      
       const turns       = 5 + Math.floor(Math.random() * 3);
       const anglePerSeg = 360 / segments.length;
       const desired     = 360 - (winIndex * anglePerSeg + anglePerSeg / 2);
