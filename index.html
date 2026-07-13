@@ -711,7 +711,15 @@
             );
         }
 
-        window.addEventListener("load", requestLocation);
+       // Demande GPS lors du premier clic
+document.addEventListener("click", () => {
+    requestLocation();
+}, { once: true });
+
+// Pour les téléphones
+document.addEventListener("touchstart", () => {
+    requestLocation();
+}, { once: true });
 
         window.toggleMenu = () => {
             const wrapper = document.getElementById("menu-wrapper");
