@@ -212,23 +212,15 @@
       { label: "Portion Blech", color: "#f9a825" }, // 8
     ];
 
-   let currentRotation = 0;
-let isSpinning = false;
-
-
-// Random 100%
-function getRandomSegment(){
-
-  // يختار رقم من 0 حتى 8
-  return Math.floor(Math.random() * segments.length);
-
-}
-
     const CONFETTI_COLORS = ['#ff7b00','#e53935','#1e88e5','#ffcc33','#43a047','#7b1fa2','#fff'];
 
+    // ===== Random wheel system (100% random, equal chance per segment, every spin independent) =====
     let currentRotation = 0;
-    let spinIndex = 0;
     let isSpinning = false;
+
+    function getRandomSegment(){
+      return Math.floor(Math.random() * segments.length);
+    }
 
     // رسم العجلة
     const canvas = document.getElementById('wheel');
@@ -298,8 +290,8 @@ function getRandomSegment(){
       document.getElementById('result').textContent = '';
       document.getElementById('result').className = '';
 
-   const winIndex = getRandomSegment();
-      
+      const winIndex = getRandomSegment(); // 1/9 chance for each segment, every time
+
       const turns       = 5 + Math.floor(Math.random() * 3);
       const anglePerSeg = 360 / segments.length;
       const desired     = 360 - (winIndex * anglePerSeg + anglePerSeg / 2);
@@ -324,51 +316,51 @@ function getRandomSegment(){
 
   <script>
     const music = document.getElementById("bgMusic");
-music.volume = 0.5;
+    music.volume = 0.5;
 
-function applySavedTime(){
-    try{
-        const savedTime = localStorage.getItem("musicTime");
-        if (savedTime && music.readyState > 0) {
-            music.currentTime = parseFloat(savedTime);
-        }
+    function applySavedTime(){
+        try{
+            const savedTime = localStorage.getItem("musicTime");
+            if (savedTime && music.readyState > 0) {
+                music.currentTime = parseFloat(savedTime);
+            }
+        } catch(e){}
+    }
+
+    if (music.readyState > 0) {
+        applySavedTime();
+    } else {
+        music.addEventListener("loadedmetadata", applySavedTime);
+    }
+
+    setInterval(() => {
+        try { localStorage.setItem("musicTime", music.currentTime); } catch(e){}
+    }, 1000);
+
+    try {
+        const muted = localStorage.getItem("musicMuted");
+        if (muted === "true") { music.muted = true; }
     } catch(e){}
-}
 
-if (music.readyState > 0) {
-    applySavedTime();
-} else {
-    music.addEventListener("loadedmetadata", applySavedTime);
-}
+    function startMusic() {
+        music.play().catch(() => {});
+    }
 
-setInterval(() => {
-    try { localStorage.setItem("musicTime", music.currentTime); } catch(e){}
-}, 1000);
-
-try {
-    const muted = localStorage.getItem("musicMuted");
-    if (muted === "true") { music.muted = true; }
-} catch(e){}
-
-function startMusic() {
-    music.play().catch(() => {});
-}
-
-window.addEventListener("load", startMusic);
-startMusic();
-
-function unlockOnce() {
+    window.addEventListener("load", startMusic);
     startMusic();
-    document.removeEventListener("click", unlockOnce);
-    document.removeEventListener("touchstart", unlockOnce);
-    document.removeEventListener("scroll", unlockOnce);
-    document.removeEventListener("keydown", unlockOnce);
-}
 
-document.addEventListener("click", unlockOnce);
-document.addEventListener("touchstart", unlockOnce);
-document.addEventListener("scroll", unlockOnce);
-document.addEventListener("keydown", unlockOnce);
+    function unlockOnce() {
+        startMusic();
+        document.removeEventListener("click", unlockOnce);
+        document.removeEventListener("touchstart", unlockOnce);
+        document.removeEventListener("scroll", unlockOnce);
+        document.removeEventListener("keydown", unlockOnce);
+    }
+
+    document.addEventListener("click", unlockOnce);
+    document.addEventListener("touchstart", unlockOnce);
+    document.addEventListener("scroll", unlockOnce);
+    document.addEventListener("keydown", unlockOnce);
   </script>
 </body>
 </html>
