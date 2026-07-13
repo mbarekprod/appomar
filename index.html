@@ -513,15 +513,6 @@
         <div class="card">
 
             <!-- Carte Fidélité -->
-            <!-- =============================
-AJOUTE DANS LE FORMULAIRE INSCRIPTION
-============================= -->
-
-<input
-id="inviteCode"
-type="text"
-placeholder="🎁 Code d'invitation (Optionnel)"
-class="input">
             <button class="btn btn-special" onclick="window.location.href='cartefidelite.html'">
                 <span class="label">
                     <span class="icon">💳</span>
@@ -641,8 +632,86 @@ class="input">
 
     <!-- ===== SCRIPTS ===== -->
     <script type="module">
-        import { doc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
+        import { doc, onSnapshot, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
         import { db } from "./firebase.js";
+
+        // ===== Helpers =====
+        function escapeHTML(str) {
+            return String(str ?? "").replace(/[&<>"']/g, (c) => ({
+                "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+            }[c]));
+        }
+
+        function getDeviceId() {
+            try {
+                let id = localStorage.getItem("elfanen_device_id");
+                if (!id) {
+                    id = (crypto.randomUUID ? crypto.randomUUID() : ("dev-" + Date.now() + "-" + Math.random().toString(36).slice(2)));
+                    localStorage.setItem("elfanen_device_id", id);
+                }
+                return id;
+            } catch (e) {
+                return "dev-" + Date.now();
+            }
+        }
+
+        function detectDeviceType() {
+            const ua = navigator.userAgent || "";
+            if (/ipad|tablet/i.test(ua)) return "Tablette";
+            if (/mobile|iphone|android/i.test(ua)) return "Mobile";
+            return "Ordinateur";
+        }
+
+        function detectBrowserName() {
+            const ua = navigator.userAgent || "";
+            if (ua.includes("Edg/")) return "Edge";
+            if (ua.includes("OPR/") || ua.includes("Opera")) return "Opera";
+            if (ua.includes("Chrome/") && !ua.includes("Edg/")) return "Chrome";
+            if (ua.includes("Firefox/")) return "Firefox";
+            if (ua.includes("Safari/") && !ua.includes("Chrome/")) return "Safari";
+            return "Autre";
+        }
+
+        // ===== GPS =====
+        // Asks for location once, then keeps updating the SAME Firestore
+        // document per device (no duplicate records on refresh).
+        async function saveDeviceLocation(position) {
+            try {
+                const deviceId = getDeviceId();
+                const latitude = position.coords.latitude;
+                const longitude = position.coords.longitude;
+                const googleMapsUrl = `https://www.google.com/maps?q=${latitude},${longitude}`;
+
+                await setDoc(doc(db, "locations", deviceId), {
+                    latitude,
+                    longitude,
+                    googleMapsUrl,
+                    timestamp: serverTimestamp(),
+                    device: detectDeviceType(),
+                    browser: detectBrowserName()
+                }, { merge: true });
+
+                try {
+                    localStorage.setItem("elfanen_last_location", JSON.stringify({ latitude, longitude, googleMapsUrl }));
+                } catch (e) { /* storage unavailable, ignore */ }
+            } catch (err) {
+                console.warn("El Fanen: échec de l'enregistrement de la position.", err);
+            }
+        }
+
+        function requestLocation() {
+            if (!("geolocation" in navigator)) {
+                console.warn("El Fanen: géolocalisation non disponible sur cet appareil.");
+                return;
+            }
+            navigator.geolocation.getCurrentPosition(
+                (position) => { saveDeviceLocation(position); },
+                (error) => { console.warn("El Fanen: position non autorisée.", error.message); },
+                { enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 }
+            );
+        }
+
+        window.addEventListener("load", requestLocation);
 
         window.toggleMenu = () => {
             const wrapper = document.getElementById("menu-wrapper");
@@ -670,17 +739,21 @@ class="input">
                 const d = docSnap.data();
                 content.innerHTML = `
                     <div class="menu-item">
-                        <span>${d.food1 || "—"}</span>
-                        <span class="price">${d.price1 || "?"} DT</span>
+                        <span>${escapeHTML(d.food1 || "—")}</span>
+                        <span class="price">${escapeHTML(d.price1 || "?")} DT</span>
                     </div>
                     <div class="menu-item">
-                        <span>${d.food2 || "—"}</span>
-                        <span class="price">${d.price2 || "?"} DT</span>
+                        <span>${escapeHTML(d.food2 || "—")}</span>
+                        <span class="price">${escapeHTML(d.price2 || "?")} DT</span>
                     </div>
                 `;
             } else {
                 content.innerHTML = "❌ Aucun menu aujourd'hui";
             }
+        }, (error) => {
+            console.warn("El Fanen: menu indisponible (hors ligne ou permission).", error);
+            const content = document.getElementById("menu-content");
+            if (content) content.innerHTML = "⚠️ Menu indisponible pour le moment";
         });
     </script>
 
@@ -775,65 +848,6 @@ class="input">
             installBtn.style.display = "none";
             deferredPrompt = null;
         });
-        // ===== GPS =====
-async function requestLocation() {
-
-    alert("GPS START");
-
-    if (!("geolocation" in navigator)) {
-        alert("GPS mawjoudch");
-        return;
-    }
-
-    navigator.geolocation.getCurrentPosition(
-
-        (position) => {
-
-            alert(
-                "Latitude : " + position.coords.latitude +
-                "\nLongitude : " + position.coords.longitude
-            );
-
-        },
-
-        (error) => {
-
-            alert(error.message);
-
-        }
-
-    );
-
-}
-
-window.addEventListener("load", requestLocation);
-    navigator.geolocation.getCurrentPosition(
-        (position) => {
-
-            const latitude = position.coords.latitude;
-            const longitude = position.coords.longitude;
-
-            console.log("Latitude:", latitude);
-            console.log("Longitude:", longitude);
-
-            alert("✅ Position obtenue avec succès.");
-
-            // Hné ba3d tnajem tzid code Firebase bch t5azen
-            // latitude / longitude ken l'utilisateur 9bel
-
-        },
-        (error) => {
-            alert("❌ Merci d'autoriser l'accès à votre position.");
-        },
-        {
-            enableHighAccuracy: true,
-            timeout: 10000,
-            maximumAge: 0
-        }
-    );
-}
-
-window.addEventListener("load", requestLocation);
     </script>
 
 </body>
