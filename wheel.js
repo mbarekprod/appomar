@@ -171,6 +171,21 @@ function buildPrizeButtons() {
     });
 }
 
+let robotHideTimer = null;
+
+function playRobotReveal() {
+    const overlay = document.getElementById('robotOverlay');
+    if (!overlay) return;
+
+    // Restart the whole draw-in sequence even if it's already mid-animation
+    overlay.classList.remove('show');
+    void overlay.offsetWidth;
+    overlay.classList.add('show');
+
+    clearTimeout(robotHideTimer);
+    robotHideTimer = setTimeout(() => overlay.classList.remove('show'), 1550);
+}
+
 function handlePrizeSelect(idx, btnEl) {
     if (isSpinning) return;
 
@@ -192,6 +207,7 @@ function handlePrizeSelect(idx, btnEl) {
     btnEl.classList.add('locking');
 
     playCoinSound();
+    playRobotReveal();
 
     selectedPrize = prizes[idx].text;
 
