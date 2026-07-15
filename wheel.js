@@ -87,6 +87,44 @@ function getWeightedRandomIndex() {
 }
 
 /* =========================================================
+   COIN / CHIP SOUND — synthesized with Web Audio, no extra file needed
+   ========================================================= */
+let audioCtx = null;
+
+function playCoinSound() {
+    try {
+        if (!audioCtx) {
+            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+        if (audioCtx.state === 'suspended') {
+            audioCtx.resume();
+        }
+
+        const now = audioCtx.currentTime;
+        const notes = [988, 1319]; // quick two-tone "coin" ding
+
+        notes.forEach((freq, i) => {
+            const start = now + i * 0.075;
+            const osc  = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+
+            osc.type = 'square';
+            osc.frequency.setValueAtTime(freq, start);
+
+            gain.gain.setValueAtTime(0.0001, start);
+            gain.gain.exponentialRampToValueAtTime(0.22, start + 0.012);
+            gain.gain.exponentialRampToValueAtTime(0.0001, start + 0.22);
+
+            osc.connect(gain).connect(audioCtx.destination);
+            osc.start(start);
+            osc.stop(start + 0.24);
+        });
+    } catch (e) {
+        // Silently ignore if Web Audio isn't available
+    }
+}
+
+/* =========================================================
    PRIZE SELECTION BUTTONS
    ========================================================= */
 function buildPrizeButtons() {
@@ -109,6 +147,23 @@ function buildPrizeButtons() {
         chip.src = LOGO_SRC;
         chip.alt = 'chip';
 
+        // "Bet locked" curtain that sweeps closed then open over the tile
+        const curtainWrap = document.createElement('div');
+        curtainWrap.className = 'curtain-wrap';
+
+        const curtainL = document.createElement('div');
+        curtainL.className = 'curtain-l';
+        const curtainR = document.createElement('div');
+        curtainR.className = 'curtain-r';
+        const lockIcon = document.createElement('span');
+        lockIcon.className = 'lock-icon';
+        lockIcon.textContent = '🔒';
+
+        curtainWrap.appendChild(curtainL);
+        curtainWrap.appendChild(curtainR);
+        curtainWrap.appendChild(lockIcon);
+
+        btn.appendChild(curtainWrap);
         btn.appendChild(chip);
         btn.appendChild(label);
         btn.addEventListener('click', () => handlePrizeSelect(idx, btn));
@@ -119,18 +174,24 @@ function buildPrizeButtons() {
 function handlePrizeSelect(idx, btnEl) {
     if (isSpinning) return;
 
-    // Remove any chip that was already placed, then drop a fresh one on the new pick
+    // Remove any chip/lock effect that was already placed, then drop a fresh one on the new pick
     document.querySelectorAll('.prize-btn').forEach(b => {
-        b.classList.remove('selected');
+        b.classList.remove('selected', 'locking');
         const oldChip = b.querySelector('.chip-token');
-        oldChip.classList.remove('chip-drop');
+        if (oldChip) oldChip.classList.remove('chip-drop');
     });
 
     btnEl.classList.add('selected');
+
     const chip = btnEl.querySelector('.chip-token');
-    // Restart the animation even if the same-looking chip existed before
+    // Restart the animations even if this exact tile was picked before
     void chip.offsetWidth;
     chip.classList.add('chip-drop');
+
+    void btnEl.offsetWidth;
+    btnEl.classList.add('locking');
+
+    playCoinSound();
 
     selectedPrize = prizes[idx].text;
 
@@ -141,7 +202,7 @@ function handlePrizeSelect(idx, btnEl) {
 function resetSelection() {
     selectedPrize = null;
     document.querySelectorAll('.prize-btn').forEach(b => {
-        b.classList.remove('selected');
+        b.classList.remove('selected', 'locking');
         const chip = b.querySelector('.chip-token');
         if (chip) chip.classList.remove('chip-drop');
     });
