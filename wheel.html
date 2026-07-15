@@ -59,6 +59,47 @@
   <button class="spin-btn" id="spinBtn" disabled>🔥 دوّر العجلة</button>
   <div id="result"></div>
 
+  <!-- Full-screen "bet locked" robot reveal — plays once per prize selection -->
+  <div class="robot-overlay" id="robotOverlay">
+    <svg class="robot-svg" viewBox="0 0 200 260" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <clipPath id="robotHeadClip">
+          <circle cx="100" cy="40" r="24"/>
+        </clipPath>
+      </defs>
+
+      <!-- Skeleton made of "wire" lines -->
+      <circle class="part-head" cx="100" cy="40" r="26" pathLength="1"/>
+      <line class="part-neck" x1="100" y1="66" x2="100" y2="80" pathLength="1"/>
+      <rect class="part-torso" x="55" y="80" width="90" height="95" rx="14" pathLength="1"/>
+      <polyline class="part-arm-l" points="55,95 25,112 20,152" pathLength="1"/>
+      <polyline class="part-arm-r" points="145,95 175,112 180,152" pathLength="1"/>
+      <polyline class="part-leg-l" points="75,175 65,228 60,254" pathLength="1"/>
+      <polyline class="part-leg-r" points="125,175 135,228 140,254" pathLength="1"/>
+
+      <!-- "Code" circuit traces on the torso -->
+      <line class="part-circuit" x1="68"  y1="100" x2="132" y2="100" pathLength="1"/>
+      <line class="part-circuit" x1="68"  y1="120" x2="108" y2="120" pathLength="1"/>
+      <line class="part-circuit" x1="92"  y1="140" x2="132" y2="140" pathLength="1"/>
+      <rect class="part-circuit" x="84" y="106" width="12" height="8" pathLength="1"/>
+      <rect class="part-circuit" x="104" y="126" width="12" height="8" pathLength="1"/>
+
+      <!-- Floating code glyphs -->
+      <text class="code-flicker" x="18"  y="70">01</text>
+      <text class="code-flicker" x="165" y="60">&lt;/&gt;</text>
+      <text class="code-flicker" x="20"  y="200">10</text>
+      <text class="code-flicker" x="160" y="210">{ }</text>
+
+      <!-- The artist logo becomes the robot's head -->
+      <image class="robot-head-img"
+             href="735043823_122232458936380788_691619389420209673_n (3).jpg"
+             x="76" y="16" width="48" height="48"
+             clip-path="url(#robotHeadClip)"
+             preserveAspectRatio="xMidYMid slice"/>
+      <circle class="part-head-ring" cx="100" cy="40" r="24"/>
+    </svg>
+  </div>
+
   <script src="wheel.js"></script>
 </body>
 </html>
