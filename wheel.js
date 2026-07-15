@@ -21,6 +21,9 @@ const prizes = [
 
 const CONFETTI_COLORS = ['#ff7b00', '#e53935', '#1e88e5', '#ffcc33', '#43a047', '#7b1fa2', '#fff'];
 
+/* Same logo used in the center of the wheel — reused as the "betting chip" token */
+const LOGO_SRC = '735043823_122232458936380788_691619389420209673_n (3).jpg';
+
 /* =========================================================
    STATE
    ========================================================= */
@@ -94,9 +97,20 @@ function buildPrizeButtons() {
         const btn = document.createElement('button');
         btn.type = 'button';
         btn.className = 'prize-btn';
-        btn.textContent = prize.text;
         btn.style.setProperty('--prize-color', prize.color);
         btn.dataset.index = idx;
+
+        const label = document.createElement('span');
+        label.className = 'prize-label';
+        label.textContent = prize.text;
+
+        const chip = document.createElement('img');
+        chip.className = 'chip-token';
+        chip.src = LOGO_SRC;
+        chip.alt = 'chip';
+
+        btn.appendChild(chip);
+        btn.appendChild(label);
         btn.addEventListener('click', () => handlePrizeSelect(idx, btn));
         container.appendChild(btn);
     });
@@ -105,8 +119,18 @@ function buildPrizeButtons() {
 function handlePrizeSelect(idx, btnEl) {
     if (isSpinning) return;
 
-    document.querySelectorAll('.prize-btn').forEach(b => b.classList.remove('selected'));
+    // Remove any chip that was already placed, then drop a fresh one on the new pick
+    document.querySelectorAll('.prize-btn').forEach(b => {
+        b.classList.remove('selected');
+        const oldChip = b.querySelector('.chip-token');
+        oldChip.classList.remove('chip-drop');
+    });
+
     btnEl.classList.add('selected');
+    const chip = btnEl.querySelector('.chip-token');
+    // Restart the animation even if the same-looking chip existed before
+    void chip.offsetWidth;
+    chip.classList.add('chip-drop');
 
     selectedPrize = prizes[idx].text;
 
@@ -116,7 +140,11 @@ function handlePrizeSelect(idx, btnEl) {
 
 function resetSelection() {
     selectedPrize = null;
-    document.querySelectorAll('.prize-btn').forEach(b => b.classList.remove('selected'));
+    document.querySelectorAll('.prize-btn').forEach(b => {
+        b.classList.remove('selected');
+        const chip = b.querySelector('.chip-token');
+        if (chip) chip.classList.remove('chip-drop');
+    });
     document.getElementById('spinBtn').disabled = true;
 }
 
