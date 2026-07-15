@@ -248,6 +248,114 @@ body {
   78%,100% { opacity: 0; transform: translate(-50%, -50%) scale(.6);  }
 }
 
+/* =========================================================
+   FULL-SCREEN ROBOT REVEAL — plays once per prize selection.
+   A wireframe "code skeleton" draws itself, then the artist
+   logo settles in as its head.
+   ========================================================= */
+.robot-overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle, rgba(0,0,0,.55), rgba(0,0,0,.9));
+  opacity: 0;
+  pointer-events: none;
+  z-index: 400;
+  transition: opacity .25s ease;
+}
+.robot-overlay.show { opacity: 1; }
+
+.robot-svg {
+  width: min(58vw, 300px);
+  height: auto;
+  overflow: visible;
+}
+
+.robot-svg [class^="part-"] {
+  fill: none;
+  stroke: #ffcc33;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  filter: drop-shadow(0 0 6px rgba(255,204,51,.8));
+}
+
+.robot-svg .part-circuit {
+  stroke: #4CAF50;
+  stroke-width: 2.5;
+  filter: drop-shadow(0 0 5px rgba(76,175,80,.9));
+}
+
+.robot-svg .part-head-ring {
+  fill: none;
+  stroke: #ffcc33;
+  stroke-width: 3;
+  opacity: 0;
+}
+
+.robot-overlay.show .part-head    { animation: drawShape .35s ease-out .05s forwards; }
+.robot-overlay.show .part-neck    { animation: drawShape .20s ease-out .30s forwards; }
+.robot-overlay.show .part-torso   { animation: drawShape .35s ease-out .40s forwards; }
+.robot-overlay.show .part-arm-l   { animation: drawShape .30s ease-out .60s forwards; }
+.robot-overlay.show .part-arm-r   { animation: drawShape .30s ease-out .65s forwards; }
+.robot-overlay.show .part-leg-l   { animation: drawShape .30s ease-out .70s forwards; }
+.robot-overlay.show .part-leg-r   { animation: drawShape .30s ease-out .75s forwards; }
+.robot-overlay.show .part-circuit { animation: drawShape .25s ease-out .90s forwards; }
+.robot-overlay.show .part-head-ring { animation: fadeIn .2s ease-out .50s forwards; }
+
+@keyframes drawShape { to { stroke-dashoffset: 0; } }
+@keyframes fadeIn { to { opacity: 1; } }
+
+.robot-head-img {
+  opacity: 0;
+  transform-origin: 100px 40px;
+  transform: scale(.4);
+}
+.robot-overlay.show .robot-head-img {
+  animation: headPop .3s ease-out .5s forwards;
+}
+@keyframes headPop {
+  0%   { opacity: 0; transform: scale(.4); }
+  70%  { opacity: 1; transform: scale(1.15); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+.robot-overlay.show .robot-svg {
+  animation: robotGlowPulse .4s ease-out 1.0s;
+}
+@keyframes robotGlowPulse {
+  0%, 100% { filter: drop-shadow(0 0 10px rgba(255,204,51,.5)); }
+  50%      { filter: drop-shadow(0 0 26px rgba(255,204,51,1)) drop-shadow(0 0 40px rgba(76,175,80,.7)); }
+}
+
+.code-flicker {
+  font-family: 'Cairo', monospace;
+  font-size: 13px;
+  fill: #4CAF50;
+  opacity: 0;
+}
+.robot-overlay.show .code-flicker { animation: codeFlicker 1.4s ease-in-out forwards; }
+.code-flicker:nth-of-type(1) { animation-delay: .10s; }
+.code-flicker:nth-of-type(2) { animation-delay: .30s; }
+.code-flicker:nth-of-type(3) { animation-delay: .50s; }
+.code-flicker:nth-of-type(4) { animation-delay: .70s; }
+@keyframes codeFlicker {
+  0%, 100% { opacity: 0;   }
+  10%,20%  { opacity: .8;  }
+  30%      { opacity: .2;  }
+  45%,55%  { opacity: .9;  }
+  70%      { opacity: .3;  }
+  85%      { opacity: .7;  }
+}
+
+@media (max-width: 500px) {
+  .robot-svg { width: min(70vw, 240px); }
+}
+
 /* Spin button */
 .spin-btn {
   margin-top: 26px; padding: 15px 50px; border: none; border-radius: 50px;
