@@ -116,17 +116,19 @@ body {
 
 .prize-btn {
   --prize-color: #ffcc33;
+  position: relative;
   font-family: 'Cairo', sans-serif;
   font-size: 14px;
   font-weight: 700;
   color: #fff;
   background: rgba(255,255,255,0.06);
   border: 2px solid var(--prize-color);
-  border-radius: 30px;
-  padding: 9px 16px;
+  border-radius: 16px;
+  padding: 16px 16px 10px;
   cursor: pointer;
   white-space: nowrap;
   backdrop-filter: blur(2px);
+  overflow: visible;
   transition: transform .2s ease, background .2s ease, box-shadow .2s ease;
 }
 
@@ -148,11 +150,47 @@ body {
   animation: selectPop .35s cubic-bezier(.36,.07,.19,.97) both;
 }
 
+.prize-label { pointer-events: none; }
+
 @keyframes selectPop {
   0%   { transform: scale(1);    }
   40%  { transform: scale(1.15); }
   70%  { transform: scale(.96);  }
   100% { transform: scale(1);    }
+}
+
+/* ---- Betting chip (artist logo) — drops onto the tile like a Crazy Time token ---- */
+.chip-token {
+  position: absolute;
+  top: -16px;
+  left: 50%;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #ffcc33;
+  box-shadow: 0 0 10px rgba(255,204,51,.9), 0 3px 6px rgba(0,0,0,.5);
+  opacity: 0;
+  transform: translate(-50%, -40px) scale(0);
+  pointer-events: none;
+  z-index: 5;
+}
+
+.chip-token.chip-drop {
+  animation: chipDrop .55s cubic-bezier(.34,1.56,.64,1) forwards,
+             chipGlow 1.4s ease-in-out .55s infinite alternate;
+}
+
+@keyframes chipDrop {
+  0%   { transform: translate(-50%, -46px) scale(0);    opacity: 0; }
+  55%  { transform: translate(-50%, 6px)   scale(1.25); opacity: 1; }
+  75%  { transform: translate(-50%, -4px)  scale(.95);  opacity: 1; }
+  100% { transform: translate(-50%, 0)     scale(1);    opacity: 1; }
+}
+
+@keyframes chipGlow {
+  from { box-shadow: 0 0 10px rgba(255,204,51,.9), 0 3px 6px rgba(0,0,0,.5); }
+  to   { box-shadow: 0 0 18px rgba(255,204,51,1), 0 0 26px rgba(255,123,0,.7), 0 3px 6px rgba(0,0,0,.5); }
 }
 
 /* Spin button */
@@ -210,6 +248,7 @@ body {
   .center-logo { width: 90px; height: 90px; border-width: 5px; }
   .spin-btn { font-size: 20px; padding: 13px 32px; }
   #result { font-size: 22px; }
-  .prize-btn { font-size: 12.5px; padding: 8px 13px; }
+  .prize-btn { font-size: 12.5px; padding: 14px 13px 8px; }
   .prediction-title { font-size: 16px; }
+  .chip-token { width: 22px; height: 22px; top: -13px; }
 }
