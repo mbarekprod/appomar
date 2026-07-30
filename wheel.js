@@ -1,3 +1,6 @@
+import { db } from "./firebase.js";
+import { collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
+
 /* =========================================================
    PRIZE LIST — the single source of truth for the wheel.
    Every segment on the canvas AND every selection button
@@ -147,7 +150,6 @@ function buildPrizeButtons() {
         chip.src = LOGO_SRC;
         chip.alt = 'chip';
 
-        // "Bet locked" curtain that sweeps closed then open over the tile
         const curtainWrap = document.createElement('div');
         curtainWrap.className = 'curtain-wrap';
 
@@ -177,7 +179,6 @@ function playRobotReveal() {
     const overlay = document.getElementById('robotOverlay');
     if (!overlay) return;
 
-    // Restart the whole draw-in sequence even if it's already mid-animation
     overlay.classList.remove('show');
     void overlay.offsetWidth;
     overlay.classList.add('show');
@@ -189,7 +190,6 @@ function playRobotReveal() {
 function handlePrizeSelect(idx, btnEl) {
     if (isSpinning) return;
 
-    // Remove any chip/lock effect that was already placed, then drop a fresh one on the new pick
     document.querySelectorAll('.prize-btn').forEach(b => {
         b.classList.remove('selected', 'locking');
         const oldChip = b.querySelector('.chip-token');
@@ -199,7 +199,6 @@ function handlePrizeSelect(idx, btnEl) {
     btnEl.classList.add('selected');
 
     const chip = btnEl.querySelector('.chip-token');
-    // Restart the animations even if this exact tile was picked before
     void chip.offsetWidth;
     chip.classList.add('chip-drop');
 
@@ -252,6 +251,20 @@ function triggerConfetti() {
 }
 
 /* =========================================================
+   SAVE RESULT TO FIRESTORE (new — feeds the admin dashboard)
+   ========================================================= */
+async function saveResultToFirestore(prizeText) {
+    try {
+        await addDoc(collection(db, "wheelResults"), {
+            prize: prizeText,
+            createdAt: serverTimestamp()
+        });
+    } catch (e) {
+        console.error("Failed to save wheel result:", e);
+    }
+}
+
+/* =========================================================
    SPIN
    ========================================================= */
 function spin() {
@@ -264,7 +277,6 @@ function spin() {
     resultEl.textContent = '';
     resultEl.className = '';
 
-    // ---- Purely random outcome, independent of the user's choice ----
     const winIndex = getWeightedRandomIndex();
     wheelResult = prizes[winIndex].text;
 
@@ -281,7 +293,6 @@ function spin() {
     setTimeout(() => {
         isSpinning = false;
 
-        // ---- Compare AFTER the wheel has fully stopped ----
         if (selectedPrize === wheelResult) {
             resultEl.textContent = '🎉 مبروك! ربحت: ' + wheelResult;
             resultEl.className = 'result-show win';
@@ -291,6 +302,7 @@ function spin() {
             resultEl.className = 'result-show lose';
         }
 
+        saveResultToFirestore(wheelResult);
         resetSelection();
     }, 6100);
 }
