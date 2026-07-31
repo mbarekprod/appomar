@@ -1,9 +1,6 @@
-/* =========================================================
-   PRIZE LIST — the single source of truth for the wheel.
-   Every segment on the canvas AND every selection button
-   below the wheel is generated from this array.
-   (Do not remove any prize — this is the full original list.)
-   ========================================================= */
+import { db } from "./firebase.js";
+import { collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
+
 const prizes = [
     { text: "🎁 تخفيض 25%",         color: "#FFD700", weight: 4 },
     { text: "⏰ ارجع غدوة",          color: "#555555", weight: 4 },
@@ -20,7 +17,6 @@ const prizes = [
 ];
 
 const CONFETTI_COLORS = ['#ff7b00', '#e53935', '#1e88e5', '#ffcc33', '#43a047', '#7b1fa2', '#fff'];
-
 const LOGO_SRC = '735043823_122232458936380788_691619389420209673_n (3).jpg';
 
 let currentRotation = 0;
@@ -223,6 +219,17 @@ function triggerConfetti() {
     setTimeout(() => container.innerHTML = '', 3800);
 }
 
+async function saveResultToFirestore(prizeText) {
+    try {
+        await addDoc(collection(db, "wheelResults"), {
+            prize: prizeText,
+            createdAt: serverTimestamp()
+        });
+    } catch (e) {
+        console.error("Failed to save wheel result:", e);
+    }
+}
+
 function spin() {
     if (isSpinning || !selectedPrize) return;
 
@@ -258,6 +265,7 @@ function spin() {
             resultEl.className = 'result-show lose';
         }
 
+        saveResultToFirestore(wheelResult);
         resetSelection();
     }, 6100);
 }
