@@ -1,6 +1,3 @@
-import { db } from "./firebase.js";
-import { collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
-
 /* =========================================================
    PRIZE LIST — the single source of truth for the wheel.
    Every segment on the canvas AND every selection button
@@ -24,20 +21,13 @@ const prizes = [
 
 const CONFETTI_COLORS = ['#ff7b00', '#e53935', '#1e88e5', '#ffcc33', '#43a047', '#7b1fa2', '#fff'];
 
-/* Same logo used in the center of the wheel — reused as the "betting chip" token */
 const LOGO_SRC = '735043823_122232458936380788_691619389420209673_n (3).jpg';
 
-/* =========================================================
-   STATE
-   ========================================================= */
 let currentRotation = 0;
 let isSpinning       = false;
-let selectedPrize    = null; // the prize TEXT the user picked before spinning
-let wheelResult       = null; // the prize TEXT the wheel actually landed on
+let selectedPrize    = null;
+let wheelResult       = null;
 
-/* =========================================================
-   CANVAS WHEEL DRAWING
-   ========================================================= */
 const canvas = document.getElementById('wheel');
 const ctx    = canvas.getContext('2d');
 const cx     = canvas.width / 2;
@@ -73,12 +63,6 @@ function drawWheel() {
     }
 }
 
-/* =========================================================
-   RANDOM SELECTION — 100% random, weighted exactly as
-   defined in the prizes array above. Nothing here reacts
-   to what the user selected; the outcome is decided purely
-   by chance, and only compared to the selection afterwards.
-   ========================================================= */
 function getWeightedRandomIndex() {
     const totalWeight = prizes.reduce((sum, p) => sum + p.weight, 0);
     let rand = Math.random() * totalWeight;
@@ -86,12 +70,9 @@ function getWeightedRandomIndex() {
         if (rand < prizes[i].weight) return i;
         rand -= prizes[i].weight;
     }
-    return prizes.length - 1; // fallback safety net
+    return prizes.length - 1;
 }
 
-/* =========================================================
-   COIN / CHIP SOUND — synthesized with Web Audio, no extra file needed
-   ========================================================= */
 let audioCtx = null;
 
 function playCoinSound() {
@@ -104,7 +85,7 @@ function playCoinSound() {
         }
 
         const now = audioCtx.currentTime;
-        const notes = [988, 1319]; // quick two-tone "coin" ding
+        const notes = [988, 1319];
 
         notes.forEach((freq, i) => {
             const start = now + i * 0.075;
@@ -122,14 +103,9 @@ function playCoinSound() {
             osc.start(start);
             osc.stop(start + 0.24);
         });
-    } catch (e) {
-        // Silently ignore if Web Audio isn't available
-    }
+    } catch (e) {}
 }
 
-/* =========================================================
-   PRIZE SELECTION BUTTONS
-   ========================================================= */
 function buildPrizeButtons() {
     const container = document.getElementById('prizeButtons');
     container.innerHTML = '';
@@ -224,9 +200,6 @@ function resetSelection() {
     document.getElementById('spinBtn').disabled = true;
 }
 
-/* =========================================================
-   CONFETTI (only fired on a WIN)
-   ========================================================= */
 function triggerConfetti() {
     const count = 80;
     const container = document.getElementById('confetti-container');
@@ -250,23 +223,6 @@ function triggerConfetti() {
     setTimeout(() => container.innerHTML = '', 3800);
 }
 
-/* =========================================================
-   SAVE RESULT TO FIRESTORE (new — feeds the admin dashboard)
-   ========================================================= */
-async function saveResultToFirestore(prizeText) {
-    try {
-        await addDoc(collection(db, "wheelResults"), {
-            prize: prizeText,
-            createdAt: serverTimestamp()
-        });
-    } catch (e) {
-        console.error("Failed to save wheel result:", e);
-    }
-}
-
-/* =========================================================
-   SPIN
-   ========================================================= */
 function spin() {
     if (isSpinning || !selectedPrize) return;
 
@@ -302,14 +258,10 @@ function spin() {
             resultEl.className = 'result-show lose';
         }
 
-        saveResultToFirestore(wheelResult);
         resetSelection();
     }, 6100);
 }
 
-/* =========================================================
-   BACKGROUND MUSIC (unchanged behaviour)
-   ========================================================= */
 function initMusic() {
     const music = document.getElementById('bgMusic');
     music.volume = 0.5;
@@ -359,9 +311,6 @@ function initMusic() {
     document.addEventListener('keydown', unlockOnce);
 }
 
-/* =========================================================
-   INIT
-   ========================================================= */
 document.addEventListener('DOMContentLoaded', () => {
     buildPrizeButtons();
     drawWheel();
