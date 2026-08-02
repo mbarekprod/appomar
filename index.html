@@ -593,9 +593,6 @@
                 <span class="arrow">‹</span>
             </button>
 
-            <!-- Admin -->
-            
-
             <!-- Installer -->
             <button class="btn" id="installBtn" onclick="installApp()" style="display:none">
                 <span class="label">
@@ -632,7 +629,7 @@
 
     <!-- ===== SCRIPTS ===== -->
     <script type="module">
-        import { doc, onSnapshot, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
+        import { doc, onSnapshot, setDoc, serverTimestamp, collection, query, orderBy } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
         import { db } from "./firebase.js";
 
         // ===== Helpers =====
@@ -741,23 +738,26 @@ document.addEventListener("touchstart", () => {
             }
         };
 
-        onSnapshot(doc(db, "menu", "today"), (docSnap) => {
+        // ===== Menu du Jour (ديناميكي، بلا حدود — يقرا من collection menuDuJour) =====
+        const menuDuJourQuery = query(collection(db, "menuDuJour"), orderBy("createdAt", "asc"));
+
+        onSnapshot(menuDuJourQuery, (snapshot) => {
             const content = document.getElementById("menu-content");
-            if (docSnap.exists()) {
+            if (snapshot.empty) {
+                content.innerHTML = "❌ Aucun menu aujourd'hui";
+                return;
+            }
+            let html = "";
+            snapshot.forEach((docSnap) => {
                 const d = docSnap.data();
-                content.innerHTML = `
+                html += `
                     <div class="menu-item">
-                        <span>${escapeHTML(d.food1 || "—")}</span>
-                        <span class="price">${escapeHTML(d.price1 || "?")} DT</span>
-                    </div>
-                    <div class="menu-item">
-                        <span>${escapeHTML(d.food2 || "—")}</span>
-                        <span class="price">${escapeHTML(d.price2 || "?")} DT</span>
+                        <span>${escapeHTML(d.emoji || "🍽️")} ${escapeHTML(d.name || "—")}</span>
+                        <span class="price">${escapeHTML(d.price || "?")}</span>
                     </div>
                 `;
-            } else {
-                content.innerHTML = "❌ Aucun menu aujourd'hui";
-            }
+            });
+            content.innerHTML = html;
         }, (error) => {
             console.warn("El Fanen: menu indisponible (hors ligne ou permission).", error);
             const content = document.getElementById("menu-content");
