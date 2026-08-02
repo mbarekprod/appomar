@@ -232,6 +232,14 @@ font-size:20px;
 font-weight:900;
 }
 
+/* EMPTY / LOADING STATE */
+.empty-state{
+    text-align:center;
+    color:#ccc;
+    font-size:16px;
+    padding:20px 0;
+}
+
 /* BACK */
 
 .back{
@@ -309,187 +317,13 @@ height:135px;
 
 <div class="subtitle">
 
-🔥 أكلاتنا اليومية 🔥
+🔥 La Carte 🔥
 
 </div>
 
-<div class="card">
+<div class="card" id="menu-list">
 
-<div class="item">
-
-<div class="left">
-
-<div class="emoji">🥙</div>
-
-<div class="name">
-
-ملوي
-
-</div>
-
-</div>
-
-<div class="price">
-
-5 د
-
-</div>
-
-</div>
-
-<div class="item">
-
-<div class="left">
-
-<div class="emoji">🌮</div>
-
-<div class="name">
-
-تاكوس
-
-</div>
-
-</div>
-
-<div class="price">
-
-12 د
-
-</div>
-
-</div>
-
-<div class="item">
-
-<div class="left">
-
-<div class="emoji">🍕</div>
-
-<div class="name">
-
-بيتزا
-
-</div>
-
-</div>
-
-<div class="price">
-
-10 د
-
-</div>
-
-</div>
-
-<div class="item">
-
-<div class="left">
-
-<div class="emoji">🥪</div>
-
-<div class="name">
-
-سندويتش
-
-</div>
-
-</div>
-
-<div class="price">
-
-7 د
-
-</div>
-
-</div>
-
-<div class="item">
-
-<div class="left">
-
-<div class="emoji">🌯</div>
-
-<div class="name">
-
-مقلوب
-
-</div>
-
-</div>
-
-<div class="price">
-
-8 د
-
-</div>
-
-</div>
-
-<div class="item">
-
-<div class="left">
-
-<div class="emoji">🍝</div>
-
-<div class="name">
-
-مقرونة
-
-</div>
-
-</div>
-
-<div class="price">
-
-9 د
-
-</div>
-
-</div>
-
-<div class="item">
-
-<div class="left">
-
-<div class="emoji">🥚</div>
-
-<div class="name">
-
-عجة
-
-</div>
-
-</div>
-
-<div class="price">
-
-6 د
-
-</div>
-
-</div>
-
-<div class="item">
-
-<div class="left">
-
-<div class="emoji">🥖</div>
-
-<div class="name">
-
-باقات فارسي
-
-</div>
-
-</div>
-
-<div class="price">
-
-8 د
-
-</div>
-
-</div>
+<div class="empty-state">⏳ جارِ التحميل...</div>
 
 </div>
 
@@ -502,6 +336,45 @@ class="back">
 </a>
 
 </div>
+
+<script type="module">
+import { collection, query, orderBy, onSnapshot } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
+import { db } from "./firebase.js";
+
+function escapeHTML(str) {
+    return String(str ?? "").replace(/[&<>"']/g, (c) => ({
+        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+    }[c]));
+}
+
+const menuList = document.getElementById("menu-list");
+const menuItemsQuery = query(collection(db, "menuItems"), orderBy("createdAt", "asc"));
+
+onSnapshot(menuItemsQuery, (snapshot) => {
+    if (snapshot.empty) {
+        menuList.innerHTML = `<div class="empty-state">📭 القائمة فارغة حالياً</div>`;
+        return;
+    }
+
+    let html = "";
+    snapshot.forEach((docSnap) => {
+        const d = docSnap.data();
+        html += `
+            <div class="item">
+                <div class="left">
+                    <div class="emoji">${escapeHTML(d.emoji || "🍽️")}</div>
+                    <div class="name">${escapeHTML(d.name || "—")}</div>
+                </div>
+                <div class="price">${escapeHTML(d.price || "?")}</div>
+            </div>
+        `;
+    });
+    menuList.innerHTML = html;
+}, (error) => {
+    console.warn("El Fanen: menu indisponible.", error);
+    menuList.innerHTML = `<div class="empty-state">⚠️ القائمة غير متوفرة حالياً</div>`;
+});
+</script>
 
 <script>
 const music = document.getElementById("bgMusic");
